@@ -13,6 +13,91 @@ sl <- locale("sl", decimal_mark=",", grouping_mark=".")
 # ==============================================================================
 # ==============================================================================
 
+prenocitve.regije <- read_csv("prenočitve_regije_mesečno.csv",
+                              locale = locale(encoding = "Windows-1250"),
+                              col_names=TRUE, 
+                              col_types = cols(.default = col_guess()))
+prenocitve.regije <- prenocitve.regije[-c(1, 2),]
+prenocitve.regije[prenocitve.regije == "-"] <- NA
+prenocitve.regije$`2020M04` <- parse_number(prenocitve.regije$`2020M04`)
+
+prenocitve.regije <- prenocitve.regije %>% 
+  pivot_longer(
+    cols = colnames(prenocitve.regije)[-c(1, 2, 3, 4)],
+    names_to = "Leto",
+    values_to = "Prenocitve"
+  ) 
+prenocitve.regije <- prenocitve.regije[, c(1, 3, 5, 6)]
+names(prenocitve.regije) <- c("Regija", "Drzava", "Leto", "Stevilo")
+
+
+# prenocitve.regije.tuji.domaci.zdruzeno <- prenocitve.regije %>%
+#   group_by(Regija, Drzava, Leto) %>%
+#   summarise("Prenocitve" = sum(Stevilo))
+
+# ==============================================================================
+
+nastanitvena.doba.regije <- read_csv("povprecna_doba_nastanitve_regije_mesecno.csv",
+                                     locale = locale(encoding = "Windows-1250"),
+                                     col_names=TRUE, 
+                                     col_types = cols(.default = col_guess()))
+
+nastanitvena.doba.regije[nastanitvena.doba.regije == "N" | nastanitvena.doba.regije == "..."] <- NA
+names(nastanitvena.doba.regije) <- c("Leto", "Regija", "Domaci", "Tuji")
+
+nastanitvena.doba.regije <- nastanitvena.doba.regije[! nastanitvena.doba.regije$Regija ==
+                                                       "SLOVENIJA", ]
+
+nastanitvena.doba.regije$Domaci <- parse_number(nastanitvena.doba.regije$Domaci)
+nastanitvena.doba.regije$Tuji <- parse_number(nastanitvena.doba.regije$Tuji)
+
+nastanitvena.doba.regije$Skupaj <- nastanitvena.doba.regije$Domaci + 
+  nastanitvena.doba.regije$Tuji
+
+# ==============================================================================
+
+nastanitveni.obrat.regije <- read_csv("prenočitve_domačih_in_tujih_turistov_glede_na_nastanitveni_obrat_regije_mesečno.csv", 
+                                      locale = locale(encoding = "Windows-1250"),
+                                      col_names=TRUE, 
+                                      col_types = cols(.default = col_guess()))
+nastanitveni.obrat.regije[nastanitveni.obrat.regije == "N" | nastanitveni.obrat.regije == "z" |
+                          nastanitveni.obrat.regije == "-"] <- NA
+nastanitveni.obrat.regije <- nastanitveni.obrat.regije[, -4]
+
+nastanitveni.obrat.regije <- nastanitveni.obrat.regije %>% 
+  pivot_longer(
+    cols = colnames(nastanitveni.obrat.regije)[-c(1, 2, 3)],
+    names_to = "Leto",
+    values_to = "Prenocitve"
+  ) 
+names(nastanitveni.obrat.regije) <- c("Regija", "Nastanitev", "Drzava", "Leto", "Stevilo")
+
+nastanitveni.obrat.regije <- nastanitveni.obrat.regije[! nastanitveni.obrat.regije$Regija ==
+                                                       "SLOVENIJA", ]
+
+# ==============================================================================
+
+povprecni.dohodek.regije <- read_csv("povprecna_mesecna_placa_po_regijah.csv",
+                                     locale = locale(encoding = "Windows-1250"),
+                                     col_names=TRUE, 
+                                     col_types = cols(.default = col_guess()))
+
+names(povprecni.dohodek.regije) <- c("Regija", "x", "Leto", "Placa")
+povprecni.dohodek.regije <- povprecni.dohodek.regije %>% .[-2]
+
+povprecni.dohodek.regije <- povprecni.dohodek.regije[! povprecni.dohodek.regije$Regija ==
+                                                       "SLOVENIJA", ]
+
+# ==============================================================================
+
+# 1
+# MESECNI PREGLED ZA REGIJE
+
+# MESECNI.PREGLED.REGIJE <-
+
+# ==============================================================================
+# ==============================================================================
+
 prenocitve.po.drzavah.letno <- read_csv("prenočitve_po_drzavah_letno.csv", 
                                locale = locale(encoding = "Windows-1250"),
                                col_names=TRUE, 
@@ -61,6 +146,47 @@ VECLETNI.PREGLED.ZA.SLOVENIJO <- stevilo.prenocitev.letno %>%
 # ==============================================================================
 # ==============================================================================
 
+# # tabela je skoraj prazna, najverjetneje ne bom vključila:
+# prevoznost.sredstvo <- read_csv("po_drzavah_prevozno_sredstvo_dvomesecja.csv",
+#                                 locale = locale(encoding = "Windows-1250"),
+#                                 col_names=TRUE, 
+#                                 col_types = cols(.default = col_guess()))
+
+# ==============================================================================
+
+motivi <- read_html("motiv_obiska_slovenije_iz_tujine.html", skip = 2, remove.empty = TRUE, trim = TRUE)
+motivi.vmesna <- html_nodes(motivi, "table")
+motivi.prihoda <- html_table(motivi.vmesna, header = FALSE, fill = TRUE)[[1]]
+motivi.prihoda <- motivi.prihoda[-c(1, 2, 3, 4, 368), - c(4, 7, 8, 9)]
+  
+motivi.prihoda[motivi.prihoda == "-"] <- "0"
+motivi.prihoda$X2 <- parse_number(motivi.prihoda$X2)
+motivi.prihoda$X3 <- parse_number(motivi.prihoda$X3)
+motivi.prihoda$X5 <- parse_number(motivi.prihoda$X5)
+motivi.prihoda$X6 <- parse_number(motivi.prihoda$X6)
+
+# POM kot pomembno
+# NEP kot nepomembno
+motivi.prihoda$POM <- motivi.prihoda$X5 + motivi.prihoda$X6
+motivi.prihoda$NEP <- motivi.prihoda$X2 + motivi.prihoda$X3
+
+motivi.prihoda <- motivi.prihoda[, -c(2:5)] %>% mutate(Pomembnost = case_when(
+  (is.na(POM)) ~ "Drzava",
+  (NEP > POM) ~ "Nepomembno",
+  (NEP < POM) ~ "Pomembno"
+))
+
+# manjša še razdelitev na dražve!
+
+# ==============================================================================
+
+# 3
+# RAZLOGI ZA PRIHDO TUJCEV V SLOVENIJO IN PREVOZNO SREDSTVO
+
+
+# ==============================================================================
+# ==============================================================================
+
 odhod.slovencev.v.tujino <- read.csv("odhod_slovencev_v_tujino_po_drzavah_letno.csv",
                                      na.strings = c("N", "-"))
 
@@ -95,12 +221,11 @@ poslovna.potovanja.slovencev.v.tujino.nocitve <- odhod.slovencev.v.tujino.nocitv
 # 4
 # ODHOD SLOVENCEV V TUJINO
 
-POTOVANJA.SLOVENCEV.V.TUJINO.NOCITVE <- zasebna.potovanja.slovencev.v.tujino.nocitve %>%
-  full_join(poslovna.potovanja.slovencev.v.tujino.nocitve, by=c("Država", "Leto")) 
+odhod.slovencev.v.tujino.nocitve
 
-POTOVANJA.SLOVENCEV.V.TUJINO.NOCITVE$Skupaj <- POTOVANJA.SLOVENCEV.V.TUJINO.NOCITVE$`Zasebna potovanja` +
-  POTOVANJA.SLOVENCEV.V.TUJINO.NOCITVE$`Poslovna potovanja`
+zasebna.potovanja.slovencev.v.tujino.nocitve
 
+poslovna.potovanja.slovencev.v.tujino.nocitve
 
 # ==============================================================================
 # ==============================================================================
@@ -147,6 +272,30 @@ izdatki.slovencev.v.tujini <- izdatki.slovencev.v.tujini %>%
 
 # ==============================================================================
 
+sestava <- read_html("sestava_turisticne_potrosnje_tujcev_v_sloveniji.html", skip = 2, remove.empty = TRUE, trim = TRUE)
+sestava.vmesna <- html_nodes(sestava, "table")
+SESTAVA.TURISTICNE.POTROSNJE.TUJCEV.V.SLOVENIJI <- html_table(sestava.vmesna, header = FALSE, fill = TRUE)[[1]]
+names(SESTAVA.TURISTICNE.POTROSNJE.TUJCEV.V.SLOVENIJI) <- c("Storitve", "2012", "2012", "2014","2014", "2015", "2015", "2017", "2017")
+SESTAVA.TURISTICNE.POTROSNJE.TUJCEV.V.SLOVENIJI <- SESTAVA.TURISTICNE.POTROSNJE.TUJCEV.V.SLOVENIJI[-c(1, 2, 3, 10, 11),]
+
+SESTAVA.TURISTICNE.POTROSNJE.TUJCEV.V.SLOVENIJI <- SESTAVA.TURISTICNE.POTROSNJE.TUJCEV.V.SLOVENIJI %>%
+  pivot_longer(cols = colnames(SESTAVA.TURISTICNE.POTROSNJE.TUJCEV.V.SLOVENIJI)[-1],
+               names_to = "Leto",
+               values_to = "Stevilo") %>%
+  mutate(
+    Storitve = str_replace_all(Storitve, "(..)(.*)", "\\2")
+  ) %>%
+  arrange(Leto)
+
+SESTAVA.TURISTICNE.POTROSNJE.TUJCEV.V.SLOVENIJI$Leto <- parse_number(SESTAVA.TURISTICNE.POTROSNJE.TUJCEV.V.SLOVENIJI$Leto)
+SESTAVA.TURISTICNE.POTROSNJE.TUJCEV.V.SLOVENIJI$Stevilo <- parse_number(SESTAVA.TURISTICNE.POTROSNJE.TUJCEV.V.SLOVENIJI$Stevilo)
+
+SESTAVA.TURISTICNE.POTROSNJE.TUJCEV.V.SLOVENIJI <- SESTAVA.TURISTICNE.POTROSNJE.TUJCEV.V.SLOVENIJI %>% 
+  group_by(Storitve, Leto) %>%
+  summarise("Izdatek" = sum(Stevilo))
+
+# ==============================================================================
+
 # 5
 # IZDATKI ZA TURIZEM (zdruzitev treh tabel)
 # stevilke so v milijonih €
@@ -154,6 +303,8 @@ izdatki.slovencev.v.tujini <- izdatki.slovencev.v.tujini %>%
 IZDATKI <- izdatki.tujcev %>% 
   full_join(izdatki.slovencev.v.sloveniji, by="leto") %>%
   full_join(izdatki.slovencev.v.tujini, by="leto")
+
+SESTAVA.TURISTICNE.POTROSNJE.TUJCEV.V.SLOVENIJI
 
 # ==============================================================================
 # ==============================================================================
