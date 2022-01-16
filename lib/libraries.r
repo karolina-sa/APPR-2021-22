@@ -7,6 +7,18 @@ library(shiny)
 library(readr)
 library(dplyr)
 library(tibble)
+library(tidyverse)
+library(ggplot2)
+library(sp)
+library(rgdal)
+library(rgeos)
+library(raster)
+library(plotly)
+library(maptools)
+library(readr)
+library(stringr)
+require(data.table)
+library(xml2)
 
 
 

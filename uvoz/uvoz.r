@@ -1,12 +1,6 @@
-library(readr)
-library(stringr)
-library(dplyr)
-library(tidyr)
-library(tidyverse)
-library(rvest)
-require(dplyr)
-require(data.table)
-library(xml2) # za html uvoz
+# 2. faza: Uvoz podatkov
+
+source("C:/Users/Uporabnik/OneDrive/Namizje/SOLA/2.letnik/ANALIZA PODATKOV S PROGRAMOM R/APPR-2021-22/lib/libraries.r")
 
 sl <- locale("sl", decimal_mark=",", grouping_mark=".")
 
@@ -124,7 +118,7 @@ stevilo.zaposlenih <- stevilo.zaposlenih[-c(1, 2, 3, 10, 11),]
 stevilo.zaposlenih <- stevilo.zaposlenih %>%
   pivot_longer(cols = colnames(stevilo.zaposlenih)[-1],
                names_to = "Leto",
-               values_to = "Stevilo prenocitev") %>%
+               values_to = "Stevilo") %>%
   mutate(
     Storitve = str_replace_all(Storitve, "(..)(.*)", "\\2")
   ) %>%
@@ -144,14 +138,6 @@ VECLETNI.PREGLED.ZA.SLOVENIJO <- stevilo.prenocitev.letno %>%
   right_join(stevilo.zaposlenih.letno, by="Leto")
 
 # ==============================================================================
-# ==============================================================================
-
-# # tabela je skoraj prazna, najverjetneje ne bom vključila:
-# prevoznost.sredstvo <- read_csv("po_drzavah_prevozno_sredstvo_dvomesecja.csv",
-#                                 locale = locale(encoding = "Windows-1250"),
-#                                 col_names=TRUE, 
-#                                 col_types = cols(.default = col_guess()))
-
 # ==============================================================================
 
 motivi <- read_html("motiv_obiska_slovenije_iz_tujine.html", skip = 2, remove.empty = TRUE, trim = TRUE)
@@ -198,23 +184,28 @@ odhod.slovencev.v.tujino <- odhod.slovencev.v.tujino %>%
     Leto = str_replace_all(Leto, "(X)(\\d{4})", "\\2")
   )
 
-names(odhod.slovencev.v.tujino) <- c("Vrsta turističnega potovanja", "Država", "Meritev", "Leto", "Število")
+names(odhod.slovencev.v.tujino) <- c("Vrsta", "Država", "Meritev", "Leto", "Število")
 
 
 # razdelim tebelo na nočitve ter izdatke:
 
 odhod.slovencev.v.tujino.nocitve <- odhod.slovencev.v.tujino[!odhod.slovencev.v.tujino$Meritev == 
                                                                'Povprečni izdatki na turista na prenočitev (EUR)',]
+odhod.slovencev.v.tujino.nocitve <- odhod.slovencev.v.tujino.nocitve[, -3]
+odhod.slovencev.v.tujino.nocitve[odhod.slovencev.v.tujino.nocitve == "Zasebna potovanja"] <- "Zasebna"
+odhod.slovencev.v.tujino.nocitve[odhod.slovencev.v.tujino.nocitve == "Poslovna potovanja"] <- "Poslovna"
+
 odhod.slovencev.v.tujino.izdatki.na.turista <- odhod.slovencev.v.tujino[!odhod.slovencev.v.tujino$Meritev == 
                                                                           'Povprečno število prenočitev',]
 
-#razdelim tabelo nocitev na zasebna in poslovna potovanja:
-zasebna.potovanja.slovencev.v.tujino.nocitve <- odhod.slovencev.v.tujino.nocitve[1:117,] %>%
-  select(Država, Leto, Število) %>%
-  rename("Zasebna potovanja" = "Število")
-poslovna.potovanja.slovencev.v.tujino.nocitve <- odhod.slovencev.v.tujino.nocitve[118:234,] %>%
-  select(Država, Leto, Število) %>%
-  rename("Poslovna potovanja" = "Število")
+# 
+# #razdelim tabelo nocitev na zasebna in poslovna potovanja:
+# zasebna.potovanja.slovencev.v.tujino.nocitve <- odhod.slovencev.v.tujino.nocitve[1:117,] %>%
+#   select(Država, Leto, Število) %>%
+#   rename("Zasebna potovanja" = "Število")
+# poslovna.potovanja.slovencev.v.tujino.nocitve <- odhod.slovencev.v.tujino.nocitve[118:234,] %>%
+#   select(Država, Leto, Število) %>%
+#   rename("Poslovna potovanja" = "Število")
 
 # ==============================================================================
 
@@ -222,10 +213,6 @@ poslovna.potovanja.slovencev.v.tujino.nocitve <- odhod.slovencev.v.tujino.nocitv
 # ODHOD SLOVENCEV V TUJINO
 
 odhod.slovencev.v.tujino.nocitve
-
-zasebna.potovanja.slovencev.v.tujino.nocitve
-
-poslovna.potovanja.slovencev.v.tujino.nocitve
 
 # ==============================================================================
 # ==============================================================================
@@ -296,13 +283,25 @@ SESTAVA.TURISTICNE.POTROSNJE.TUJCEV.V.SLOVENIJI <- SESTAVA.TURISTICNE.POTROSNJE.
 
 # ==============================================================================
 
+izdatki <- izdatki.tujcev %>% 
+  full_join(izdatki.slovencev.v.sloveniji, by="leto") %>%
+  full_join(izdatki.slovencev.v.tujini, by="leto")
+
+izdatki <- izdatki %>%
+  pivot_longer(
+    cols = colnames(izdatki)[-1],
+    names_to = "Leto",
+    values_to = "Stevilo"
+  )
+names(izdatki) <- c("Leto", "Vrsta", "Stevilo")
+
+# ==============================================================================
+
 # 5
 # IZDATKI ZA TURIZEM (zdruzitev treh tabel)
 # stevilke so v milijonih €
 
-IZDATKI <- izdatki.tujcev %>% 
-  full_join(izdatki.slovencev.v.sloveniji, by="leto") %>%
-  full_join(izdatki.slovencev.v.tujini, by="leto")
+IZDATKI <- izdatki
 
 SESTAVA.TURISTICNE.POTROSNJE.TUJCEV.V.SLOVENIJI
 
@@ -322,7 +321,18 @@ odlocitev.glede.na.izobrazbo$`2020` <- parse_number(odlocitev.glede.na.izobrazbo
 odlocitev.glede.na.izobrazbo <- odlocitev.glede.na.izobrazbo %>%
   pivot_longer(cols = colnames(odlocitev.glede.na.izobrazbo)[-c(1,2)],
                names_to = "Leto",
-               values_to = "Stevilo" )
+               values_to = "Stevilo" ) 
+
+names(odlocitev.glede.na.izobrazbo) <- c("Izobrazba", "Odhod", "Leto", "Stevilo")
+odlocitev.glede.na.izobrazbo[odlocitev.glede.na.izobrazbo ==
+                                            "Niso šli na zasebno potovanje"] <-
+  "Niso"
+odlocitev.glede.na.izobrazbo[odlocitev.glede.na.izobrazbo ==
+                                            "Šli na zasebno potovanje"] <-
+  "Zasebno"
+odlocitev.glede.na.izobrazbo[odlocitev.glede.na.izobrazbo ==
+                                            "Šli na poslovno potovanje"] <-
+  "Poslovno"
 
 # ==============================================================================
 
@@ -343,31 +353,26 @@ odlocitev.glede.na.velikost.gospodinjstva <- read_csv("odlocitev_za_potovanaje_g
 odlocitev.glede.na.velikost.gospodinjstva <- odlocitev.glede.na.velikost.gospodinjstva %>%
   pivot_longer(cols = colnames(odlocitev.glede.na.velikost.gospodinjstva)[-c(1,2)],
                names_to = "Leto",
-               values_to = "Število gospodinjstev")
+               values_to = "Stevilo")
+odlocitev.glede.na.velikost.gospodinjstva[odlocitev.glede.na.velikost.gospodinjstva ==
+                                            "Niso šli na turistično potovanje (zasebno in/ali poslovno)"] <-
+  "Niso"
+odlocitev.glede.na.velikost.gospodinjstva[odlocitev.glede.na.velikost.gospodinjstva ==
+                                            "Šli na zasebno potovanje"] <-
+  "Zasebno"
+odlocitev.glede.na.velikost.gospodinjstva[odlocitev.glede.na.velikost.gospodinjstva ==
+                                            "Šli na poslovno potovanje"] <-
+  "Poslovno"
+odlocitev.glede.na.velikost.gospodinjstva[odlocitev.glede.na.velikost.gospodinjstva == 
+                                            "1- člansko"] <- "1"
+odlocitev.glede.na.velikost.gospodinjstva[odlocitev.glede.na.velikost.gospodinjstva == 
+                                            "2- člansko"] <- "2"
+odlocitev.glede.na.velikost.gospodinjstva[odlocitev.glede.na.velikost.gospodinjstva == 
+                                            "3- ali 4- člansko"] <- "3/4"
+odlocitev.glede.na.velikost.gospodinjstva[odlocitev.glede.na.velikost.gospodinjstva == 
+                                            "5- ali veččlansko"] <- "5<"
 
-# # razdelitev v tri ločene tabele:
-# 
-# odlocitev.glede.na.velikost.gospodinjstva.niso.sli <- 
-#   odlocitev.glede.na.velikost.gospodinjstva[odlocitev.glede.na.velikost.gospodinjstva$MERITVE ==
-#                                               "Niso šli na turistično potovanje (zasebno in/ali poslovno)",] %>%
-#   select("VELIKOST GOSPODINJSTVA", "Leto", "Število gospodinjstev") %>%
-#   rename("Niso šli na potovanje" = "Število gospodinjstev", "Velikost gospodinjstva" = "VELIKOST GOSPODINJSTVA")
-#        
-# odlocitev.glede.na.velikost.gospodinjstva.na.zasebno <- 
-#   odlocitev.glede.na.velikost.gospodinjstva[odlocitev.glede.na.velikost.gospodinjstva$MERITVE ==
-#                                               "Šli na zasebno potovanje",] %>%
-#   select("VELIKOST GOSPODINJSTVA", "Leto", "Število gospodinjstev") %>%
-#   rename("Šli na zasebno potovanje" = "Število gospodinjstev", "Velikost gospodinjstva" = "VELIKOST GOSPODINJSTVA")                 
-# 
-# odlocitev.glede.na.velikost.gospodinjstva.na.poslovno <-
-#   odlocitev.glede.na.velikost.gospodinjstva[odlocitev.glede.na.velikost.gospodinjstva$MERITVE ==
-#                                               "Šli na poslovno potovanje",] %>%
-#   select("VELIKOST GOSPODINJSTVA", "Leto", "Število gospodinjstev") %>%
-#   rename("Šli na poslovno potovanje" = "Število gospodinjstev", "Velikost gospodinjstva" = "VELIKOST GOSPODINJSTVA") 
-# 
-# ODLOCITEV.GLEDE.NA.VELIKOST.GOSPODINJSTVA <-
-#   odlocitev.glede.na.velikost.gospodinjstva.niso.sli %>% full_join(odlocitev.glede.na.velikost.gospodinjstva.na.zasebno, by=c("Leto", "Velikost gospodinjstva")) %>%
-#   full_join(odlocitev.glede.na.velikost.gospodinjstva.na.poslovno, by=c("Leto", "Velikost gospodinjstva"))
+names(odlocitev.glede.na.velikost.gospodinjstva) <- c("StClanov", "Odhod", "Leto", "Stevilo")
 
 # ==============================================================================
 
@@ -390,9 +395,24 @@ odlocitev.glede.na.zaposlenost <- odlocitev.glede.na.zaposlenost %>%
                names_to = "Leto",
                values_to = "Število") %>%
   select("ZAPOSLITVENI STATUS", "Leto", "Število") %>%
-  rename("Zaposlitveni status" = "ZAPOSLITVENI STATUS") 
+  rename("Status" = "ZAPOSLITVENI STATUS") 
 
 odlocitev.glede.na.zaposlenost <- odlocitev.glede.na.zaposlenost[1 : 36, ]
+odlocitev.glede.na.zaposlenost[odlocitev.glede.na.zaposlenost == 
+                                 "Zaposlen, samozaposlen"] <- "Zaposlen"
+odlocitev.glede.na.zaposlenost[odlocitev.glede.na.zaposlenost == 
+                                 "Dijak ali študent"] <- "Študent"
+
+
+# ==============================================================================
+
+# 6
+# KAJ VPLIVA NA ODLOČITVE POTOVANJA
+
+odlocitev.glede.na.izobrazbo
+odlocitev.glede.na.velikost.gospodinjstva
+odlocitev.glede.na.zaposlenost
 
 # ==============================================================================
 # ==============================================================================
+
