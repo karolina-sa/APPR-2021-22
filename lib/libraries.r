@@ -19,10 +19,12 @@ library(readr)
 library(stringr)
 require(data.table)
 library(xml2)
-
-
+library(gridExtra)
+library(cluster)
+library(ggalt)
 
 options(gsubfn.engine="R")
 
 # Uvozimo funkcije za pobiranje in uvoz zemljevida.
 source("lib/uvozi.zemljevid.r", encoding="UTF-8")
+

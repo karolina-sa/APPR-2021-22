@@ -1,14 +1,32 @@
 # 3. faza: Vizualizacija podatkov
 
-source("C:/Users/Uporabnik/OneDrive/Namizje/SOLA/2.letnik/ANALIZA PODATKOV S PROGRAMOM R/APPR-2021-22/lib/libraries.r")
+source("lib/libraries.r", encoding="UTF-8")
 
 # ==============================================================================
 # GRAFIČNA ANALIZA
 # ==============================================================================
 
+# prenočitev po regijah
+
+prenocitev.regije.graf <- ggplot(prenocitve.regije,
+                                 aes(x = Regija, y = Stevilo, fill = Drzava)) + 
+  geom_boxplot() +
+  coord_flip() +
+  scale_y_continuous(labels = function(x) format(x, scientific = FALSE)) +
+  ylab("Število prenočitev") + 
+  ggtitle("Prenočitve po regijah") +
+  scale_fill_discrete(name = "Legenda", labels = c("Prenočitve slovencev", "Prenočitve tujcev"))
+
+prenocitev.regije.graf
+
+# ==============================================================================
+
+
+
+# ==============================================================================
+
 # odhod slovencev v tujino
-# Število potovanj slovencev po letih. Vsaka država svoja barva;
-#                                      oblika glede na zasebno ali poslovno potovanje
+
 odhod.slovencev.graf <- ggplot(odhod.slovencev.v.tujino.nocitve) + 
   aes(x = Leto, y = Število, color = Država, shape = Vrsta) + 
   geom_point() + 
@@ -19,8 +37,6 @@ odhod.slovencev.graf
 # ==============================================================================
 
 # izdatki za turizem
-# Izdatki slovencev in tujcev za turizem v sloveniji (in tujini) po letih.
-#               Trije različno obarvani geom_line grafi
 
 izdatki.graf <- ggplot(data=IZDATKI, aes(x = Leto, y = Stevilo, color = Vrsta)) +
   geom_point() +
@@ -70,8 +86,83 @@ stevilo.prenocitev.letno.graf +
     fill="steelblue2"
   )
 
+stevilo.prenocitev.letno.boxplot.graf <- ggplot(data = stevilo.prenocitev.letno,
+                                                aes(y = Stevilo)) +
+  geom_boxplot() +
+  scale_y_continuous(labels = function(x) format(x, scientific = FALSE))
 
-  
+stevilo.prenocitev.letno.boxplot.graf
+
+
+
+# ==============================================================================
+
+# vpliv izobazbe na odločitve potovanja
+izobrazba1.graf <- ggplot(odlocitev.glede.na.izobrazbo[odlocitev.glede.na.izobrazbo$Izobrazba == 
+                                                        "Osnovnošolska ali manj",],
+                         aes(x = Leto, y = Stevilo, color = Odhod)) +
+  geom_point() + 
+  geom_line() + # NE DELA KER MISSING VALUES 
+  ylim(0, 700) +
+  geom_text(data = odlocitev.glede.na.izobrazbo[odlocitev.glede.na.izobrazbo$Izobrazba == 
+                                                  "Osnovnošolska ali manj",] 
+            %>% filter(Leto == last(Leto)), 
+            aes(label = Odhod, 
+                x = Leto + 1, 
+                y = Stevilo, 
+                color = Odhod)) + 
+  coord_cartesian(clip = 'off') +
+  ggtitle("Osnovnošolska ali manj") +
+  theme(legend.position = "none",
+        plot.margin = margin(0, 1.5, 0, 0, "cm"))
+
+izobrazba1.graf
+
+izobrazba2.graf <- ggplot(odlocitev.glede.na.izobrazbo[odlocitev.glede.na.izobrazbo$Izobrazba == 
+                                                         "Srednješolska",],
+                          aes(x = Leto, y = Stevilo, color = Odhod)) +
+  geom_point() + 
+  geom_line(aes(group = Odhod)) + 
+  ylim(0, 700) +
+  geom_text(data = odlocitev.glede.na.izobrazbo[odlocitev.glede.na.izobrazbo$Izobrazba == 
+                                                  "Srednješolska",] 
+            %>% filter(Leto == last(Leto)), 
+            aes(label = Odhod, 
+                x = Leto + 1, 
+                y = Stevilo, 
+                color = Odhod)) + 
+  coord_cartesian(clip = 'off') +
+  ggtitle("Srednješolska") +
+  theme(legend.position = "none",
+        plot.margin = margin(0, 1.5, 0, 0, "cm"))
+
+izobrazba2.graf
+
+izobrazba3.graf <- ggplot(odlocitev.glede.na.izobrazbo[odlocitev.glede.na.izobrazbo$Izobrazba == 
+                                                         "Višješolska, visokošolska ali več",],
+                          aes(x = Leto, y = Stevilo, color = Odhod)) +
+  geom_point() + 
+  geom_line(aes(group = Odhod)) +
+  ylim(0, 700) +
+  geom_text(data = odlocitev.glede.na.izobrazbo[odlocitev.glede.na.izobrazbo$Izobrazba == 
+                                                  "Višješolska, visokošolska ali več",] 
+            %>% filter(Leto == last(Leto)), 
+            aes(label = Odhod, 
+                x = Leto + 1, 
+                y = Stevilo, 
+                color = Odhod)) + 
+  coord_cartesian(clip = 'off') +
+  scale_x_continuous(breaks = scales::pretty_breaks(10)) +
+  theme(legend.position = "none",
+        plot.margin = margin(0, 1.5, 0, 0, "cm")) +
+  ggtitle("Višješolska, visokošolska ali več")
+
+izobrazba3.graf
+
+izobrazba.graf <- grid.arrange(izobrazba1.graf, izobrazba2.graf, izobrazba3.graf, ncol=3)
+
+izobrazba.graf
+
 # ==============================================================================
 # PROSTORSKA ANALIZA (ZEMLJEVIDI)
 # ==============================================================================
@@ -113,11 +204,11 @@ prenocitve.zemljevid <- ggplot() +
   theme(axis.title=element_blank(), axis.text=element_blank(), 
         axis.ticks=element_blank(), panel.background = element_blank(),
         plot.title = element_text(hjust = 0.5)) +
-  scale_fill_gradient(low = "#132B43", high = "#56B1F7") +
+  scale_fill_gradient(low = "#56B1F7", high = "#132B43") +
   labs(fill="Prenocitve") +
   geom_path(data = right_join(prenocitve.regije.tuji.letno, zemljevid,
-                              by = "Regija"), aes(x = long, y = lat, 
-                                                  group = group), 
+                              by = "Regija"), 
+            aes(x = long, y = lat, group = group), 
             color = "white", size = 0.1)
 
 prenocitve.zemljevid

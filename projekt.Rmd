@@ -1,6 +1,6 @@
 ---
 title: "Poročilo pri predmetu Analiza podatkov s programom R"
-author: "Študent FMF"
+author: "Karolina Šavli"
 output:
   html_document: default
   pdf_document:
@@ -18,7 +18,7 @@ source("lib/libraries.r", encoding="UTF-8")
 ```
 
 
-## Izbira teme
+## ANALIZA TURIZMA V SLOVENIJI
 
 ***
 
@@ -33,16 +33,40 @@ source("uvoz/uvoz.r", encoding="UTF-8")
 ## Analiza in vizualizacija podatkov
 
 ```{r vizualizacija, results='hide'}
-source("vizualizacija/vizualizacija.r", encoding="UTF-8")
+#source("vizualizacija/vizualizacija.r", encoding="UTF-8")
 ```
 
 ***
 
 ## Napredna analiza podatkov
 
+***
+
+## Analiza
+
+
+
 ```{r analiza}
 source("analiza/analiza.r", encoding="UTF-8")
 ```
+
+Znano je, da turistična prepoznavnost in obiskanost Slovenije raste, kar si bomo ogledali pozneje. Nikoli pa še nisem zasledila podatka, ki bi Slovenijo ustvaril v skupino držav s podobno obiskanostjo turistov, zato sem se razvrstitve lotila sama. Osredotočila sem se zgolj na Evropske države, saj bi bilo svetovno merilo še bolj nepregledno in zmedeno. Prav tako pa bi primerjali države, ki so gospodarsko in tudi drugače precej različne. Na stani [The World Bank](https://data.worldbank.org/indicator/ST.INT.ARVL) sem dobila podatke za število prihodov turistov za vse države na svetu od leta 1995 naprej. Vzela sem zgolj obdobje od 2009 naprej (zaradi aktualnosti) in naredila povprečje podatkov. Evropske države sem nato z metodo voditeljev razdelila v šest skupin glede na število turistov, ki so državo obiskali:
+
+```{r turizem.evropa.skupine, echo=FALSE, fig.align='center'}
+turizem.evropa.skupine
+```
+
+Slovenija se je uvrstila v skupino 1 in iz slike je razvidno, da so ji po številu turistov podobne Albania, Bosna in Herzegovina, Ciper, Finska, Islandija, Lihtenštajn, Luksemburg, Malta, Moldavija, Monako, Črna Gora, Severna Makedonija in  San Marino. To so države, ki imajo najmanjše število turističnih obiskov od vseh držav Evrope. To pa še ne pomeni, da je turizem v Sloveniji 'slab', saj moramo upoštevati še površino slovenije, ki je v primerjavi z drugimi državami izredno majhna. 
+Naslednja slika prikazuje razdelitev v pet skupin glede na število turistov na $km^2$.
+
+```{r turizem.evropa.povrsina.skupine, echo=FALSE, fig.align='center'}
+turizem.evropa.povrsina.skupine
+```
+
+Slovenija v tej razdelitvi spada v prvo skupino (turistično najmočnejšo) skupaj z Albanijo, Bulgarijo, Estonijo, Nemčijo, Gričijo, Irsko, Latvijo, Litvo, Črno goro, Portugalsko in Združenim kraljevstom. V tej skupini so tudi zelo turistično pomembne države, kot so Grčija, Portugalska in Združeno kraljevsto. Razdelitev v skupine je tako zelo drugačna, kot v prvem primeru. In razvidno je, da je Slovenija glede na svojo majhnost turistično popularna in obiskana.
+
+V nadaljevanju bo poročilo usmerjeno predvsem v analizo slovenskega turizma. 
+
 
 ***
 
