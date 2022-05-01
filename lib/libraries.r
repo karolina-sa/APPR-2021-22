@@ -22,6 +22,7 @@ library(xml2)
 library(gridExtra)
 library(cluster)
 library(ggalt)
+library(readxl)
 
 options(gsubfn.engine="R")
 
