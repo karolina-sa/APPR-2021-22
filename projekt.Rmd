@@ -56,30 +56,53 @@ source("vizualizacija/vizualizacija.r", encoding="UTF-8")
 source("analiza/analiza.r", encoding="UTF-8")
 ```
 
-Znano je, da turistična prepoznavnost in obiskanost Slovenije raste, kar si bomo ogledali pozneje. Nikoli pa še nisem zasledila podatka, ki bi Slovenijo ustvaril v skupino držav s podobno obiskanostjo turistov, zato sem se razvrstitve lotila sama. Osredotočila sem se zgolj na Evropske države, saj bi bilo svetovno merilo še bolj nepregledno in zmedeno. Prav tako pa bi primerjali države, ki so gospodarsko in tudi drugače precej različne. Na stani [The World Bank](https://data.worldbank.org/indicator/ST.INT.ARVL) sem dobila podatke za število prihodov turistov za vse države na svetu od leta 1995 naprej. Vzela sem zgolj obdobje od 2009 naprej (zaradi aktualnosti) in naredila povprečje podatkov. Evropske države sem nato z metodo voditeljev razdelila v šest skupin glede na število turistov, ki so državo obiskali:
+Znano je, da turistična prepoznavnost in obiskanost Slovenije raste, nikoli pa še nisem zasledila podatka, ki bi Slovenijo ustvaril v skupino držav s podobno obiskanostjo turistov, zato sem se razvrstitve lotila sama. Osredotočila sem se zgolj na Evropske države, saj bi bilo svetovno merilo še bolj nepregledno in zmedeno. Prav tako pa bi primerjali države, ki so tako gospodarsko, kot tudi drugače precej različne. Na stani [The World Bank](https://data.worldbank.org/indicator/ST.INT.ARVL) sem dobila podatke za število prihodov turistov za vse države na svetu od leta 1995 naprej. Vzela sem zgolj obdobje od 2009 naprej (zaradi aktualnosti) in naredila povprečje podatkov. Evropske države sem nato z metodo voditeljev razdelila v šest skupin glede na število turistov, ki so državo obiskali:
 
 ```{r turizem.evropa.skupine, echo=FALSE, fig.align='center', width=400}
 turizem.evropa.skupine
 ```
 
-Slovenija se je uvrstila v skupino 1 in iz slike je razvidno, da so ji po številu turistov podobne Albania, Bosna in Herzegovina, Ciper, Finska, Islandija, Lihtenštajn, Luksemburg, Malta, Moldavija, Monako, Črna Gora, Severna Makedonija in  San Marino. To so države, ki imajo najmanjše število turističnih obiskov od vseh držav Evrope. To pa še ne pomeni, da je turizem v Sloveniji 'slab', saj moramo upoštevati še površino slovenije, ki je v primerjavi z drugimi državami izredno majhna. 
-Naslednja slika prikazuje razdelitev v pet skupin glede na število turistov na km$^2$.
+Slovenija se je uvrstila v skupino 1 in iz slike je razvidno, da so ji po številu turistov podobne Albania, Bosna in Herzegovina, Ciper, Finska, Islandija, Lihtenštajn, Luksemburg, Malta, Moldavija, Monako, Črna Gora, Severna Makedonija in  San Marino. To so države, ki imajo najmanjše število turističnih obiskov od vseh držav Evrope. To pa še ne pomeni, da je turizem v Sloveniji 'slab', saj moramo upoštevati še npr. površino slovenije, ki je v primerjavi z drugimi državami izredno majhna. 
+Naslednja slika prikazuje razdelitev v pet skupin glede na število turistov na površino države v km$^2$.
 
 ```{r turizem.evropa.povrsina.skupine, echo=FALSE, fig.align='center', width=400}
 turizem.evropa.povrsina.skupine
 ```
 
-Slovenija v tej razdelitvi spada v prvo skupino (turistično najmočnejšo) skupaj z Albanijo, Bulgarijo, Estonijo, Nemčijo, Gričijo, Irsko, Latvijo, Litvo, Črno goro, Portugalsko in Združenim kraljevstom. V tej skupini so tudi zelo turistično pomembne države, kot so Grčija, Portugalska in Združeno kraljevsto. Razdelitev v skupine je tako zelo drugačna, kot v prvem primeru. In razvidno je, da je Slovenija glede na svojo majhnost turistično popularna in obiskana.
+Slovenija v tej razdelitvi spada v prvo, turistično najmočnejšo skupino, skupaj z Albanijo, Bulgarijo, Estonijo, Nemčijo, Gričijo, Irsko, Latvijo, Litvo, Črno goro, Portugalsko in Združenim kraljevstom. V tej skupini so tudi zelo turistično pomembne države, kot so Grčija, Portugalska in Združeno kraljevsto. Razdelitev v skupine je tako zelo drugačna, kot v prvem primeru. In razvidno je, da je Slovenija glede na svojo majhnost turistično popularna in obiskana.
 
 Zakaj pa se tujci sploh odločijo za obisk Slovenije?
+Našla sem podatke, ki so bili pridobljeni z anketo, ki je proučevala motiv prihoda tujcev v Slovenijo. Ankentiranci so morali 14 motitov oceniti s pomembnostjo. Podatke sem precej predala in dobila sem naslednje tri prikaze:
 
-TUKAJ PRIDEJO **MOTIVI PRIHODA** (GLEDE NA EVROPSKE IN NEEVROPSKE DRŽAVE)
+```{r motivi.prihoda.graf, echo=FALSE, fig.align='center'}
+motivi.prihoda.graf
+```
 
+Iz zgornjih tortnih diagramov lahko razberemo, da so pomembni motivi gastronomija, naravne lepote, občutek varnosti, rekreacija, sprostitev in ugodne cene. Nepomembni pa npr. igre na srečo in letalske povezave. 
 
+Podatke sem še malo obrnilila in dobila naslednji grafični prikaz:
 
+```{r motivi.prihoda.pomembnost.graf, echo=FALSE, fig.align='center'}
+motivi.prihoda.pomembnost.graf
+```
 
+<table style="width:100%">
+<tr>
+<td style="width:45%">
 
+```{r igralnistvo.italija.avstrija.graf, echo=FALSE, fig.align='center'}
+igralnistvo.italija.avstrija.graf
+```
 
+</td>
+<td style="width:55%">
+
+Iz zgornjih prikazov razberemo, da so družinsko okolje, zabava in velnes vsem 'državam' dokaj enako pomembno. Rekreacija pa je npr. pomembna predvsem Italijanom. <br /><br />
+Od vseh podatkov me je presenetil predvsem motiv iger na srečo, saj sem pričakovala, da bo le ta pomemben zgolj oz. predvsem Italijanom, a izkazalo se je, da je za Avstrijce pomembnejši. Opazko sem želela potrditi in jo od bliže pogledati, zato lahko vidimo na levi strani dva tortna diagrama, ki prikazujeta pomembnost motiva iger srečo za Italijo in Avstrijo posebej. Razvidno je, da so Avstrijcem igre na srečo v Sloveniji res pomembnejše, kot Italijanom. 
+
+</td>
+</tr>
+</table>
 
 S pomočjo prostorske vizualizacije si poglejmo obiskanost Slovenije z strani slovencev in turistov (ali skupaj) v različnih mesecih po regijah:
 
@@ -88,7 +111,7 @@ shinyAppDir("shiny", options=list(width="100%", height=450))
 ```
 
 Če pogledamo zimski mesec (npr. december 2019) in poletni mesec (npr. junij 2019) opazimo, da je Obalno-kraška regija obiskana predvsem poleti, Osrednjeslovenska pa pozimi. Prva najverjetneje zaradi kopalne sezone, slednja pa zaradi turističnih ogledov in božičnih sejmov pozimi. Opazimo lahko tudi, da je najbolj turistično obiskana regija Gorenjska. Pozimi zaradi smučišč, poleti pa zaradi pohodništva, kolesarstva in ne prevročega podjebja. <br />
-Prav tako lahko ugotovimo, da je Osrednjeslovenska regija bolj obiskana s strani tujcev, Obalno-kraška pa s strani slovencev. Veliko obiskanost ima tudi Savinjska regija, predvidevam da zaradi toplic. Navedene ugotovitve so razvidne tudi iz sledečega grafičnega prikaza:
+Prav tako lahko ugotovimo, da je Osrednjeslovenska regija bolj obiskana s strani tujcev, Obalno-kraška pa s strani slovencev. Veliko obiskanost ima tudi Savinjska regija, predvidevam da predvsem zaradi toplic. Navedene ugotovitve lahko potrdimo z naslednjim prikazom:
 
 ```{r prenocitev.regije.graf, echo=FALSE, fig.align='center', width=350}
 prenocitev.regije.graf
@@ -100,7 +123,7 @@ Koliko dni pa v povprečju turisti preživijo v posameznih regija? Slednje - nas
 nastanitvena.doba.regije.graf
 ```
 
-Pričakovala sem, da bo po nastanitveni dobi izstopala Gorenjska, a nam zgornja slika trdi drugače. Najdaljšo nastanitveno dobo imajo Posavska, Savinjska in Zasavska regija. Opazimo lahko, da ima večina regij porast nastanitvene dobe predvsem v hladnejših mesecih.  
+Pričakovala sem, da bo po nastanitveni dobi izstopala Gorenjska, a nam zgornja slika trdi drugače. Najdaljšo nastanitveno dobo imajo Posavska, Savinjska in Zasavska regija. Opazimo tudi, da ima večina regij porast nastanitvene dobe predvsem v hladnejših mesecih.  
 
 
 

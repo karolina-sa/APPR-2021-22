@@ -78,8 +78,10 @@ diagram.skupine = function(podatki, oznake, skupine, k) {
     ) +
     geom_point() +
     geom_label(label = oznake, size = 2) +
-    scale_color_hue() +
-    theme_classic()
+    scale_color_hue(h = c(180, 270)) +
+    xlab("") +
+    ylab("") +
+    theme_classic() 
   
   for (i in 1:k) {
     d = d + geom_encircle(

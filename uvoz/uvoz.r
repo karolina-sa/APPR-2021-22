@@ -282,8 +282,8 @@ for (i in 1:362) {
 motivi.prihoda[motivi.prihoda == "Država prebivališča - SKUPAJ"] <- "Skupaj"
 motivi.prihoda <- motivi.prihoda[ ! is.na(motivi.prihoda$Sestevek),] %>%
   group_by(Drzava, X1) %>%
-  summarize(Pomembno = mean(POM), Nepomembno = mean(NEP), NitiNiti = mean(NITI)) %>%
-  mutate(Pomembnost = Pomembno - Nepomembno)
+  summarise(Pomembno = sum(POM), Nepomembno = sum(NEP), NitiNiti = sum(NITI)) %>%
+  mutate(Pomembnost = Pomembno / (Pomembno + Nepomembno + NitiNiti))
 motivi.prihoda <- motivi.prihoda %>%
   pivot_longer(
     cols = colnames(motivi.prihoda)[-c(1,2)],
@@ -292,13 +292,22 @@ motivi.prihoda <- motivi.prihoda %>%
   ) %>%
   rename("Motiv" = X1)
 
+motivi.prihoda[motivi.prihoda == "Kulturne znamenitosti in prireditve"] <- "Prireditve"
+motivi.prihoda[motivi.prihoda == "Možnosti za zabavo"] <- "Zabava"
+motivi.prihoda[motivi.prihoda == "Osebna varnost med bivanjem"] <- "Občutek varnosti"
+motivi.prihoda[motivi.prihoda == "Možnosti za počitek in sprostitev"] <- "Sprostitev"
+motivi.prihoda[motivi.prihoda == "Primernost za družinske počitnice"] <- "Družinsko okolje"
+motivi.prihoda[motivi.prihoda == "Raznolika gastronomska ponudba"] <- "Gastronomija"
+motivi.prihoda[motivi.prihoda == "Redne letalske povezave z državo"] <- "Letalske povezave"
+motivi.prihoda[motivi.prihoda == "Rekreativne dejavnosti"] <- "Rekreacija"
+motivi.prihoda[motivi.prihoda == "Skrb za zdravje in storitve dobrega počutja (velnes)"] <- "Velnes"
+
 # ==============================================================================
 
 # 3
 # RAZLOGI ZA PRIHDO TUJCEV V SLOVENIJO IN PREVOZNO SREDSTVO
 
-MOTIVI.PRIHODA <- motivi.prihoda
-
+motivi.prihoda
 
 # # ==============================================================================
 # # ==============================================================================

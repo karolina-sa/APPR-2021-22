@@ -22,6 +22,8 @@ prenocitev.regije.graf
 
 # ==============================================================================
 
+# nastanitvena doba po regijah
+
 nastanitvena.doba.regije.graf <- ggplot(nastanitvena.doba.regije) +
   aes(x = Mesec, y = StDni, color = Drzava) +
   geom_jitter() + 
@@ -34,7 +36,78 @@ nastanitvena.doba.regije.graf <- ggplot(nastanitvena.doba.regije) +
   guides(fill=guide_legend(title = "Tip turista"))
 
 nastanitvena.doba.regije.graf
+
+# ==============================================================================
+
+# motivi prihoda v Slovenijo
+
+cp <- coord_polar(theta = "y")
+cp$is_free <- function() TRUE
+
+motivi.prihoda.graf <- ggplot(motivi.prihoda[motivi.prihoda$Drzava == "Skupaj" & 
+                                               motivi.prihoda$Presoja != "Pomembnost",]) +
+  aes(x = "", y = StGlasov, fill = Presoja) +
+  geom_bar(width = 1, stat = "identity") +
+  cp +
+  facet_wrap(.~ Motiv, ncol = 5, scales="free") +
+  scale_fill_brewer(palette="Blues")+
+  theme(axis.text.x=element_blank(),
+        axis.ticks.x=element_blank(),
+        axis.text.y=element_blank(),
+        axis.ticks.y=element_blank()) +
+  ggtitle("Pomembnost izbranih motivov tujim turistom za prihod v Slovenijo") +
+  xlab("") +
+  ylab("")
   
+motivi.prihoda.graf
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+
+motivi.prihoda.pomembnost.graf <- ggplot(motivi.prihoda[motivi.prihoda$Drzava != "Skupaj" &
+                                                          motivi.prihoda$Presoja == "Pomembnost",]) +
+  aes(x = Drzava, y = StGlasov, fill = Drzava) +
+  geom_bar(stat = "identity") +
+  scale_fill_manual(values = c("#CEE2FF", "#B3D1F8", "#8AB6E9", "#4890D1", "#005F9C")) +
+  facet_wrap(.~ Motiv, ncol = 5) +
+  theme(
+    axis.text.x=element_blank(),
+    axis.ticks.x=element_blank(),
+    axis.text.y=element_blank(),
+    axis.ticks.y=element_blank()
+  ) +
+  xlab("Država") +
+  ylab("Pomembnost") +
+  ggtitle("Pomembnost izbranih motivov po državah") +
+  guides(fill=guide_legend(title = "Država opazovanja"))
+
+
+motivi.prihoda.pomembnost.graf
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+
+# analiza motiva igralništva za Italijo in Avstrijo
+
+cp <- coord_polar(theta = "y")
+cp$is_free <- function() TRUE
+
+igralnistvo.italija.avstrija.graf <- ggplot(motivi.prihoda[motivi.prihoda$Drzava %in% c("Italija", "Avstrija") &
+                          motivi.prihoda$Presoja != "Pomembnost" &
+                            motivi.prihoda$Motiv == "Igre na srečo",]) +
+  aes(x = "", y = StGlasov, fill = Presoja) +
+  geom_bar(width = 1, stat = "identity") +
+  cp +
+  facet_wrap(.~ Drzava, ncol = 2, scales="free") +
+  scale_fill_brewer(palette="Blues")+
+  theme(axis.text.x=element_blank(),
+        axis.ticks.x=element_blank(),
+        axis.text.y=element_blank(),
+        axis.ticks.y=element_blank()) +
+  xlab("") +
+  ylab("") +
+  ggtitle("Pomembnost igralništva v Avstriji in Italiji")
+
+igralnistvo.italija.avstrija.graf
+
 # ==============================================================================
 # 
 # # odhod slovencev v tujino

@@ -3,7 +3,7 @@ library(shinyWidgets)
 
 shinyUI(
   fluidPage(
-    h4("Število prenočitev v Sloveniji v izbranem mesecu:", style="color: #0077A9"),
+    h4("Število prenočitev v Sloveniji v izbranem mesecu:"),
     fluidRow(
       column(
         width = 4,
