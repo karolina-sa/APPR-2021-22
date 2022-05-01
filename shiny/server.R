@@ -1,6 +1,5 @@
 library(shiny)
 
-# ==============================================================================
 
 # uvoz, priprava zemljevida:
 
@@ -22,7 +21,7 @@ colnames(zemljevid)[12]<- "Regija"
 zemljevid$Regija <- gsub('Notranjsko-kraška', 'Primorsko-notranjska', zemljevid$Regija)
 zemljevid$Regija <- gsub('Spodnjeposavska', 'Posavska', zemljevid$Regija)
 
-# ==============================================================================
+
 
 shinyServer(
   function(input, output)

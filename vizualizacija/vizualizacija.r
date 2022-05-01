@@ -21,10 +21,21 @@ prenocitev.regije.graf <- ggplot(prenocitve.regije %>% filter(Drzava != "Skupaj"
 prenocitev.regije.graf
 
 # ==============================================================================
-# 
-# 
-# 
-# # ==============================================================================
+
+nastanitvena.doba.regije.graf <- ggplot(nastanitvena.doba.regije) +
+  aes(x = Mesec, y = StDni, color = Drzava) +
+  geom_jitter() + 
+  scale_color_manual(values = c('dodgerblue4','lightskyblue')) +
+  stat_smooth(method = "lm", formula = y ~ poly(x, 3), se = FALSE) +
+  facet_wrap(.~ Regija) +
+  xlab("Mesec") +
+  ylab("Nastanitvena doba (v dneh)") +
+  ggtitle("Nastanitvena doba v dneh po regijah v določenem mesecu") +
+  guides(fill=guide_legend(title = "Tip turista"))
+
+nastanitvena.doba.regije.graf
+  
+# ==============================================================================
 # 
 # # odhod slovencev v tujino
 # 

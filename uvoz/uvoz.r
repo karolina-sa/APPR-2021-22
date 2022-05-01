@@ -129,16 +129,26 @@ nastanitvena.doba.regije <- read_csv("podatki/povprecna_doba_nastanitve_regije_m
                                      col_types = cols(.default = col_guess()))
 
 nastanitvena.doba.regije[nastanitvena.doba.regije == "N" | nastanitvena.doba.regije == "..."] <- NA
-names(nastanitvena.doba.regije) <- c("Leto", "Regija", "Domaci", "Tuji")
+names(nastanitvena.doba.regije) <- c("Mesec", "Regija", "Slovenski turisti", "Tuji turisti")
 
 nastanitvena.doba.regije <- nastanitvena.doba.regije[! nastanitvena.doba.regije$Regija ==
-                                                       "SLOVENIJA", ]
+                                                       "SLOVENIJA", ] %>%
+  pivot_longer(
+    cols = colnames(nastanitvena.doba.regije)[-c(1, 2)],
+    names_to = "Drzava",
+    values_to = "StDni"
+  ) %>%
+  na.omit() %>%
+  mutate(Mesec = str_replace_all(Mesec, "(\\d{4})([:alpha:])(\\d{2})", "\\3"))
 
-nastanitvena.doba.regije$Domaci <- parse_number(nastanitvena.doba.regije$Domaci)
-nastanitvena.doba.regije$Tuji <- parse_number(nastanitvena.doba.regije$Tuji)
+# drugače stat_smooth ne dela:
+nastanitvena.doba.regije$StDni <- as.integer(nastanitvena.doba.regije$StDni)
+nastanitvena.doba.regije$Mesec <- as.integer(nastanitvena.doba.regije$Mesec)
 
-nastanitvena.doba.regije$Skupaj <- nastanitvena.doba.regije$Domaci +
-  nastanitvena.doba.regije$Tuji
+# za analizo si bom izračunala povprečno nastanitveno dobo regije:
+povprecna.nastanitvena.doba.regija <- nastanitvena.doba.regije %>%
+  group_by(Regija) %>% summarize(Povprecje = mean(StDni, na.rm = TRUE)) %>%
+  arrange(desc(Povprecje))
 
 # ==============================================================================
 
@@ -247,9 +257,7 @@ motivi.prihoda$X4 <- parse_number(motivi.prihoda$X4)
 motivi.prihoda$X5 <- parse_number(motivi.prihoda$X5)
 motivi.prihoda$X6 <- parse_number(motivi.prihoda$X6)
 
-# POM kot pomembno
-# NEP kot nepomembno
-# NITI kot niti pomembno, niti nepomembno
+# POM kot pomembno; NEP kot nepomembno; NITI kot niti pomembno, niti nepomembno
 motivi.prihoda$POM <- motivi.prihoda$X5 + motivi.prihoda$X6
 motivi.prihoda$NEP <- motivi.prihoda$X2 + motivi.prihoda$X3
 motivi.prihoda$NITI <- motivi.prihoda$X4
@@ -258,79 +266,38 @@ motivi.prihoda$Sestevek <- motivi.prihoda$POM - motivi.prihoda$NEP
 motivi.prihoda <- motivi.prihoda %>%
   dplyr::select(X1, POM, NEP, NITI, Sestevek)
 
-# zanima me, katere države so vključene v tabelo. Opazila sem, da je poleg vsake 
-#   države v naslednjih stolpcih NA
-# pogledam v katerih vrsticah se pojavi NA:
-indeksi <- which(is.na(motivi.prihoda$Sestevek))
-# seznam indeksov popravim tako, da bom lahko 'rezala' tabelo (dva indeksa ne 
-#                 smeta biti zaporedni števili)
-indeksi.popravljeni <- c()
-for (i in 1:length(indeksi))
-{
-  zadnji.indeks <- indeksi[length(indeksi)]
-  if (indeksi[i] != zadnji.indeks) {
-    if (indeksi[i]+1 < indeksi[i+1]) {
-      indeksi.popravljeni <- append(indeksi.popravljeni, indeksi[i])
-    }
+motivi.prihoda$Drzava <- motivi.prihoda$X1
+motivi.prihoda <- motivi.prihoda[-c(1,2,3),c(6,1,2,3,4,5)]
+
+ime = "Država prebivališča - SKUPAJ"
+for (i in 1:362) {
+  if (is.na(motivi.prihoda$Sestevek[i])) {
+    ime = motivi.prihoda[i,1]
+  }
+  else {
+    motivi.prihoda[i,1] <- ime
   }
 }
-indeksi.popravljeni <- append(indeksi.popravljeni, zadnji.indeks)
-indeksi.popravljeni # to so indeksi po katerih bom rezala tabelo
 
-# priprava novih tabel(imena tabel bodo MPštevilka)
-
-for (i in 1:(length(indeksi.popravljeni)-1)) 
-{
-  ime <- paste("MP", i, sep = "")
-  assign(ime, motivi.prihoda[(indeksi.popravljeni[i]):(indeksi.popravljeni[i+1]-1), ]) 
-}
-i = length(indeksi.popravljeni)
-ime <- paste("MP", i, sep = "")
-assign(ime, motivi.prihoda[(indeksi.popravljeni[i]):length(motivi.prihoda$Sestevek), ])
-
-# length(indeksi.popravljeni)=24 je število vseh tabel
-# Sedaj bom vse tabele popravila tako, da bo prvi stolpec 'ime' tabele, da bom 
-#       lahko uporabila join
-
-MP.vse.tabele <- vector(mode = "list", length = 24)
-MP.vse.tabele[[1]] <- MP1
-MP.vse.tabele[[2]] <- MP2
-MP.vse.tabele[[3]] <- MP3
-MP.vse.tabele[[4]] <- MP4
-MP.vse.tabele[[5]] <- MP5
-MP.vse.tabele[[6]] <- MP6
-MP.vse.tabele[[7]] <- MP7
-MP.vse.tabele[[8]] <- MP8
-MP.vse.tabele[[9]] <- MP9
-MP.vse.tabele[[10]] <- MP10
-MP.vse.tabele[[11]] <- MP11
-MP.vse.tabele[[12]] <- MP12
-MP.vse.tabele[[13]] <- MP13
-MP.vse.tabele[[14]] <- MP14
-MP.vse.tabele[[15]] <- MP15
-MP.vse.tabele[[16]] <- MP16
-MP.vse.tabele[[17]] <- MP17
-MP.vse.tabele[[18]] <- MP18
-MP.vse.tabele[[19]] <- MP19
-MP.vse.tabele[[20]] <- MP20
-MP.vse.tabele[[21]] <- MP21
-MP.vse.tabele[[22]] <- MP22
-MP.vse.tabele[[24]] <- MP23
-MP.vse.tabele[[24]] <- MP24
-
-# for (i in 1:24)
-# {
-#   vek <- rep(MP.vse.tabele[[i]]$X1[1],15)
-#   MP.vse.tabele[[i]]$Drzava <- vek
-#   MP.vse.tabele[[i]] <- MP.vse.tabele[[i]][2:15,]
-# }
-
+motivi.prihoda[motivi.prihoda == "Država prebivališča - SKUPAJ"] <- "Skupaj"
+motivi.prihoda <- motivi.prihoda[ ! is.na(motivi.prihoda$Sestevek),] %>%
+  group_by(Drzava, X1) %>%
+  summarize(Pomembno = mean(POM), Nepomembno = mean(NEP), NitiNiti = mean(NITI)) %>%
+  mutate(Pomembnost = Pomembno - Nepomembno)
+motivi.prihoda <- motivi.prihoda %>%
+  pivot_longer(
+    cols = colnames(motivi.prihoda)[-c(1,2)],
+    names_to = "Presoja",
+    values_to = "StGlasov"
+  ) %>%
+  rename("Motiv" = X1)
 
 # ==============================================================================
 
 # 3
 # RAZLOGI ZA PRIHDO TUJCEV V SLOVENIJO IN PREVOZNO SREDSTVO
-#MOTIVI PRIHODA <- motivi prihoda
+
+MOTIVI.PRIHODA <- motivi.prihoda
 
 
 # # ==============================================================================
