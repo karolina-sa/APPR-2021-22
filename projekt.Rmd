@@ -113,32 +113,22 @@ shinyAppDir("shiny", options=list(width="100%", height=450))
 Če pogledamo zimski mesec (npr. december 2019) in poletni mesec (npr. junij 2019) opazimo, da je Obalno-kraška regija obiskana predvsem poleti, Osrednjeslovenska pa pozimi. Prva najverjetneje zaradi kopalne sezone, slednja pa zaradi turističnih ogledov in božičnih sejmov pozimi. Opazimo lahko tudi, da je najbolj turistično obiskana regija Gorenjska. Pozimi zaradi smučišč, poleti pa zaradi pohodništva, kolesarstva in ne prevročega podjebja. <br />
 Prav tako lahko ugotovimo, da je Osrednjeslovenska regija bolj obiskana s strani tujcev, Obalno-kraška pa s strani slovencev. Veliko obiskanost ima tudi Savinjska regija, predvidevam da predvsem zaradi toplic. Navedene ugotovitve lahko potrdimo z naslednjim prikazom:
 
-```{r prenocitev.regije.graf, echo=FALSE, fig.align='center', width=350}
+```{r prenocitev.regije.graf, echo=FALSE, fig.align='center'}
 prenocitev.regije.graf
 ```
 
 Koliko dni pa v povprečju turisti preživijo v posameznih regija? Slednje - nastanitveno dobo - sem prikazala v naslednjem grafičnem prikazu:
 
-```{r nastanitvena.doba.regije.graf, echo=FALSE, fig.align='center', width=600}
+```{r nastanitvena.doba.regije.graf, echo=FALSE, fig.align='center'}
 nastanitvena.doba.regije.graf
 ```
 
 Pričakovala sem, da bo po nastanitveni dobi izstopala Gorenjska, a nam zgornja slika trdi drugače. Najdaljšo nastanitveno dobo imajo Posavska, Savinjska in Zasavska regija. Opazimo tudi, da ima večina regij porast nastanitvene dobe predvsem v hladnejših mesecih.  
 
+Pridobila sem tudi podatke od obiskanosti nastanitvenih obratov, ki so žal precej 'pomenjkljivi'. 
 
+```{r nastanitveni.obrat.regije.graf, echo=FALSE, fig.align='center'}
+nastanitveni.obrat.regije.graf
+```
 
-<!-- | Regija                 | Povprecna nastanitvena doba | -->
-<!-- |:----------------------:|:---------------------------:| -->
-<!-- | Posavska               | 3.656                       | -->
-<!-- | Savinjska              | 3.531                       | -->
-<!-- | Zasavska               | 3.406                       | -->
-<!-- | Obalno-kraška          | 3.281                       | -->
-<!-- | Jugovzhodna Slovenija  | 3.125                       | -->
-<!-- | Pomurska               | 3.125                       | -->
-<!-- | Koroška                | 2.891                       | -->
-<!-- | Podravska              | 2.609                       | -->
-<!-- | Goriška                | 2.484                       | -->
-<!-- | Gorenjska              | 2.406                       | -->
-<!-- | Osrednjeslovenska      | 1.906                       | -->
-<!-- | Primorska-notranjska   | 1,641                       | -->
-
+Kljub pomanjkljivosti podatkov lahko razberemo na primer, da so kampi konec leta manj obiskani, poleti pa konkurirajo hotelom.

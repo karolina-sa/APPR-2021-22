@@ -152,26 +152,30 @@ povprecna.nastanitvena.doba.regija <- nastanitvena.doba.regije %>%
 
 # ==============================================================================
 
-# nastanitveni.obrat.regije <- read_csv("podatki/prenočitve_domačih_in_tujih_turistov_glede_na_nastanitveni_obrat_regije_mesečno.csv",
-#                                       locale = locale(encoding = "Windows-1250"),
-#                                       col_names=TRUE,
-#                                       col_types = cols(.default = col_guess()))
-# nastanitveni.obrat.regije[nastanitveni.obrat.regije == "N" | nastanitveni.obrat.regije == "z" |
-#                           nastanitveni.obrat.regije == "-"] <- NA
-# nastanitveni.obrat.regije <- nastanitveni.obrat.regije[, -4]
-# 
-# nastanitveni.obrat.regije <- nastanitveni.obrat.regije %>%
-#   pivot_longer(
-#     cols = colnames(nastanitveni.obrat.regije)[-c(1, 2, 3)],
-#     names_to = "Leto",
-#     values_to = "Prenocitve"
-#   )
-# names(nastanitveni.obrat.regije) <- c("Regija", "Nastanitev", "Drzava", "Leto", "Stevilo")
-# 
-# nastanitveni.obrat.regije <- nastanitveni.obrat.regije[! nastanitveni.obrat.regije$Regija ==
-#                                                        "SLOVENIJA", ]
-# 
-# # ==============================================================================
+nastanitveni.obrat.regije <- read_csv("podatki/prenočitve_domačih_in_tujih_turistov_glede_na_nastanitveni_obrat_regije_mesečno.csv",
+                                      locale = locale(encoding = "Windows-1250"),
+                                      col_names=TRUE,
+                                      col_types = cols(.default = col_guess()))
+nastanitveni.obrat.regije[nastanitveni.obrat.regije == "N" | nastanitveni.obrat.regije == "z" |
+                          nastanitveni.obrat.regije == "-"] <- NA
+nastanitveni.obrat.regije <- nastanitveni.obrat.regije[, -4]
+
+nastanitveni.obrat.regije <- nastanitveni.obrat.regije %>%
+  pivot_longer(
+    cols = colnames(nastanitveni.obrat.regije)[-c(1, 2, 3)],
+    names_to = "Leto",
+    values_to = "Prenocitve"
+  ) %>%
+  na.omit() %>%
+  mutate(Leto = str_replace_all(Leto, "(\\d{4})([:alpha:])(\\d{2})", "\\3"))
+
+names(nastanitveni.obrat.regije) <- c("Regija", "Tip", "Drzava", "Mesec", "Stevilo nastanitev")
+
+nastanitveni.obrat.regije[nastanitveni.obrat.regije == "1 Hoteli in podobni nastanitveni objekti"] <- "Hotel"
+nastanitveni.obrat.regije[nastanitveni.obrat.regije == "2 Kampi"] <- "Kamp"
+nastanitveni.obrat.regije[nastanitveni.obrat.regije == "3 Drugi nastanitveni obrati"] <- "Drugo"
+
+# ==============================================================================
 # 
 # povprecni.dohodek.regije <- read_csv("podatki/povprecna_mesecna_placa_po_regijah.csv",
 #                                      locale = locale(encoding = "Windows-1250"),
@@ -192,6 +196,8 @@ povprecna.nastanitvena.doba.regija <- nastanitvena.doba.regije %>%
 prenocitve.regije
 
 nastanitvena.doba.regije
+
+nastanitveni.obrat.regije
 
 # # ==============================================================================
 # # ==============================================================================

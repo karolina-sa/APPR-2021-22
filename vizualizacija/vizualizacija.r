@@ -33,7 +33,7 @@ nastanitvena.doba.regije.graf <- ggplot(nastanitvena.doba.regije) +
   xlab("Mesec") +
   ylab("Nastanitvena doba (v dneh)") +
   ggtitle("Nastanitvena doba v dneh po regijah v določenem mesecu") +
-  guides(fill=guide_legend(title = "Tip turista"))
+  guides(fill=guide_legend(title = "Tip turista")) 
 
 nastanitvena.doba.regije.graf
 
@@ -109,6 +109,21 @@ igralnistvo.italija.avstrija.graf <- ggplot(motivi.prihoda[motivi.prihoda$Drzava
 igralnistvo.italija.avstrija.graf
 
 # ==============================================================================
+
+nastanitveni.obrat.regije.graf <- ggplot(nastanitveni.obrat.regije[nastanitveni.obrat.regije$Regija != "SLOVENIJA",]) +
+  aes(x = Mesec, fill = Tip) +
+  geom_bar(position = position_dodge2(preserve = "single")) +
+  scale_fill_brewer(palette="BuPu") +
+  facet_wrap(.~ Regija) + 
+  ylim(0,6.5) +
+  ggtitle("Obiskanost regij glede na nastanitveni obrat po regijah") +
+  guides(fill=guide_legend(title = "Tip nastanitve")) +
+  theme(panel.background = element_blank())
+
+nastanitveni.obrat.regije.graf
+
+# ==============================================================================
+
 # 
 # # odhod slovencev v tujino
 # 
