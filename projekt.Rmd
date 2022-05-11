@@ -132,3 +132,51 @@ nastanitveni.obrat.regije.graf
 ```
 
 Kljub pomanjkljivosti podatkov lahko razberemo na primer, da so kampi konec leta manj obiskani, poleti pa konkurirajo hotelom.
+
+
+<table style="width:100%">
+<tr>
+<td style="width:50%">
+
+Potrdili smo domnevo, da je Slovenija turistično obiskana država, sedaj pa poglejmo še izdatke turistov. Iz spodnjega grafa lahko razberemo, da tujci za turizem v Sloveniji zapravijo več kot domače prebivalstvo. Prav tako pa Slovenci v tujini za turizem zapravijo več kot v Sloveniji. Našla sem samo poadtke za štiri leta, zanimivo pa bi bilo še videti podatke za letošnje ali lansko leto, ko so začeli veljati turistični boni in se je potrošnja Slovencev za turizem v Sloveniji zagotovo povečala. 
+
+</td>
+<td style="width:50%">
+
+```{r izdatki.graf, echo=FALSE, fig.align='center'}
+izdatki.graf
+```
+
+</td>
+</tr>
+</table>
+
+Dalje se lahko vprašamo, kje turisti pustijo največ svojega denarja.
+
+<table style="width:100%">
+<tr>
+<td style="width:50%">
+
+```{r sestava.izdatkov.graf1, echo=FALSE, fig.align='center'}
+sestava.izdatkov.graf1
+```
+
+</td>
+<td style="width:50%">
+
+```{r sestava.izdatkov.graf2, echo=FALSE, fig.align='center'}
+sestava.izdatkov.graf2
+```
+
+</td>
+</tr>
+</table>
+
+Razberemo lahko, da so izdatki tujcev največji pri nastanitvenih storitvah in najmanjši pri kulturnih storitvah. Prav tako vidimo, da izdatki za vse storitve, razen za športne in kulturne, naraščajo. 
+
+
+
+Poglejmo število zaposlenih v turizmu v Sloveniji in BDP turizma. flajnlfngl
+bdp.turiem in stevilo zaposlenih!!
+
+

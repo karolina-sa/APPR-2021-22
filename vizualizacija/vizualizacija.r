@@ -33,7 +33,8 @@ nastanitvena.doba.regije.graf <- ggplot(nastanitvena.doba.regije) +
   xlab("Mesec") +
   ylab("Nastanitvena doba (v dneh)") +
   ggtitle("Nastanitvena doba v dneh po regijah v določenem mesecu") +
-  guides(fill=guide_legend(title = "Tip turista")) 
+  guides(fill=guide_legend(title = "Tip turista")) +
+  theme_bw()
 
 nastanitvena.doba.regije.graf
 
@@ -118,53 +119,83 @@ nastanitveni.obrat.regije.graf <- ggplot(nastanitveni.obrat.regije[nastanitveni.
   ylim(0,6.5) +
   ggtitle("Obiskanost regij glede na nastanitveni obrat po regijah") +
   guides(fill=guide_legend(title = "Tip nastanitve")) +
-  theme(panel.background = element_blank())
+  theme_bw()
 
 nastanitveni.obrat.regije.graf
 
 # ==============================================================================
 
-# 
-# # odhod slovencev v tujino
-# 
-# odhod.slovencev.graf <- ggplot(odhod.slovencev.v.tujino.nocitve) + 
-#   aes(x = Leto, y = Število, color = Država, shape = Vrsta) + 
-#   geom_point() + 
-#   ggtitle("Obisk tujih držav s strani slovencev")
-# 
-# odhod.slovencev.graf 
-# 
-# # ==============================================================================
-# 
-# # izdatki za turizem
-# 
-# izdatki.graf <- ggplot(data=IZDATKI, aes(x = Leto, y = Stevilo, color = Vrsta)) +
-#   geom_point() +
-#   geom_line(aes(group = Vrsta)) +
-#   ggtitle("Izdatki za turizem")
-# 
-# izdatki.graf
-# 
-# # sestava potrošnje tujcev v Sloveniji
-# 
-# sestava.izdatkov.graf1 <- ggplot(data=SESTAVA.TURISTICNE.POTROSNJE.TUJCEV.V.SLOVENIJI, 
-#                                 aes(x = Leto, y = Izdatek, color = Storitve)) +
-#   geom_point() + 
-#   geom_line() + 
-#   ggtitle("Sestava izdatkov tujcev za turizem v Sloveniji")
-# 
-# sestava.izdatkov.graf1
-# 
-# # sestava potrošnje z boxplot
-# 
-# sestava.izdatkov.graf2 <- ggplot(data=SESTAVA.TURISTICNE.POTROSNJE.TUJCEV.V.SLOVENIJI,
-#                                  aes(x = Storitve, y = Izdatek)) +
-#   geom_boxplot(fill="steelblue2", alpha=0.2) +
-#   scale_x_discrete(guide = guide_axis(n.dodge = 2)) +
-#   ggtitle("Sestava izdatkov tujcev za turizem v Sloveniji")
-# 
-# sestava.izdatkov.graf2 
-# 
+# odhod slovencev v tujino
+
+# NI V REDU GRAF!!!!!!
+
+prenocitve.po.drzavah.letno.graf <- ggplot(prenocitve.po.drzavah.letno) +
+  aes(x = Leto, y = Stevilo, color = DRŽAVA) +
+  geom_point()
+
+prenocitve.po.drzavah.letno.graf
+
+# ==============================================================================
+
+# stevilo zaposlenih v turizmu
+
+stevilo.zaposlenih.graf <- ggplot(stevilo.zaposlenih, 
+                                  mapping = aes(x = Leto, y = Stevilo, fill = Storitve)) +
+  geom_col() +
+  ggtitle("Število zaposlenih v Sloveniji v turizmu (v tisočih)") +
+  guides(fill=guide_legend(title = "Tip zaposlitve v turizmu"))
+  
+stevilo.zaposlenih.graf
+
+# ==============================================================================
+
+# turizem BDP
+
+BDP.turizem.graf <- ggplot(BDP.turizem) + 
+  aes(x = Leto, y = Stevilo, group=1) +
+  geom_line() +
+  geom_point() +
+  theme_bw() +
+  ggtitle("BDP od turizma v Sloveniji") 
+
+BDP.turizem.graf
+
+# ==============================================================================
+
+# izdatki za turizem
+
+izdatki.graf <- ggplot(data=IZDATKI, aes(x = Leto, y = Stevilo, color = Vrsta)) +
+  geom_point() +
+  geom_line(aes(group = Vrsta), size=1) +
+  scale_color_hue(h = c(180, 270)) +
+  theme_bw() +
+  ggtitle("Izdatki za turizem")
+
+izdatki.graf
+
+# sestava potrošnje tujcev v Sloveniji
+
+sestava.izdatkov.graf1 <- ggplot(data=SESTAVA.TURISTICNE.POTROSNJE.TUJCEV.V.SLOVENIJI,
+                                aes(x = Leto, y = Izdatek, color = Storitve)) +
+  geom_point() +
+  geom_line(size=1) +
+  scale_color_hue(h = c(150, 300)) +
+  theme_bw() + 
+  ggtitle("Sestava izdatkov tujcev za turizem v Sloveniji")
+
+sestava.izdatkov.graf1
+
+# sestava potrošnje z boxplot
+
+sestava.izdatkov.graf2 <- ggplot(data=SESTAVA.TURISTICNE.POTROSNJE.TUJCEV.V.SLOVENIJI,
+                                 aes(x = Storitve, y = Izdatek)) +
+  geom_boxplot(fill="lightcoral") +
+  scale_x_discrete(guide = guide_axis(n.dodge = 2)) +
+  ggtitle("Sestava izdatkov tujcev za turizem v Sloveniji") +
+  theme_bw()
+
+sestava.izdatkov.graf2
+
 # # ==============================================================================
 # 
 # # Število prenočitev v Sloveniji po letih
