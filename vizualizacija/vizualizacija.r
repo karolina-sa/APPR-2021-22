@@ -1,6 +1,7 @@
 # 3. faza: Vizualizacija podatkov
 
 source("lib/libraries.r", encoding="UTF-8")
+source("lib/uvozi.zemljevid.r")
 
 # ==============================================================================
 # GRAFIČNA ANALIZA
@@ -297,50 +298,62 @@ sestava.izdatkov.graf2
 # ==============================================================================
 # PROSTORSKA ANALIZA (ZEMLJEVIDI)
 # ==============================================================================
-# 
-# # uvoz, priprava zemljevida:
-# 
-# source("lib/uvozi.zemljevid.r", encoding="UTF-8")
-# 
-# zemljevid <- uvozi.zemljevid("http://biogeo.ucdavis.edu/data/gadm2.8/shp/SVN_adm_shp.zip",
-#                              "SVN_adm1", encoding="UTF-8") %>% fortify()
-# 
-# # za ujemanje preimenujemo stolpec
-# colnames(zemljevid)[12]<- "Regija"
-# 
-# # moje regije: Gorenjska, Goriška, Jugovzhodna Slovenija, Koroška, Obalno-kraška, 
-# #   Osrednjeslovenska, Podravska, Pomurska, Posavska, Primorska-notranjska, Savinjska
-# 
-# # regije v zemljevidu: Gorenjska, Goriška, Jugovzhodna Slovenija, Koroška, Obalno-kraška, 
-# #   Osrednjeslovenska, Podravska, Pomurska, Spodnjeposavska, Notranjsko-kraška, Savinjska
-# 
-# # popravilo razlike v poimenovanju:
-# zemljevid$Regija <- gsub('Notranjsko-kraška', 'Primorsko-notranjska', zemljevid$Regija)
-# zemljevid$Regija <- gsub('Spodnjeposavska', 'Posavska', zemljevid$Regija)
-# 
-# # ==============================================================================
-# 
-# # predstavitev števila prenočitev po regijah
-# 
-# # 'popravilo' tabele:
-# prenocitve.regije.tuji.letno <- prenocitve.regije[prenocitve.regije$Drzava == "Tuji"
-#                                                   & prenocitve.regije$Leto == "2019-12",]
-# 
-# prenocitve.zemljevid <- ggplot() +
-#   geom_polygon(data = right_join(prenocitve.regije.tuji.letno, zemljevid, by = "Regija"),
-#                aes(x = long, y = lat, group = group, fill = Prenocitve))+
-#   ggtitle("Povprečno število prenočitev po regijah") + 
-#   theme(axis.title=element_blank(), axis.text=element_blank(), 
-#         axis.ticks=element_blank(), panel.background = element_blank(),
-#         plot.title = element_text(hjust = 0.5)) +
-#   scale_fill_gradient(low = "#56B1F7", high = "#132B43") +
-#   labs(fill="Prenocitve") +
-#   geom_path(data = right_join(prenocitve.regije.tuji.letno, zemljevid,
-#                               by = "Regija"), 
-#             aes(x = long, y = lat, group = group), 
-#             color = "white", size = 0.1)
-# 
-# prenocitve.zemljevid
-# 
-# # ==============================================================================
-# 
+
+# ZEMLJEVID EVROPE, KI PRIKAZUJE PRIHODE IZ RAZLIČNIH DRŽAV:
+
+# priprava tabel za evropski zemljevid:
+
+names(vec.let.samo.prave.drzave)[1] <- "region"
+drzave.prihodi <- vec.let.samo.prave.drzave[vec.let.samo.prave.drzave$Kaj == "Prihodi",] %>%
+  group_by(region) %>%
+  summarize(Prihodi = mean(Število, na.rm = TRUE))
+  
+drzave.prenocitve <- vec.let.samo.prave.drzave[vec.let.samo.prave.drzave$Kaj == "Prenočitve",] %>%
+  group_by(region) %>%
+  summarize(Prenocitve = mean(Število, na.rm = TRUE))
+
+world_map <- subset(map_data("world"), region %in% c("Albania", "Andorra", "Armenia", "Austria", "Azerbaijan",
+                                             "Belarus", "Belgium", "Bosnia and Herzegovina", "Bulgaria",
+                                             "Croatia", "Cyprus", "Czechia","Denmark","Estonia","Finland", 
+                                             "France","Georgia", "Germany", "Greece","Hungary","Iceland", 
+                                             "Ireland", "Italy","Kazakhstan", "Kosovo", "Latvia","Liechtenstein", 
+                                             "Lithuania", "Luxembourg","Malta","Moldova","Monaco","Montenegro",
+                                             "Macedonia", "Netherlands","Norway","Poland","Portugal","Romania",
+                                             "San Marino","Serbia","Slovakia","Slovenia","Spain",
+                                             "Sweden","Switzerland","Turkey","Ukraine","UK","Vatican", "Russia"))
+
+# zemljevida: 
+
+drzave.prihodi_map <- left_join(world_map, drzave.prihodi,
+                        by = "region")
+zemljevid.prihodi <- ggplot(drzave.prihodi_map,
+                            aes(long, lat, group = group)) +
+  geom_polygon(aes(fill = Prihodi), color = "black") + 
+  scale_fill_gradient(low = "gray86", high = "black") +
+  theme_void() +
+  coord_fixed(ratio=1.5, xlim = c(-15,180), ylim = c(35,80)) +
+  ggtitle("Število turistov iz Evropskih držav, ki so prišli v Slovenijo \n(povprečje od leta 2018 do 2022)")
+
+zemljevid.prihodi
+
+# ===
+
+drzave.prenocitve_map <- left_join(world_map, drzave.prenocitve,
+                                by = "region")
+zemljevid.prenocitve <- ggplot(drzave.prenocitve_map,
+                            aes(long, lat, group = group)) +
+  geom_polygon(aes(fill = Prenocitve), color = "black") + 
+  scale_fill_gradient(low = "gray86", high = "black") +
+  theme_void() +
+  coord_fixed(ratio=1.5, xlim = c(-15,180), ylim = c(35,80)) +
+  ggtitle("Število turistov iz Evropskih držav, ki so prenočili v Sloveniji \n(povprečje od leta 2018 do 2022)") 
+zemljevid.prenocitve
+
+
+
+
+
+
+
+
+

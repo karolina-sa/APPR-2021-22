@@ -227,7 +227,8 @@ stevilo.zaposlenih$Stevilo <- parse_number(stevilo.zaposlenih$Stevilo)
 BDP.turizem <- read_csv("podatki/BDP_turizma.csv",
                         locale = locale(encoding = "Windows-1250"),
                         col_names=TRUE,
-                        col_types = cols(.default = col_guess())) %>%
+                        col_types = cols(.default = col_guess()))
+BDP.turizem <- BDP.turizem %>%
   pivot_longer(
     cols = colnames(BDP.turizem)[-1],
     names_to = "Leto",
@@ -623,4 +624,20 @@ vec.let <- vec.let[,c(1,2,3,8)] %>%
     names_to = "Kaj",
     values_to = "Število"
   )
+
+# popravljanje držav (da se izriše zemljevid)
+vec.let[vec.let == "Domestic"] <- "Slovenia"
+#vec.let[vec.let == "Czech Republic"] <- "Czechia"
+vec.let[vec.let == "Northern Macedonia"] <- "North Macedonia"
+vec.let[vec.let == "United Kingdom"] <- "UK"
+vec.let[vec.let == "Korea (Republic of)"] <- "South Korea"
+vec.let[vec.let == "United States"] <- "USA"
+vec.let[vec.let == "Russian Federation"] <- "Russia"
+
+vec.let.samo.prave.drzave <- vec.let[!vec.let$Država %in% c("Total", "Foreign", "other African countries", 
+          "other Asian countries", "other countries of North America", 
+          "other countries of Oceania", "	
+          other countries of South and Middle America", "other European countries"),]
+          
+vec.let.samo.prave.drzave$Število <- as.integer(vec.let.samo.prave.drzave$Število)
 

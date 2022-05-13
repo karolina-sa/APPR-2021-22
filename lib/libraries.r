@@ -23,6 +23,8 @@ library(gridExtra)
 library(cluster)
 library(ggalt)
 library(readxl)
+require(maps)
+require(viridis)
 
 options(gsubfn.engine="R")
 

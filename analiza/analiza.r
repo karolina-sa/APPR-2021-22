@@ -105,10 +105,10 @@ X <- TURIZEM.EVROPA[2] %>% as.matrix() %>% scale()
 drzave <- TURIZEM.EVROPA[, 1] %>% unlist()
 razdalje <- TURIZEM.EVROPA[, 2] %>% dist()
 dendrogram  <- dist(X) %>% hclust(method = "ward.D")
-# plot(dendrogram, 
-#      labels = TURIZEM.EVROPA$Drzava,
-#      ylab = "višina",
-#      main = NULL)
+plot(dendrogram,
+     labels = TURIZEM.EVROPA$Drzava,
+     ylab = "višina",
+     main = NULL)
 
 # izračun kolen:
 r = hc.kolena(dendrogram)

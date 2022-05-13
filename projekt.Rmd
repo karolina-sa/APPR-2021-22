@@ -179,4 +179,21 @@ Razberemo lahko, da so izdatki tujcev največji pri nastanitvenih storitvah in n
 Poglejmo število zaposlenih v turizmu v Sloveniji in BDP turizma. flajnlfngl
 bdp.turiem in stevilo zaposlenih!!
 
+```{r stevilo.zaposlenih.graf, echo=FALSE, fig.align='center'}
+stevilo.zaposlenih.graf
+```
+
+```{r BDP.turizem.graf, echo=FALSE, fig.align='center'}
+BDP.turizem.graf
+```
+
+```{r zemljevid.prihodi, echo=FALSE, fig.align='center'}
+zemljevid.prihodi
+```
+
+```{r zemljevid.prenocitve, echo=FALSE, fig.align='center'}
+zemljevid.prenocitve
+```
+
+
 
