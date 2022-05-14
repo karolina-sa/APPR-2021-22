@@ -190,10 +190,12 @@ sestava.izdatkov.graf1
 
 sestava.izdatkov.graf2 <- ggplot(data=SESTAVA.TURISTICNE.POTROSNJE.TUJCEV.V.SLOVENIJI,
                                  aes(x = Storitve, y = Izdatek)) +
-  geom_boxplot(fill="lightcoral") +
+  geom_boxplot(fill="grey90", notch = FALSE) +
+  stat_summary(fun=mean, geom="point", shape=15, size=2, color="red") +
   scale_x_discrete(guide = guide_axis(n.dodge = 2)) +
   ggtitle("Sestava izdatkov tujcev za turizem v Sloveniji") +
-  theme_bw()
+  theme_bw() +
+  labs(caption = "Pojasnilo: Rdeči kvadatki predstavljajo povprečje posamene vrste izdatkov.")
 
 sestava.izdatkov.graf2
 
@@ -347,6 +349,7 @@ zemljevid.prenocitve <- ggplot(drzave.prenocitve_map,
   theme_void() +
   coord_fixed(ratio=1.5, xlim = c(-15,180), ylim = c(35,80)) +
   ggtitle("Število turistov iz Evropskih držav, ki so prenočili v Sloveniji \n(povprečje od leta 2018 do 2022)") 
+
 zemljevid.prenocitve
 
 

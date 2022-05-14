@@ -245,6 +245,8 @@ prenocitve.po.drzavah.letno
 
 stevilo.zaposlenih
 
+BDP.turizem
+
 # ==============================================================================
 # ==============================================================================
 
@@ -388,7 +390,8 @@ izdatki.slovencev.v.sloveniji <- izdatki.slovencev.v.sloveniji %>%
 izdatki.slovencev.v.tujini <- read_csv("podatki/izdatki_slovencev_za_turisticno_potrosnjo_v_tujini.csv",
                                           locale = locale(encoding = "Windows-1250"),
                                           col_names=TRUE,
-                                          col_types = cols(.default = col_guess()))
+                                          col_types = cols(.default = col_guess()),
+                                          skip = 2)
 
 izdatki.slovencev.v.tujini <- izdatki.slovencev.v.tujini %>%
   pivot_longer(cols = colnames(izdatki.slovencev.v.tujini)[-1],
@@ -402,7 +405,7 @@ izdatki.slovencev.v.tujini <- izdatki.slovencev.v.tujini %>%
 sestava <- read_html("podatki/sestava_turisticne_potrosnje_tujcev_v_sloveniji.html", skip = 2, remove.empty = TRUE, trim = TRUE)
 sestava.vmesna <- html_nodes(sestava, "table")
 SESTAVA.TURISTICNE.POTROSNJE.TUJCEV.V.SLOVENIJI <- html_table(sestava.vmesna, header = FALSE, fill = TRUE)[[1]]
-names(SESTAVA.TURISTICNE.POTROSNJE.TUJCEV.V.SLOVENIJI) <- c("Storitve", "2012", "2012", "2014","2014", "2015", "2015", "2017", "2017")
+names(SESTAVA.TURISTICNE.POTROSNJE.TUJCEV.V.SLOVENIJI) <- c("Storitve", "2012", "2012", "2014","2014", "2015", "2015", "2017", "2017", "2019", "2019", "2020", "2020")
 SESTAVA.TURISTICNE.POTROSNJE.TUJCEV.V.SLOVENIJI <- SESTAVA.TURISTICNE.POTROSNJE.TUJCEV.V.SLOVENIJI[-c(1, 2, 3, 10, 11),]
 
 SESTAVA.TURISTICNE.POTROSNJE.TUJCEV.V.SLOVENIJI <- SESTAVA.TURISTICNE.POTROSNJE.TUJCEV.V.SLOVENIJI %>%

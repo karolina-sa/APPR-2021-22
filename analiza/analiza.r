@@ -105,15 +105,15 @@ X <- TURIZEM.EVROPA[2] %>% as.matrix() %>% scale()
 drzave <- TURIZEM.EVROPA[, 1] %>% unlist()
 razdalje <- TURIZEM.EVROPA[, 2] %>% dist()
 dendrogram  <- dist(X) %>% hclust(method = "ward.D")
-plot(dendrogram,
-     labels = TURIZEM.EVROPA$Drzava,
-     ylab = "višina",
-     main = NULL)
+# plot(dendrogram,
+#      labels = TURIZEM.EVROPA$Drzava,
+#      ylab = "višina",
+#      main = NULL)
 
 # izračun kolen:
 r = hc.kolena(dendrogram)
 diagram.kolena(r)
-# za kolena predlaga: 2, 4, 6
+# za kolena predlaga: 2, 4
 
 drzave.x.y <-
   as_tibble(razdalje %>% cmdscale(k = 2)) %>%
@@ -121,7 +121,7 @@ drzave.x.y <-
   dplyr::select(drzava = ...3, x = V1, y = V2)
 
 # izberem število skupin:
-k = 6
+k = 4
 
 skupine <- TURIZEM.EVROPA[, 2] %>%
   dist() %>%
@@ -141,9 +141,16 @@ tabela.turizem.evropa.skupine <- tibble(TURIZEM.EVROPA$Drzava, skupine) %>%
 drzave.slovenija.skupine <- tabela.turizem.evropa.skupine$`TURIZEM.EVROPA$Drzava`%>% 
   unlist()
 drzave.slovenija.skupine
-# "Albania", "Bosnia and Herzegovina", "Cyprus", "Finland", "Iceland", 
-# "Liechtenstein", "Luxembourg", "Malta", "Moldova", "Monaco", "Montenegro", 
-# "North Macedonia", "San Marino", "Slovenia" 
+# [1] "Albania"              "Andora"               "Belorusija"          
+# [4] "Belgija"              "Bosna in Herzegovina" "Bulgaria"            
+# [7] "Ciper"                "Estonija"             "Finska"              
+# [10] "Islandija"            "Irska"                "Latvija"             
+# [13] "Lihtenstajn"          "Litva"                "Luksemburg"          
+# [16] "Malta"                "Moldavija"            "Monako"              
+# [19] "Crna gora"            "Nizozemska"           "Severna Makedonija"  
+# [22] "Norveska"             "Portugalska"          "Romunija"            
+# [25] "San Marino"           "Slovenija"            "Svedska"             
+# [28] "Svica"                "Ukrajina" 
 
 # ==============================================================================
 
@@ -152,16 +159,16 @@ drzave.slovenija.skupine
 X <- TURIZEM.EVROPA.POVRSINA[2] %>% as.matrix() %>% scale()
 drzave <- TURIZEM.EVROPA.POVRSINA[, 1] %>% unlist()
 razdalje <- TURIZEM.EVROPA.POVRSINA[, 2] %>% dist()
-dendrogram  <- dist(X) %>% hclust(method = "ward.D")
+dendrogram1  <- dist(X) %>% hclust(method = "ward.D")
 # plot(dendrogram,
 #      labels = TURIZEM.EVROPA.POVRSINA$Drzava,
 #      ylab = "višina",
 #      main = NULL)
 
 # izračun kolen:
-r = hc.kolena(dendrogram)
-diagram.kolena(r)
-# za kolena predlaga: 2, 5
+r1 = hc.kolena(dendrogram1)
+diagram.kolena(r1)
+# za kolena predlaga: 2, 4, 6
 
 drzave.x.y <-
   as_tibble(razdalje %>% cmdscale(k = 2)) %>%
@@ -169,7 +176,7 @@ drzave.x.y <-
   dplyr::select(drzava = ...3, x = V1, y = V2)
 
 # izberem število skupin:
-k = 5
+k = 4
 
 skupine <- TURIZEM.EVROPA.POVRSINA[, 2] %>%
   dist() %>%
@@ -189,11 +196,35 @@ tabela.turizem.evropa.povrsina.skupine <- tibble(TURIZEM.EVROPA.POVRSINA$Drzava,
 drzave.slovenija.skupine <- tabela.turizem.evropa.povrsina.skupine$`TURIZEM.EVROPA.POVRSINA$Drzava`%>% 
   unlist()
 drzave.slovenija.skupine
-# Albanija, Bulgarija, Estonija, Nemčija, Gričija, Irska, Latvija, Litva, Črna gora,
-# Portugalska, Združeno kraljevsto
+# [1] "Albania"             "Bulgaria"            "Estonija"            "Nemcija"            
+# [5] "Irska"               "Latvija"             "Litva"               "Crna gora"          
+# [9] "Portugalska"         "Slovenija"           "Zdruzeno kraljestvo"
 
 
 # ==============================================================================
 # ==============================================================================
+
+# NAPOVEDNI MODEL
+# priprava tabele
+
+slovenija.turizem <- read_csv("podatki/turizem_svetovno.csv",
+                             skip = 4,
+                             locale = locale(encoding = "Windows-1250"),
+                             col_names=TRUE, 
+                             col_types = cols(.default = col_guess()))
+slovenija.turizem <- slovenija.turizem[slovenija.turizem$`Country Name` == "Slovenia",-c(2:39)]
+slovenija.turizem <- slovenija.turizem %>%
+  pivot_longer(
+    cols = colnames(slovenija.turizem)[-1],
+    names_to = "Leto",
+    values_to = "Število turistov"
+  ) %>%
+  na.omit() %>%
+  dplyr::select(Leto, "Število turistov")
+
+
+
+# ==============================================================================
+
 
 
