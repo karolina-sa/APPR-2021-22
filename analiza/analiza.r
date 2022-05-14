@@ -205,8 +205,8 @@ drzave.slovenija.skupine
 # ==============================================================================
 
 # NAPOVEDNI MODEL
-# priprava tabele
 
+# priprava tabele:
 slovenija.turizem <- read_csv("podatki/turizem_svetovno.csv",
                              skip = 4,
                              locale = locale(encoding = "Windows-1250"),
@@ -217,14 +217,70 @@ slovenija.turizem <- slovenija.turizem %>%
   pivot_longer(
     cols = colnames(slovenija.turizem)[-1],
     names_to = "Leto",
-    values_to = "Število turistov"
+    values_to = "Število"
   ) %>%
   na.omit() %>%
-  dplyr::select(Leto, "Število turistov")
+  dplyr::select(Leto, "Število")
+slovenija.turizem$Število <- as.integer(slovenija.turizem$Število)
 
+# tabela in dva stolpca, prvi so leta, drugi pa število turističnih obiskov
 
+# napovedovanje:
+zamakni <- function(x, n){c(rep(NA, n), x)[1:length(x)]}
 
-# ==============================================================================
+naredi.df <- function(x){
+  data.frame(pricak  = x,
+             pricak1  = zamakni(x, 1),
+             pricak2 = zamakni(x, 2),
+             pricak3 = zamakni(x, 3),
+             pricak4 = zamakni(x, 4))
+}
 
+df <- naredi.df(slovenija.turizem$Število)
+model = ranger(formula = pricak ~ ., data = df %>% drop_na())
 
+n = nrow(df)
+
+df2 = df
+for(i in 1:3){
+  df2 = naredi.df(c(df2$pricak, NA))
+  napoved = predict(model, data = df2[n+i,])$predictions
+  df2[n+i, 1] = napoved
+}
+
+# napovedi za naslednja 3 leta:
+napovedi = df2[(n+1):(n+3),1]
+
+# s temi podaki bom dopolnila tabelo slovenija.turizem
+slovenija.turizem.z.napovednjo <- slovenija.turizem
+slovenija.turizem.z.napovednjo$Leto <- as.integer(slovenija.turizem.z.napovednjo$Leto)
+slovenija.turizem.z.napovednjo$Število <- as.integer(slovenija.turizem.z.napovednjo$Število)
+zadnje_leto <- 2020
+for (i in 1:3) {
+  novo_leto <- as.integer(zadnje_leto + i)
+  nov_podatek <- as.integer(napovedi[i])
+  slovenija.turizem.z.napovednjo[nrow(slovenija.turizem.z.napovednjo) + 1, ] <-
+    list(novo_leto, nov_podatek)
+}
+
+Leto <- 1995:2023
+napovedovanje.graf <- ggplot(slovenija.turizem.z.napovednjo, 
+                             aes(x = Leto, y = Število)) +
+  geom_line(color = "black") + 
+  slovenija.turizem.z.napovednjo %>%
+  filter(Leto %in% c(2020:2023)) %>%
+  geom_line(
+    mapping = aes(x = Leto, y = Število),
+    color = "red"
+  ) +
+  labs(
+    x = "Leto",
+    y = "Število turističnih obiskov",
+    title = "Število turističnih obiskov Slovenija ob leta 1995 do 2020 z napovedjo \nza leta 2021, 2022 in 2023 "
+  ) +
+  theme_bw() +
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5)) +
+  scale_x_continuous("Leto", labels = as.character(Leto), breaks = Leto)
+  
+napovedovanje.graf
 

@@ -260,3 +260,15 @@ zemljevid.prenocitve
 
 V obeh zgornjih grafih je razvidno, da je največ turistov, ki bodisi prenočijo, bodisi samo obiščejo Slovenijo, iz naših sosed, Nemčije, Ukrajine in Belorusije. 
 
+
+
+Za konec poglejmo še skupno število tujih turističnih prihodov v Slovenijo. Podatke sem našla na spletni strani [The World Bank](https://data.worldbank.org/indicator/ST.INT.ARVL). Podatki so vsebovali število turističnih prihodov za čas med leti 1995 in 2020. Odločila sem se, da bom dodatno še napovedala bodoče turistične prihode tujcev v Slovenijo, kar je razvidno iz spodnjega grafa. 
+
+```{r napovedovanje.graf, echo=FALSE, fig.align='center'}
+napovedovanje.graf
+```
+
+Že pred začetkom izdelave grafa napovedi sem bila malce skeptična, saj je turizem v letu 2020 doživel ogromen šok, kar je zagotovo vplivalo na ne najbolj točne razultat, a vseeno sem postopek izpeljala do konca. 
+Na spletu sem nato našla neuraden podatek, da je bilo leta 2021 vsega skupaj okrog 1,8 milijona turističnih prihodov tujcev v Slovenijo, z napovedjo pa sem dobila okrog 2,5 milijona. Napaka je sicer kar velika, a vselej majha, če upoštevamo šok, ki ga je doživelo gospodastvo. Prepričana sem, da so napovedani podatki za leto 2022 že bolj točni. 
+
+

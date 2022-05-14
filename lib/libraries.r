@@ -23,6 +23,7 @@ library(gridExtra)
 library(cluster)
 library(ggalt)
 library(readxl)
+library(ranger)
 require(maps)
 require(viridis)
 
