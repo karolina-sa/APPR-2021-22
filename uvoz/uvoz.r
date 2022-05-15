@@ -175,6 +175,8 @@ nastanitveni.obrat.regije[nastanitveni.obrat.regije == "1 Hoteli in podobni nast
 nastanitveni.obrat.regije[nastanitveni.obrat.regije == "2 Kampi"] <- "Kamp"
 nastanitveni.obrat.regije[nastanitveni.obrat.regije == "3 Drugi nastanitveni obrati"] <- "Drugo"
 
+nastanitveni.obrat.regije$Mesec <- as.integer(nastanitveni.obrat.regije$Mesec)
+
 # ==============================================================================
 
 # MESECNI PREGLED ZA REGIJE
@@ -576,7 +578,7 @@ SESTAVA.TURISTICNE.POTROSNJE.TUJCEV.V.SLOVENIJI
 # # ==============================================================================
 
 leto2022 <- read_excel("podatki/2022.xlsx") %>%
-  select(c(2,10,18)) %>%
+  dplyr::select(c(2,10,18)) %>%
   na.omit()
 colnames(leto2022) <- (c("Prihodi", "Prenočitve", "Država"))
 leto2022 <- leto2022 %>% 
@@ -584,7 +586,7 @@ leto2022 <- leto2022 %>%
 leto2022$Leto <- rep(2022, times=56)
   
 leto2021 <- read_excel("podatki/2021.xlsx") %>%
-  select(c(2,10,18)) %>%
+  dplyr::select(c(2,10,18)) %>%
   na.omit()
 colnames(leto2021) <- (c("Prihodi", "Prenočitve", "Država"))
 leto2021 <- leto2021 %>% 
@@ -592,7 +594,7 @@ leto2021 <- leto2021 %>%
 leto2021$Leto <- rep(2021, times=52)
 
 leto2020 <- read_excel("podatki/2020.xlsx") %>%
-  select(c(2,8,14)) %>%
+  dplyr::select(c(2,8,14)) %>%
   na.omit()
 colnames(leto2020) <- (c("Prihodi", "Prenočitve", "Država"))
 leto2020 <- leto2020 %>% 
@@ -600,7 +602,7 @@ leto2020 <- leto2020 %>%
 leto2020$Leto <- rep(2020, times=55)
 
 leto2019 <- read_excel("podatki/2019.xlsx") %>%
-  select(c(2,8,14)) %>%
+  dplyr::select(c(2,8,14)) %>%
   na.omit()
 colnames(leto2019) <- (c("Prihodi", "Prenočitve", "Država"))
 leto2019 <- leto2019 %>% 
@@ -608,7 +610,7 @@ leto2019 <- leto2019 %>%
 leto2019$Leto <- rep(2019, times=56)
 
 leto2018 <- read_excel("podatki/2018.xlsx") %>%
-  select(c(2,5,8)) %>%
+  dplyr::select(c(2,5,8)) %>%
   na.omit()
 colnames(leto2018) <- (c("Prihodi", "Prenočitve", "Država"))
 leto2018 <- leto2018 %>% 
@@ -630,12 +632,11 @@ vec.let <- vec.let[,c(1,2,3,8)] %>%
 
 # popravljanje držav (da se izriše zemljevid)
 vec.let[vec.let == "Domestic"] <- "Slovenia"
-#vec.let[vec.let == "Czech Republic"] <- "Czechia"
+vec.let[vec.let == "Czech Republic"] <- "Czechia"
 vec.let[vec.let == "Northern Macedonia"] <- "North Macedonia"
-vec.let[vec.let == "United Kingdom"] <- "UK"
 vec.let[vec.let == "Korea (Republic of)"] <- "South Korea"
-vec.let[vec.let == "United States"] <- "USA"
 vec.let[vec.let == "Russian Federation"] <- "Russia"
+vec.let[vec.let == "United States"] <- "United States of America"
 
 vec.let.samo.prave.drzave <- vec.let[!vec.let$Država %in% c("Total", "Foreign", "other African countries", 
           "other Asian countries", "other countries of North America", 

@@ -48,7 +48,7 @@ narisi.zemljevid <- function(drzava, mesec)
     theme(axis.title=element_blank(), axis.text=element_blank(), 
           axis.ticks=element_blank(), panel.background = element_blank(),
           plot.title = element_text(hjust = 0.5)) +
-    scale_fill_gradient(low = "#56B1F7", high = "#132B43") +
+    scale_fill_viridis_c(option = "D", direction = -1) +
     labs(fill="Prenocitve") +
     geom_path(data = right_join(prenocitve.regije.letno, zemljevid,
                                 by = "Regija"), 

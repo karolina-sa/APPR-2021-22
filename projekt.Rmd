@@ -248,15 +248,32 @@ BDP.turizem.graf
 
 Takoj opazimo, da se tako število zaposlenih, kot tudi BDP od turizma v letu 2020 zmanjšal, zaradi korona krize. Zanimivo bi bilo videti še podatke za leto 2021, ki pa žal še niso dostopni.Iz grafov vidimo, da je število zaposlenih v slovenskem turizmu pred letom 2020 raslo. Največ je bilo zaposlenih v nastanitvenih storitvah in strežbi, najmanj pa v turstičnih angencijah. Iz drugega grafa pa lahko opazimo, da je BDP od turizma pred letom 2020 razstel, v letu 2020 pa drastično upadel. 
 
-Na spletni strani [I FEEL SLOVENIJA](https://www.slovenia.info/en) sem našla podatke o prihodu turistov iz različnih držav. Zaradi pomanjkljivih podatkov, sem se pri prostorski vizualizaciji odločila zgolj za prikaz evropskih držav. Zrisala sem dva grafa, ki sta si zelo podobna, prvi predstavlja število prihodov, drugi pa število prenočitev po Evropskih državah. 
+Na spletni strani [I FEEL SLOVENIJA](https://www.slovenia.info/en) sem našla podatke o prihodu turistov iz različnih držav. Iz spodjenjega grafa bi izpostavila predvsem obiskanost Slovenije s strani prebivalcev ZDA, ki je večja kot sem si jo predstavljala. 
+
+```{r zemljevid.svet.prihodi, echo=FALSE, fig.align='center', options=list(height=350)}
+zemljevid.svet.prihodi
+```
+
+Zaradi očitne pomanjkljivih podatkov, sem se pri prostorski vizualizaciji odločila zgolj za obravnavo evropskih držav. Zrisala sem dva grafa, ki sta si zelo podobna, prvi predstavlja število prihodov, drugi pa število prenočitev po Evropskih državah. 
+
+<table style="width:100%">
+<tr>
+<td style="width:50%">
 
 ```{r zemljevid.prihodi, echo=FALSE, fig.align='center'}
 zemljevid.prihodi
 ```
 
+</td>
+<td style="width:50%">
+
 ```{r zemljevid.prenocitve, echo=FALSE, fig.align='center'}
 zemljevid.prenocitve
 ```
+
+</td>
+</tr>
+</table>
 
 V obeh zgornjih grafih je razvidno, da je največ turistov, ki bodisi prenočijo, bodisi samo obiščejo Slovenijo, iz naših sosed, Nemčije, Ukrajine in Belorusije. 
 
@@ -272,3 +289,5 @@ napovedovanje.graf
 Na spletu sem nato našla neuraden podatek, da je bilo leta 2021 vsega skupaj okrog 1,8 milijona turističnih prihodov tujcev v Slovenijo, z napovedjo pa sem dobila okrog 2,5 milijona. Napaka je sicer kar velika, a vselej majha, če upoštevamo šok, ki ga je doživelo gospodastvo. Prepričana sem, da so napovedani podatki za leto 2022 že bolj točni. 
 
 
+<p>&nbsp;</p>
+<p>&nbsp;</p>

@@ -25,7 +25,8 @@ prenocitev.regije.graf
 
 # nastanitvena doba po regijah
 
-nastanitvena.doba.regije.graf <- ggplot(nastanitvena.doba.regije) +
+nastanitvena.doba.regije.graf <- ggplot(nastanitvena.doba.regije,
+                                        cex.axis = 0.5) +
   aes(x = Mesec, y = StDni, color = Drzava) +
   geom_jitter() + 
   scale_color_manual(values = c('dodgerblue4','lightskyblue')) +
@@ -35,7 +36,9 @@ nastanitvena.doba.regije.graf <- ggplot(nastanitvena.doba.regije) +
   ylab("Nastanitvena doba (v dneh)") +
   ggtitle("Nastanitvena doba v dneh po regijah v določenem mesecu") +
   guides(fill=guide_legend(title = "Tip turista")) +
-  theme_bw()
+  theme_bw() +
+  theme(axis.text.x = element_text(size = 8)) +
+  scale_x_continuous("Leto", labels = as.character(c(1:12)), breaks = c(1:12)) 
 
 nastanitvena.doba.regije.graf
 
@@ -52,15 +55,15 @@ motivi.prihoda.graf <- ggplot(motivi.prihoda[motivi.prihoda$Drzava == "Skupaj" &
   geom_bar(width = 1, stat = "identity") +
   cp +
   facet_wrap(.~ Motiv, ncol = 5, scales="free") +
-  scale_fill_brewer(palette="Blues")+
   theme(axis.text.x=element_blank(),
         axis.ticks.x=element_blank(),
         axis.text.y=element_blank(),
         axis.ticks.y=element_blank()) +
   ggtitle("Pomembnost izbranih motivov tujim turistom za prihod v Slovenijo") +
   xlab("") +
-  ylab("")
-  
+  ylab("") +
+  scale_fill_grey(start = 0.9, end = 0.2) 
+
 motivi.prihoda.graf
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
@@ -69,7 +72,6 @@ motivi.prihoda.pomembnost.graf <- ggplot(motivi.prihoda[motivi.prihoda$Drzava !=
                                                           motivi.prihoda$Presoja == "Pomembnost",]) +
   aes(x = Drzava, y = StGlasov, fill = Drzava) +
   geom_bar(stat = "identity") +
-  scale_fill_manual(values = c("#CEE2FF", "#B3D1F8", "#8AB6E9", "#4890D1", "#005F9C")) +
   facet_wrap(.~ Motiv, ncol = 5) +
   theme(
     axis.text.x=element_blank(),
@@ -80,8 +82,9 @@ motivi.prihoda.pomembnost.graf <- ggplot(motivi.prihoda[motivi.prihoda$Drzava !=
   xlab("Država") +
   ylab("Pomembnost") +
   ggtitle("Pomembnost izbranih motivov po državah") +
-  guides(fill=guide_legend(title = "Država opazovanja"))
-
+  guides(fill=guide_legend(title = "Država opazovanja")) +
+  scale_fill_grey(start = 0.9, end = 0.2) +
+  theme_bw()
 
 motivi.prihoda.pomembnost.graf
 
@@ -106,7 +109,8 @@ igralnistvo.italija.avstrija.graf <- ggplot(motivi.prihoda[motivi.prihoda$Drzava
         axis.ticks.y=element_blank()) +
   xlab("") +
   ylab("") +
-  ggtitle("Pomembnost igralništva v Avstriji in Italiji")
+  ggtitle("Pomembnost igralništva v Avstriji in Italiji") +
+  scale_fill_grey(start = 0.9, end = 0.2) 
 
 igralnistvo.italija.avstrija.graf
 
@@ -120,7 +124,9 @@ nastanitveni.obrat.regije.graf <- ggplot(nastanitveni.obrat.regije[nastanitveni.
   ylim(0,6.5) +
   ggtitle("Obiskanost regij glede na nastanitveni obrat po regijah") +
   guides(fill=guide_legend(title = "Tip nastanitve")) +
-  theme_bw()
+  theme_bw() +
+  theme(axis.text.x = element_text(size = 8)) +
+  scale_x_continuous("Leto", labels = as.character(c(1:12)), breaks = c(1:12)) 
 
 nastanitveni.obrat.regije.graf
 
@@ -144,7 +150,10 @@ stevilo.zaposlenih.graf <- ggplot(stevilo.zaposlenih,
                                   mapping = aes(x = Leto, y = Stevilo, fill = Storitve)) +
   geom_col() +
   ggtitle("Število zaposlenih v Sloveniji v turizmu (v tisočih)") +
-  guides(fill=guide_legend(title = "Tip zaposlitve v turizmu"))
+  guides(fill=guide_legend(title = "Tip zaposlitve v turizmu")) +
+  scale_fill_grey(start = 0.2, end = 0.9) +
+  ylab("Število") +
+  theme_bw()
   
 stevilo.zaposlenih.graf
 
@@ -297,6 +306,8 @@ sestava.izdatkov.graf2
 # 
 # izobrazba.graf
 
+
+
 # ==============================================================================
 # PROSTORSKA ANALIZA (ZEMLJEVIDI)
 # ==============================================================================
@@ -305,58 +316,83 @@ sestava.izdatkov.graf2
 
 # priprava tabel za evropski zemljevid:
 
-names(vec.let.samo.prave.drzave)[1] <- "region"
+zemljevid <-
+  uvozi.zemljevid(
+    "http://www.naturalearthdata.com/http//www.naturalearthdata.com/download/50m/cultural/ne_50m_admin_0_countries.zip",
+    "ne_50m_admin_0_countries",
+    mapa = "zemljevidi",
+    pot.zemljevida = "",
+    encoding = "UTF-8"
+  ) %>%
+  fortify() %>% 
+  filter(CONTINENT %in% c("Europe"),
+                       long < 50 & long > -30 & lat > 35 & lat < 85)
+
+# priprava tabel
+
+names(vec.let.samo.prave.drzave)[1] <- "ADMIN"
 drzave.prihodi <- vec.let.samo.prave.drzave[vec.let.samo.prave.drzave$Kaj == "Prihodi",] %>%
-  group_by(region) %>%
+  group_by(ADMIN) %>%
   summarize(Prihodi = mean(Število, na.rm = TRUE))
-  
+
 drzave.prenocitve <- vec.let.samo.prave.drzave[vec.let.samo.prave.drzave$Kaj == "Prenočitve",] %>%
-  group_by(region) %>%
+  group_by(ADMIN) %>%
   summarize(Prenocitve = mean(Število, na.rm = TRUE))
 
-world_map <- subset(map_data("world"), region %in% c("Albania", "Andorra", "Armenia", "Austria", "Azerbaijan",
-                                             "Belarus", "Belgium", "Bosnia and Herzegovina", "Bulgaria",
-                                             "Croatia", "Cyprus", "Czechia","Denmark","Estonia","Finland", 
-                                             "France","Georgia", "Germany", "Greece","Hungary","Iceland", 
-                                             "Ireland", "Italy","Kazakhstan", "Kosovo", "Latvia","Liechtenstein", 
-                                             "Lithuania", "Luxembourg","Malta","Moldova","Monaco","Montenegro",
-                                             "Macedonia", "Netherlands","Norway","Poland","Portugal","Romania",
-                                             "San Marino","Serbia","Slovakia","Slovenia","Spain",
-                                             "Sweden","Switzerland","Turkey","Ukraine","UK","Vatican", "Russia"))
-
-# zemljevida: 
-
-drzave.prihodi_map <- left_join(world_map, drzave.prihodi,
-                        by = "region")
-zemljevid.prihodi <- ggplot(drzave.prihodi_map,
-                            aes(long, lat, group = group)) +
-  geom_polygon(aes(fill = Prihodi), color = "black") + 
-  scale_fill_gradient(low = "gray86", high = "black") +
-  theme_void() +
-  coord_fixed(ratio=1.5, xlim = c(-15,180), ylim = c(35,80)) +
-  ggtitle("Število turistov iz Evropskih držav, ki so prišli v Slovenijo \n(povprečje od leta 2018 do 2022)")
+options("scipen"=100, "digits"=4)
+zemljevid.prihodi <- ggplot() +
+  aes(x = long, y = lat, group = group, fill = Prihodi) +
+  geom_polygon(data = drzave.prihodi %>% right_join(zemljevid, by = "ADMIN")) +
+  xlab("") +
+  ylab("") +
+  ggtitle("Število turistov iz Evropskih držav, \nki so prišli v Slovenijo") +
+  coord_fixed(ratio = 2) +
+  theme_bw() +
+  labs(caption = "Podatki so pridobljeni kot povprečje med leti 2018 in 2022") +
+  theme(plot.caption.position = "plot") +
+  scale_fill_distiller(palette = "Spectral")
 
 zemljevid.prihodi
 
-# ===
-
-drzave.prenocitve_map <- left_join(world_map, drzave.prenocitve,
-                                by = "region")
-zemljevid.prenocitve <- ggplot(drzave.prenocitve_map,
-                            aes(long, lat, group = group)) +
-  geom_polygon(aes(fill = Prenocitve), color = "black") + 
-  scale_fill_gradient(low = "gray86", high = "black") +
-  theme_void() +
-  coord_fixed(ratio=1.5, xlim = c(-15,180), ylim = c(35,80)) +
-  ggtitle("Število turistov iz Evropskih držav, ki so prenočili v Sloveniji \n(povprečje od leta 2018 do 2022)") 
+zemljevid.prenocitve <- ggplot() +
+  aes(x = long, y = lat, group = group, fill = Prenocitve) +
+  geom_polygon(data = drzave.prenocitve %>% right_join(zemljevid, by = "ADMIN")) +
+  xlab("") +
+  ylab("") +
+  ggtitle("Število turistov iz Evropskih držav, \nki so prenočili v Sloveniji") +
+  coord_fixed(ratio = 2) +
+  theme_bw() +
+  labs(caption = "Podatki so pridobljeni kot povprečje med leti 2018 in 2022") +
+  theme(plot.caption.position = "plot") +
+  scale_fill_distiller(palette = "Spectral")
 
 zemljevid.prenocitve
 
 
+zemljevid_svet <-
+  uvozi.zemljevid(
+    "http://www.naturalearthdata.com/http//www.naturalearthdata.com/download/50m/cultural/ne_50m_admin_0_countries.zip",
+    "ne_50m_admin_0_countries",
+    mapa = "zemljevidi",
+    pot.zemljevida = "",
+    encoding = "UTF-8"
+  ) %>%
+  fortify() %>% 
+  filter(long < 170 & long > -170 & lat > -52 & lat < 83)
 
+options("scipen"=100, "digits"=4)
+zemljevid.svet.prihodi <- ggplot() +
+  aes(x = long, y = lat, group = group, fill = Prihodi) +
+  geom_polygon(data = drzave.prihodi %>% right_join(zemljevid_svet, by = "ADMIN")) +
+  xlab("") +
+  ylab("") +
+  ggtitle("Število turistov, ki so prišli v Slovenijo") +
+  coord_fixed(ratio = 2) +
+  theme_bw() +
+  labs(caption = "Podatki so pridobljeni kot povprečje med leti 2018 in 2022") +
+  theme(plot.caption.position = "plot") +
+  scale_fill_distiller(palette = "Spectral")
 
-
-
-
+zemljevid.svet.prihodi
 
 
