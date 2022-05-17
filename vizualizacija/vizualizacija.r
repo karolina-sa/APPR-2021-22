@@ -17,7 +17,8 @@ prenocitev.regije.graf <- ggplot(prenocitve.regije %>% filter(Drzava != "Skupaj"
   ylab("Število prenočitev") +
   ggtitle("Prenočitve slovencev in tujcev po regijah") +
   scale_fill_discrete(name = "Legenda", labels = c("Prenočitve slovencev", "Prenočitve tujcev")) + 
-  scale_fill_manual(values=c('dodgerblue4','lightskyblue'))
+  scale_fill_brewer(palette="Reds") +
+  theme_bw()
 
 prenocitev.regije.graf
 
@@ -29,7 +30,7 @@ nastanitvena.doba.regije.graf <- ggplot(nastanitvena.doba.regije,
                                         cex.axis = 0.5) +
   aes(x = Mesec, y = StDni, color = Drzava) +
   geom_jitter() + 
-  scale_color_manual(values = c('dodgerblue4','lightskyblue')) +
+  scale_color_manual(values = c('red2','goldenrod1')) +
   stat_smooth(method = "lm", formula = y ~ poly(x, 3), se = FALSE) +
   facet_wrap(.~ Regija) +
   xlab("Mesec") +
@@ -62,7 +63,11 @@ motivi.prihoda.graf <- ggplot(motivi.prihoda[motivi.prihoda$Drzava == "Skupaj" &
   ggtitle("Pomembnost izbranih motivov tujim turistom za prihod v Slovenijo") +
   xlab("") +
   ylab("") +
-  scale_fill_grey(start = 0.9, end = 0.2) 
+  scale_fill_brewer(palette="OrRd") +
+  theme_bw() +
+  theme(axis.text = element_blank(),
+        axis.ticks = element_blank(),
+        panel.grid  = element_blank())
 
 motivi.prihoda.graf
 
@@ -83,8 +88,11 @@ motivi.prihoda.pomembnost.graf <- ggplot(motivi.prihoda[motivi.prihoda$Drzava !=
   ylab("Pomembnost") +
   ggtitle("Pomembnost izbranih motivov po državah") +
   guides(fill=guide_legend(title = "Država opazovanja")) +
-  scale_fill_grey(start = 0.9, end = 0.2) +
-  theme_bw()
+  scale_fill_brewer(palette="Spectral") +
+  theme_bw() +
+  theme(axis.text.x=element_blank(),
+        axis.ticks.x=element_blank() 
+  )
 
 motivi.prihoda.pomembnost.graf
 
@@ -110,7 +118,12 @@ igralnistvo.italija.avstrija.graf <- ggplot(motivi.prihoda[motivi.prihoda$Drzava
   xlab("") +
   ylab("") +
   ggtitle("Pomembnost igralništva v Avstriji in Italiji") +
-  scale_fill_grey(start = 0.9, end = 0.2) 
+  scale_fill_brewer(palette="OrRd") +
+  theme_bw() +
+  theme(axis.text = element_blank(),
+        axis.ticks = element_blank(),
+        panel.grid  = element_blank())
+
 
 igralnistvo.italija.avstrija.graf
 
@@ -119,7 +132,7 @@ igralnistvo.italija.avstrija.graf
 nastanitveni.obrat.regije.graf <- ggplot(nastanitveni.obrat.regije[nastanitveni.obrat.regije$Regija != "SLOVENIJA",]) +
   aes(x = Mesec, fill = Tip) +
   geom_bar(position = position_dodge2(preserve = "single")) +
-  scale_fill_brewer(palette="BuPu") +
+  scale_fill_brewer(palette="OrRd") +
   facet_wrap(.~ Regija) + 
   ylim(0,6.5) +
   ggtitle("Obiskanost regij glede na nastanitveni obrat po regijah") +

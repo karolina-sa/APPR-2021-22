@@ -225,6 +225,14 @@ sestava.izdatkov.graf2
 
 Razberemo lahko, da so izdatki tujcev največji pri nastanitvenih storitvah in najmanjši pri kulturnih storitvah. Če "igoriramo" leto 2020, lahko vidimo, da izdatki za vse storitve, razen za športne in kulturne, naraščajo. 
 
+Torej, v Sloveniji za turizem več zapravijo tuji turisti, kot domači. V povezavi s tem sem se odločila pogledati nočitve Slovencev v Slovenskem turizmu. S pomočjo linearne regresije sem dobila naslednji graf:
+
+```{r linearna.regrasija.graf, echo=FALSE, fig.align='center'}
+linearna.regrasija.graf
+```
+
+Opazimo, da se število prenočitev Slovencev v Sloveniji v povprečju z leti veča. Velik porast vidimo v zadnjih dveh letih, kar lahko pripišemo turističnim bonom in zaprtim mejam. Iz grafa vidimo iztopajoče pikice (oranžne) barve, ki so opazno nad ostalimi. Omenjene prestavljajo poletne mesece, saj kot smo že ugotovili Slovenci radi prenočijo predvsem v poletnih mesecih na obali. Naj dodam še, da je iz grafa jasno videti, kdaj se je začela epidemija, saj prenočitev tako rekoč ni bilo, ker niso bile dovoljene.
+
 Poglejmo število zaposlenih v turizmu v Sloveniji in BDP turizma, ki ju prikazujeta grafa spodaj.
 
 <table style="width:100%">

@@ -3,6 +3,8 @@
 source("lib/libraries.r")
 
 # ==============================================================================
+# METODA VODITELJEV
+# ==============================================================================
 
 # uporabljene funkcije:
 
@@ -48,16 +50,16 @@ diagram.kolena = function(k.visina) {
   k.visina %>% ggplot() +
     geom_point(
       mapping = aes(x = k, y = visina),
-      color = "red"
+      color = "black"
     )+
     geom_line(
       mapping = aes(x = as.integer(k), y = visina),
-      color = "red"
+      color = "black"
     )+
     geom_point(
       data = k.visina %>% filter(koleno),
       mapping = aes(x = k, y = visina),
-      color = "blue", size = 2
+      color = "red", size = 2.5
     )+
     ggtitle(paste("Kolena:", paste(hc.kolena.k(k.visina), collapse = ", "))) +
     xlab("število skupin (k)") +
@@ -202,9 +204,8 @@ drzave.slovenija.skupine
 
 
 # ==============================================================================
-# ==============================================================================
-
 # NAPOVEDNI MODEL
+# ==============================================================================
 
 # priprava tabele:
 slovenija.turizem <- read_csv("podatki/turizem_svetovno.csv",
@@ -283,4 +284,21 @@ napovedovanje.graf <- ggplot(slovenija.turizem.z.napovednjo,
   scale_x_continuous("Leto", labels = as.character(Leto), breaks = Leto)
   
 napovedovanje.graf
+
+# ==============================================================================
+# LINEARNA REGRESIJA
+# ==============================================================================
+
+linearna.regrasija.graf <- 
+  ggplot(slovenci.prenocitve, aes(x = Leto, y = Število)) +
+  geom_point(stat='identity', position='identity', aes(colour=Število),size=1.3) +
+  scale_colour_gradient(low='yellow', high='#de2d26') +
+  xlab("Leto") +
+  ylab("Število prenočitev") +
+  ggtitle("Število prenočitev Slovencev v Sloveniji od leta 2010 do leta 2022") +
+  theme_bw() +
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5)) +
+  geom_smooth(method = "lm", formula = y ~ x, colour="black", size=0.7)
+
+linearna.regrasija.graf
 

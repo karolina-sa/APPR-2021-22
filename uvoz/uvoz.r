@@ -315,8 +315,8 @@ motivi.prihoda[motivi.prihoda == "Skrb za zdravje in storitve dobrega počutja (
 
 motivi.prihoda
 
-# # ==============================================================================
-# # ==============================================================================
+# ==============================================================================
+# ==============================================================================
 # 
 # odhod.slovencev.v.tujino <- read.csv("podatki/odhod_slovencev_v_tujino_po_drzavah_letno.csv",
 #                                      na.strings = c("N", "-"))
@@ -334,16 +334,16 @@ motivi.prihoda
 # 
 # # razdelim tebelo na nočitve ter izdatke:
 # 
-# odhod.slovencev.v.tujino.nocitve <- odhod.slovencev.v.tujino[!odhod.slovencev.v.tujino$Meritev == 
+# odhod.slovencev.v.tujino.nocitve <- odhod.slovencev.v.tujino[!odhod.slovencev.v.tujino$Meritev ==
 #                                                                'Povprečni izdatki na turista na prenočitev (EUR)',]
 # odhod.slovencev.v.tujino.nocitve <- odhod.slovencev.v.tujino.nocitve[, -3]
 # odhod.slovencev.v.tujino.nocitve[odhod.slovencev.v.tujino.nocitve == "Zasebna potovanja"] <- "Zasebna"
 # odhod.slovencev.v.tujino.nocitve[odhod.slovencev.v.tujino.nocitve == "Poslovna potovanja"] <- "Poslovna"
 # 
-# odhod.slovencev.v.tujino.izdatki.na.turista <- odhod.slovencev.v.tujino[!odhod.slovencev.v.tujino$Meritev == 
+# odhod.slovencev.v.tujino.izdatki.na.turista <- odhod.slovencev.v.tujino[!odhod.slovencev.v.tujino$Meritev ==
 #                                                                           'Povprečno število prenočitev',]
 # 
-# # 
+# #
 # # #razdelim tabelo nocitev na zasebna in poslovna potovanja:
 # # zasebna.potovanja.slovencev.v.tujino.nocitve <- odhod.slovencev.v.tujino.nocitve[1:117,] %>%
 # #   select(Država, Leto, Število) %>%
@@ -357,7 +357,7 @@ motivi.prihoda
 # # ODHOD SLOVENCEV V TUJINO
 # 
 # odhod.slovencev.v.tujino.nocitve
-# 
+
 # ==============================================================================
 # ==============================================================================
 
@@ -644,4 +644,29 @@ vec.let.samo.prave.drzave <- vec.let[!vec.let$Država %in% c("Total", "Foreign",
           other countries of South and Middle America", "other European countries"),]
           
 vec.let.samo.prave.drzave$Število <- as.integer(vec.let.samo.prave.drzave$Število)
+
+# ==============================================================================
+
+vec.let.samo.prave.drzave
+
+# ==============================================================================
+# ==============================================================================
+
+slovenci.prenocitve <- read_csv("podatki/prenocitve.slovencev.v.sloveniji.csv",
+              locale = locale(encoding = "Windows-1250"),
+              col_names=TRUE,
+              col_types = cols(.default = col_guess()))
+
+slovenci.prenocitve <- slovenci.prenocitve %>%
+  pivot_longer(cols = colnames(slovenci.prenocitve)[-1],
+               names_to = "Leto",
+               values_to = "Število" ) %>%
+  mutate(Leto = str_replace_all(Leto, "(Prenočitve turistov )(\\d{4})([:alpha:])(\\d{2})(.*)", "\\2-\\4-01")) %>%
+  dplyr::select(Leto, Število)
+
+# da linearna regresija dela:
+slovenci.prenocitve$Število <- as.integer(slovenci.prenocitve$Število)
+slovenci.prenocitve$Leto <- as.Date(slovenci.prenocitve$Leto)
+
+# ==============================================================================
 
