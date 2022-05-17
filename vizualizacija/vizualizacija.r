@@ -379,7 +379,7 @@ zemljevid.prihodi <- ggplot() +
   xlab("") +
   ylab("") +
   ggtitle("Število turistov iz Evropskih držav, \nki so prišli v Slovenijo") +
-  coord_fixed(ratio = 2) +
+  coord_fixed(ratio = 1) +
   theme_bw() +
   labs(caption = "Podatki so pridobljeni kot povprečje med leti 2018 in 2022") +
   theme(plot.caption.position = "plot") +
@@ -393,7 +393,7 @@ zemljevid.prenocitve <- ggplot() +
   xlab("") +
   ylab("") +
   ggtitle("Število turistov iz Evropskih držav, \nki so prenočili v Sloveniji") +
-  coord_fixed(ratio = 2) +
+  coord_fixed(ratio = 1) +
   theme_bw() +
   labs(caption = "Podatki so pridobljeni kot povprečje med leti 2018 in 2022") +
   theme(plot.caption.position = "plot") +
@@ -420,7 +420,7 @@ zemljevid.svet.prihodi <- ggplot() +
   xlab("") +
   ylab("") +
   ggtitle("Število turistov, ki so prišli v Slovenijo") +
-  coord_fixed(ratio = 2) +
+  coord_fixed(ratio = 1) +
   theme_bw() +
   labs(caption = "Podatki so pridobljeni kot povprečje med leti 2018 in 2022") +
   theme(plot.caption.position = "plot") +

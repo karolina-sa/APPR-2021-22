@@ -305,6 +305,7 @@ motivi.prihoda[motivi.prihoda == "Možnosti za zabavo"] <- "Zabava"
 motivi.prihoda[motivi.prihoda == "Osebna varnost med bivanjem"] <- "Občutek varnosti"
 motivi.prihoda[motivi.prihoda == "Možnosti za počitek in sprostitev"] <- "Sprostitev"
 motivi.prihoda[motivi.prihoda == "Primernost za družinske počitnice"] <- "Družinsko okolje"
+
 motivi.prihoda[motivi.prihoda == "Raznolika gastronomska ponudba"] <- "Gastronomija"
 motivi.prihoda[motivi.prihoda == "Redne letalske povezave z državo"] <- "Letalske povezave"
 motivi.prihoda[motivi.prihoda == "Rekreativne dejavnosti"] <- "Rekreacija"
@@ -631,3 +632,4 @@ slovenci.prenocitve
 
 # ==============================================================================
 # ==============================================================================
+
