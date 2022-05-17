@@ -17,8 +17,8 @@ prenocitev.regije.graf <- ggplot(prenocitve.regije %>% filter(Drzava != "Skupaj"
   ylab("Število prenočitev") +
   ggtitle("Prenočitve slovencev in tujcev po regijah") +
   scale_fill_discrete(name = "Legenda", labels = c("Prenočitve slovencev", "Prenočitve tujcev")) + 
-  scale_fill_brewer(palette="Reds") +
-  theme_bw()
+  theme_bw() +
+  scale_fill_manual(values = c('#ABDDA4','#3288BD')) 
 
 prenocitev.regije.graf
 
@@ -29,9 +29,9 @@ prenocitev.regije.graf
 nastanitvena.doba.regije.graf <- ggplot(nastanitvena.doba.regije,
                                         cex.axis = 0.5) +
   aes(x = Mesec, y = StDni, color = Drzava) +
-  geom_jitter() + 
-  scale_color_manual(values = c('red2','goldenrod1')) +
-  stat_smooth(method = "lm", formula = y ~ poly(x, 3), se = FALSE) +
+  geom_jitter(size = 0.7) + 
+  scale_color_manual(values = c('lightsalmon','firebrick1')) +
+  stat_smooth(method = "lm", formula = y ~ poly(x, 3), se = FALSE, size=0.7) +
   facet_wrap(.~ Regija) +
   xlab("Mesec") +
   ylab("Nastanitvena doba (v dneh)") +
@@ -132,28 +132,16 @@ igralnistvo.italija.avstrija.graf
 nastanitveni.obrat.regije.graf <- ggplot(nastanitveni.obrat.regije[nastanitveni.obrat.regije$Regija != "SLOVENIJA",]) +
   aes(x = Mesec, fill = Tip) +
   geom_bar(position = position_dodge2(preserve = "single")) +
-  scale_fill_brewer(palette="OrRd") +
   facet_wrap(.~ Regija) + 
   ylim(0,6.5) +
   ggtitle("Obiskanost regij glede na nastanitveni obrat po regijah") +
   guides(fill=guide_legend(title = "Tip nastanitve")) +
   theme_bw() +
   theme(axis.text.x = element_text(size = 8)) +
-  scale_x_continuous("Leto", labels = as.character(c(1:12)), breaks = c(1:12)) 
+  scale_x_continuous("Leto", labels = as.character(c(1:12)), breaks = c(1:12)) +
+  scale_fill_manual(values = c('#ABDDA4','#FDAE61', '#3288BD'))  
 
 nastanitveni.obrat.regije.graf
-
-# ==============================================================================
-
-# odhod slovencev v tujino
-
-# NI V REDU GRAF!!!!!!
-
-prenocitve.po.drzavah.letno.graf <- ggplot(prenocitve.po.drzavah.letno) +
-  aes(x = Leto, y = Stevilo, color = DRŽAVA) +
-  geom_point()
-
-prenocitve.po.drzavah.letno.graf
 
 # ==============================================================================
 
@@ -164,7 +152,7 @@ stevilo.zaposlenih.graf <- ggplot(stevilo.zaposlenih,
   geom_col() +
   ggtitle("Število zaposlenih v Sloveniji v turizmu (v tisočih)") +
   guides(fill=guide_legend(title = "Tip zaposlitve v turizmu")) +
-  scale_fill_grey(start = 0.2, end = 0.9) +
+  scale_fill_brewer(palette="Spectral") +
   ylab("Število") +
   theme_bw()
   
@@ -190,7 +178,7 @@ BDP.turizem.graf
 izdatki.graf <- ggplot(data=IZDATKI, aes(x = Leto, y = Stevilo, color = Vrsta)) +
   geom_point() +
   geom_line(aes(group = Vrsta), size=1) +
-  scale_color_hue(h = c(180, 270)) +
+  scale_fill_brewer(palette="Spectral") +
   theme_bw() +
   ggtitle("Izdatki za turizem")
 
@@ -202,7 +190,7 @@ sestava.izdatkov.graf1 <- ggplot(data=SESTAVA.TURISTICNE.POTROSNJE.TUJCEV.V.SLOV
                                 aes(x = Leto, y = Izdatek, color = Storitve)) +
   geom_point() +
   geom_line(size=1) +
-  scale_color_hue(h = c(150, 300)) +
+  scale_fill_brewer(palette="Spectral") +
   theme_bw() + 
   ggtitle("Sestava izdatkov tujcev za turizem v Sloveniji")
 
@@ -212,14 +200,46 @@ sestava.izdatkov.graf1
 
 sestava.izdatkov.graf2 <- ggplot(data=SESTAVA.TURISTICNE.POTROSNJE.TUJCEV.V.SLOVENIJI,
                                  aes(x = Storitve, y = Izdatek)) +
-  geom_boxplot(fill="grey90", notch = FALSE) +
-  stat_summary(fun=mean, geom="point", shape=15, size=2, color="red") +
+  geom_boxplot(fill="grey98", notch = FALSE) +
+  stat_summary(fun=mean, geom="point", shape=15, size=2, color="coral") +
   scale_x_discrete(guide = guide_axis(n.dodge = 2)) +
   ggtitle("Sestava izdatkov tujcev za turizem v Sloveniji") +
   theme_bw() +
   labs(caption = "Pojasnilo: Rdeči kvadatki predstavljajo povprečje posamene vrste izdatkov.")
 
 sestava.izdatkov.graf2
+
+# ==============================================================================
+
+# Prenočitve Slovencev v tujini
+
+prenocitve.slovencev.v.tujini <- 
+  ggplot(prenocitve.letno[! prenocitve.letno$DRŽAVA %in% c("Država - SKUPAJ", "DOMAČI", "TUJI"),],
+         aes(x = reorder(DRŽAVA, Stevilo), y = Stevilo)) +
+  coord_flip() +
+  ggbeeswarm::geom_quasirandom(
+    size = 1, width = .33, alpha = .3
+  ) +
+  stat_summary(
+    fun = mean, 
+    geom = "point", 
+    shape = 15, 
+    size = 1.5,
+    color = "coral",
+    stroke = .8
+  ) + 
+  ggbeeswarm::geom_quasirandom(
+    size = 1, width = .33, shape = 1
+  ) +
+  xlab("Število prenočitev") +
+  ylab("Država prenočitve") +
+  ggtitle("Število prenočitev Slovencev po državah") +
+  labs(caption = "Pojasnilo: Črne pikice so podatki med letom 2010 in 2020. 
+       Kvadratki oranžne barve predstavljajo povprečje črnih pikic.") +
+  theme_bw() +
+  theme(axis.text.y = element_text(size = 6)) 
+
+prenocitve.slovencev.v.tujini
 
 # # ==============================================================================
 # 

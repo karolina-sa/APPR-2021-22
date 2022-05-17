@@ -26,6 +26,7 @@ library(readxl)
 library(ranger)
 require(maps)
 require(viridis)
+library(ggbeeswarm)
 
 options(gsubfn.engine="R")
 

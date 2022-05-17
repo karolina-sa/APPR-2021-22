@@ -285,7 +285,11 @@ zemljevid.prenocitve
 
 V obeh zgornjih grafih je razvidno, da je največ turistov, ki bodisi prenočijo, bodisi samo obiščejo Slovenijo, iz naših sosed, Nemčije, Ukrajine in Belorusije. 
 
+Kam v tujino pa se Slovenci največ odpravijo? Našla sem podatke prenočitev Slovencev po posameznih državah med leti 2010 in 2020; podatke sem prikazala v spodnjem grafu; v katerm opazimo, da je število nočitev Slovencev v tujini največje v sosednjih državah, Nemčiji, Nizozemski in Združenim kraljestvom. Od vseh podatkov me je presenetila majhna obiskanost Gričije.
 
+```{r prenocitve.slovencev.v.tujini, echo=FALSE, fig.align='center'}
+prenocitve.slovencev.v.tujini
+```
 
 Za konec poglejmo še skupno število tujih turističnih prihodov v Slovenijo. Podatke sem našla na spletni strani [The World Bank](https://data.worldbank.org/indicator/ST.INT.ARVL). Podatki so vsebovali število turističnih prihodov za čas med leti 1995 in 2020. Odločila sem se, da bom dodatno še napovedala bodoče turistične prihode tujcev v Slovenijo, kar je razvidno iz spodnjega grafa. 
 

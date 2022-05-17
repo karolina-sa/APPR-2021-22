@@ -190,20 +190,21 @@ nastanitveni.obrat.regije
 # ==============================================================================
 # ==============================================================================
 
-prenocitve.po.drzavah.letno <- read_csv("podatki/prenočitve_po_drzavah_letno.csv",
+prenocitve.letno <- read_csv("podatki/prenočitve_po_drzavah_letno.csv",
                                locale = locale(encoding = "Windows-1250"),
                                col_names=TRUE,
                                col_types = cols(.default = col_guess()))
 
-prenocitve.po.drzavah.letno <- prenocitve.po.drzavah.letno %>%
+prenocitve.letno <- prenocitve.letno %>%
   pivot_longer(
-    cols = colnames(prenocitve.po.drzavah.letno)[-1],
+    cols = colnames(prenocitve.letno)[-1],
     names_to = "Leto",
     values_to = "Stevilo"
 )
 
-prenocitve.letno <- prenocitve.po.drzavah.letno %>%
-  filter()
+prenocitve.letno[prenocitve.letno == "Združene države (ZDA)"] <- "ZDA"
+prenocitve.letno[prenocitve.letno == "Ruska federacija"] <- "Rusija"
+prenocitve.letno[prenocitve.letno == "Koreja (Republika)"] <- "Koreja"
 
 # ==============================================================================
 
@@ -243,7 +244,7 @@ BDP.turizem <- BDP.turizem[, -1]
 
 # VEČLETNI PREGLED ZA SLOVENIJO
 
-prenocitve.po.drzavah.letno
+prenocitve.letno
 
 stevilo.zaposlenih
 
@@ -314,49 +315,6 @@ motivi.prihoda[motivi.prihoda == "Skrb za zdravje in storitve dobrega počutja (
 # RAZLOGI ZA PRIHDO TUJCEV V SLOVENIJO IN PREVOZNO SREDSTVO
 
 motivi.prihoda
-
-# ==============================================================================
-# ==============================================================================
-# 
-# odhod.slovencev.v.tujino <- read.csv("podatki/odhod_slovencev_v_tujino_po_drzavah_letno.csv",
-#                                      na.strings = c("N", "-"))
-# 
-# odhod.slovencev.v.tujino <- odhod.slovencev.v.tujino %>%
-#   pivot_longer(cols = colnames(odhod.slovencev.v.tujino)[-c(1,2,3)],
-#                names_to = "Leto",
-#                values_to = "Število") %>%
-#   mutate(
-#     Leto = str_replace_all(Leto, "(X)(\\d{4})", "\\2")
-#   )
-# 
-# names(odhod.slovencev.v.tujino) <- c("Vrsta", "Država", "Meritev", "Leto", "Število")
-# 
-# 
-# # razdelim tebelo na nočitve ter izdatke:
-# 
-# odhod.slovencev.v.tujino.nocitve <- odhod.slovencev.v.tujino[!odhod.slovencev.v.tujino$Meritev ==
-#                                                                'Povprečni izdatki na turista na prenočitev (EUR)',]
-# odhod.slovencev.v.tujino.nocitve <- odhod.slovencev.v.tujino.nocitve[, -3]
-# odhod.slovencev.v.tujino.nocitve[odhod.slovencev.v.tujino.nocitve == "Zasebna potovanja"] <- "Zasebna"
-# odhod.slovencev.v.tujino.nocitve[odhod.slovencev.v.tujino.nocitve == "Poslovna potovanja"] <- "Poslovna"
-# 
-# odhod.slovencev.v.tujino.izdatki.na.turista <- odhod.slovencev.v.tujino[!odhod.slovencev.v.tujino$Meritev ==
-#                                                                           'Povprečno število prenočitev',]
-# 
-# #
-# # #razdelim tabelo nocitev na zasebna in poslovna potovanja:
-# # zasebna.potovanja.slovencev.v.tujino.nocitve <- odhod.slovencev.v.tujino.nocitve[1:117,] %>%
-# #   select(Država, Leto, Število) %>%
-# #   rename("Zasebna potovanja" = "Število")
-# # poslovna.potovanja.slovencev.v.tujino.nocitve <- odhod.slovencev.v.tujino.nocitve[118:234,] %>%
-# #   select(Država, Leto, Število) %>%
-# #   rename("Poslovna potovanja" = "Število")
-# 
-# # ==============================================================================
-# 
-# # ODHOD SLOVENCEV V TUJINO
-# 
-# odhod.slovencev.v.tujino.nocitve
 
 # ==============================================================================
 # ==============================================================================
@@ -464,15 +422,15 @@ IZDATKI <- izdatki
 
 SESTAVA.TURISTICNE.POTROSNJE.TUJCEV.V.SLOVENIJI
 
-# # ==============================================================================
-# # ==============================================================================
+# ==============================================================================
+# ==============================================================================
 # 
-# odlocitev.glede.na.izobrazbo <- read_csv("podatki/odlocitev_za_potovanaje_glede_na_izobrazbo.csv", 
+# odlocitev.glede.na.izobrazbo <- read_csv("podatki/odlocitev_za_potovanaje_glede_na_izobrazbo.csv",
 #                                          locale = locale(encoding = "Windows-1250"),
 #                                          col_names=TRUE,
 #                                          col_types = cols(.default = col_guess()))
 # 
-# odlocitev.glede.na.izobrazbo[odlocitev.glede.na.izobrazbo == "N"] <- NA  
+# odlocitev.glede.na.izobrazbo[odlocitev.glede.na.izobrazbo == "N"] <- NA
 # 
 # odlocitev.glede.na.izobrazbo$`2018` <- parse_number(odlocitev.glede.na.izobrazbo$`2018`)
 # odlocitev.glede.na.izobrazbo$`2020` <- parse_number(odlocitev.glede.na.izobrazbo$`2020`)
@@ -480,7 +438,7 @@ SESTAVA.TURISTICNE.POTROSNJE.TUJCEV.V.SLOVENIJI
 # odlocitev.glede.na.izobrazbo <- odlocitev.glede.na.izobrazbo %>%
 #   pivot_longer(cols = colnames(odlocitev.glede.na.izobrazbo)[-c(1,2)],
 #                names_to = "Leto",
-#                values_to = "Stevilo" ) 
+#                values_to = "Stevilo" )
 # 
 # names(odlocitev.glede.na.izobrazbo) <- c("Izobrazba", "Odhod", "Leto", "Stevilo")
 # odlocitev.glede.na.izobrazbo[odlocitev.glede.na.izobrazbo ==
@@ -499,7 +457,7 @@ SESTAVA.TURISTICNE.POTROSNJE.TUJCEV.V.SLOVENIJI
 # 
 # odlocitev.glede.na.velikost.gospodinjstva <- read_csv("podatki/odlocitev_za_potovanaje_glede_na_velikost_gospodinjstva.csv",
 #                                                       locale = locale(encoding = "Windows-1250"),
-#                                                       col_names=TRUE, 
+#                                                       col_names=TRUE,
 #                                                       col_types = cols(.default = col_guess(),
 #                                                                        "2012" = col_double(),
 #                                                                         "2013" = col_double(),
@@ -510,7 +468,7 @@ SESTAVA.TURISTICNE.POTROSNJE.TUJCEV.V.SLOVENIJI
 #                                                                         "2018" = col_double(),
 #                                                                         "2019" = col_double(),
 #                                                                         "2020" = col_double()))
-#                                                       
+# 
 # odlocitev.glede.na.velikost.gospodinjstva <- odlocitev.glede.na.velikost.gospodinjstva %>%
 #   pivot_longer(cols = colnames(odlocitev.glede.na.velikost.gospodinjstva)[-c(1,2)],
 #                names_to = "Leto",
@@ -524,13 +482,13 @@ SESTAVA.TURISTICNE.POTROSNJE.TUJCEV.V.SLOVENIJI
 # odlocitev.glede.na.velikost.gospodinjstva[odlocitev.glede.na.velikost.gospodinjstva ==
 #                                             "Šli na poslovno potovanje"] <-
 #   "Poslovno"
-# odlocitev.glede.na.velikost.gospodinjstva[odlocitev.glede.na.velikost.gospodinjstva == 
+# odlocitev.glede.na.velikost.gospodinjstva[odlocitev.glede.na.velikost.gospodinjstva ==
 #                                             "1- člansko"] <- "1"
-# odlocitev.glede.na.velikost.gospodinjstva[odlocitev.glede.na.velikost.gospodinjstva == 
+# odlocitev.glede.na.velikost.gospodinjstva[odlocitev.glede.na.velikost.gospodinjstva ==
 #                                             "2- člansko"] <- "2"
-# odlocitev.glede.na.velikost.gospodinjstva[odlocitev.glede.na.velikost.gospodinjstva == 
+# odlocitev.glede.na.velikost.gospodinjstva[odlocitev.glede.na.velikost.gospodinjstva ==
 #                                             "3- ali 4- člansko"] <- "3/4"
-# odlocitev.glede.na.velikost.gospodinjstva[odlocitev.glede.na.velikost.gospodinjstva == 
+# odlocitev.glede.na.velikost.gospodinjstva[odlocitev.glede.na.velikost.gospodinjstva ==
 #                                             "5- ali veččlansko"] <- "5<"
 # 
 # names(odlocitev.glede.na.velikost.gospodinjstva) <- c("StClanov", "Odhod", "Leto", "Stevilo")
@@ -539,7 +497,7 @@ SESTAVA.TURISTICNE.POTROSNJE.TUJCEV.V.SLOVENIJI
 # 
 # odlocitev.glede.na.zaposlenost <- read_csv("podatki/odlocitev_za_potovanaje_glede_na_zaposlenost.csv",
 #                                            locale = locale(encoding = "Windows-1250"),
-#                                            col_names=TRUE, 
+#                                            col_names=TRUE,
 #                                            col_types = cols(.default = col_guess(),
 #                                                             "2012" = col_double(),
 #                                                             "2013" = col_double(),
@@ -556,26 +514,25 @@ SESTAVA.TURISTICNE.POTROSNJE.TUJCEV.V.SLOVENIJI
 #                names_to = "Leto",
 #                values_to = "Število") %>%
 #   select("ZAPOSLITVENI STATUS", "Leto", "Število") %>%
-#   rename("Status" = "ZAPOSLITVENI STATUS") 
+#   rename("Status" = "ZAPOSLITVENI STATUS")
 # 
 # odlocitev.glede.na.zaposlenost <- odlocitev.glede.na.zaposlenost[1 : 36, ]
-# odlocitev.glede.na.zaposlenost[odlocitev.glede.na.zaposlenost == 
+# odlocitev.glede.na.zaposlenost[odlocitev.glede.na.zaposlenost ==
 #                                  "Zaposlen, samozaposlen"] <- "Zaposlen"
-# odlocitev.glede.na.zaposlenost[odlocitev.glede.na.zaposlenost == 
+# odlocitev.glede.na.zaposlenost[odlocitev.glede.na.zaposlenost ==
 #                                  "Dijak ali študent"] <- "Študent"
 # 
 # 
 # # ==============================================================================
 # 
-# # 6
 # # KAJ VPLIVA NA ODLOČITVE POTOVANJA
 # 
 # odlocitev.glede.na.izobrazbo
 # odlocitev.glede.na.velikost.gospodinjstva
 # odlocitev.glede.na.zaposlenost
 # 
-# # ==============================================================================
-# # ==============================================================================
+# ==============================================================================
+# ==============================================================================
 
 leto2022 <- read_excel("podatki/2022.xlsx") %>%
   dplyr::select(c(2,10,18)) %>%
@@ -670,3 +627,7 @@ slovenci.prenocitve$Leto <- as.Date(slovenci.prenocitve$Leto)
 
 # ==============================================================================
 
+slovenci.prenocitve
+
+# ==============================================================================
+# ==============================================================================
