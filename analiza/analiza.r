@@ -99,13 +99,55 @@ diagram.skupine = function(podatki, oznake, skupine, k) {
 # Evropski turizem:
 # Razdelitev v skupinev (zanima me, turizmu katerih evropskih državah je turizem
 #           Slovenije podoben)
-# Metoda voditeljev
 
-# 1)
+# 1) k-means
 
-X <- TURIZEM.EVROPA[2] %>% as.matrix() %>% scale()
+set.seed(123)
+
+skupine <- TURIZEM.EVROPA[,-1] %>%
+  kmeans(centers = 4) %>%
+  getElement("cluster") %>%
+  as.ordered()
+print(skupine)
+
+tabela.skupine.k.means <- TURIZEM.EVROPA %>% 
+  mutate(Skupine = as.numeric(skupine))
+
+# uvozim zemljevid, ki ga bom potrebovala tudi v nadaljevanju. Prikazala se bo samo Evropa
+zemljevid <-
+  uvozi.zemljevid(
+    "http://www.naturalearthdata.com/http//www.naturalearthdata.com/download/50m/cultural/ne_50m_admin_0_countries.zip",
+    "ne_50m_admin_0_countries",
+    mapa = "zemljevidi",
+    pot.zemljevida = "",
+    encoding = "UTF-8"
+  ) %>%
+  fortify() %>% 
+  filter(CONTINENT %in% c("Europe"),
+         long < 50 & long > -25 & lat > 35 & lat < 85)
+
+names(tabela.skupine.k.means)[1] <- "ADMIN"
+
+zemljevid.kmeans <- ggplot() +
+  aes(x = long, y = lat, group = group, fill = Skupine) +
+  geom_polygon(data = tabela.skupine.k.means %>% 
+                 right_join(zemljevid, by = "ADMIN")) +
+  xlab("") +
+  ylab("") +
+  ggtitle("Razvrstitev Evropskih držav v štiri skupine z metodo k-tih voditeljev") +
+  coord_fixed(ratio = 1) +
+  guides(fill=guide_legend(title="Skupina")) +
+  theme_bw() +
+  theme(plot.caption.position = "plot") 
+
+zemljevid.kmeans
+
+
+# 2) HIERARHIČNO RAZVRŠČANJE
+
+X <- TURIZEM.EVROPA[,-1] %>% as.matrix() %>% scale()
 drzave <- TURIZEM.EVROPA[, 1] %>% unlist()
-razdalje <- TURIZEM.EVROPA[, 2] %>% dist()
+razdalje <- TURIZEM.EVROPA[, -1] %>% dist()
 dendrogram  <- dist(X) %>% hclust(method = "ward.D")
 # plot(dendrogram,
 #      labels = TURIZEM.EVROPA$Drzava,
@@ -115,7 +157,8 @@ dendrogram  <- dist(X) %>% hclust(method = "ward.D")
 # izračun kolen:
 r = hc.kolena(dendrogram)
 diagram.kolena(r)
-# za kolena predlaga: 2, 4
+
+# za kolena predlaga: 2, 3, 4, 6
 
 drzave.x.y <-
   as_tibble(razdalje %>% cmdscale(k = 2)) %>%
@@ -131,77 +174,27 @@ skupine <- TURIZEM.EVROPA[, 2] %>%
   cutree(k = k) %>%
   as.ordered()
 
-turizem.evropa.skupine <- diagram.skupine(drzave.x.y, drzave.x.y$drzava, skupine, k)
+tabela.skupine.hierarh <- TURIZEM.EVROPA %>%
+  mutate(Skupine = as.numeric(skupine))
 
-# V poročilo gre:
-turizem.evropa.skupine
+names(tabela.skupine.hierarh)[1] <- "ADMIN"
 
-# pogledamo s katerimi državami je slovenija v skupini:
-tabela.turizem.evropa.skupine <- tibble(TURIZEM.EVROPA$Drzava, skupine) %>%
-  filter(skupine == 1)
-# drzave s katerimi je Slovenije v skupini:
-drzave.slovenija.skupine <- tabela.turizem.evropa.skupine$`TURIZEM.EVROPA$Drzava`%>% 
-  unlist()
-drzave.slovenija.skupine
-# [1] "Albania"              "Andora"               "Belorusija"          
-# [4] "Belgija"              "Bosna in Herzegovina" "Bulgaria"            
-# [7] "Ciper"                "Estonija"             "Finska"              
-# [10] "Islandija"            "Irska"                "Latvija"             
-# [13] "Lihtenstajn"          "Litva"                "Luksemburg"          
-# [16] "Malta"                "Moldavija"            "Monako"              
-# [19] "Crna gora"            "Nizozemska"           "Severna Makedonija"  
-# [22] "Norveska"             "Portugalska"          "Romunija"            
-# [25] "San Marino"           "Slovenija"            "Svedska"             
-# [28] "Svica"                "Ukrajina" 
+zemljevid.hierarh <- ggplot() +
+  aes(x = long, y = lat, group = group, fill = Skupine) +
+  geom_polygon(data = tabela.skupine.hierarh %>% 
+                 right_join(zemljevid, by = "ADMIN")) +
+  xlab("") +
+  ylab("") +
+  ggtitle("Razvrstitev Evropskih držav v štiri skupine po Wardovi metodi") +
+  coord_fixed(ratio = 1) +
+  guides(fill=guide_legend(title="Skupina")) +
+  theme_bw() +
+  theme(plot.caption.position = "plot") 
 
-# ==============================================================================
+zemljevid.hierarh
 
-# 2)
-
-X <- TURIZEM.EVROPA.POVRSINA[2] %>% as.matrix() %>% scale()
-drzave <- TURIZEM.EVROPA.POVRSINA[, 1] %>% unlist()
-razdalje <- TURIZEM.EVROPA.POVRSINA[, 2] %>% dist()
-dendrogram1  <- dist(X) %>% hclust(method = "ward.D")
-# plot(dendrogram,
-#      labels = TURIZEM.EVROPA.POVRSINA$Drzava,
-#      ylab = "višina",
-#      main = NULL)
-
-# izračun kolen:
-r1 = hc.kolena(dendrogram1)
-diagram.kolena(r1)
-# za kolena predlaga: 2, 4, 6
-
-drzave.x.y <-
-  as_tibble(razdalje %>% cmdscale(k = 2)) %>%
-  bind_cols(drzave) %>%
-  dplyr::select(drzava = ...3, x = V1, y = V2)
-
-# izberem število skupin:
-k = 4
-
-skupine <- TURIZEM.EVROPA.POVRSINA[, 2] %>%
-  dist() %>%
-  hclust(method = "ward.D") %>%
-  cutree(k = k) %>%
-  as.ordered()
-
-turizem.evropa.povrsina.skupine <- diagram.skupine(drzave.x.y, drzave.x.y$drzava, skupine, k)
-
-# V poročilo gre:
-turizem.evropa.povrsina.skupine
-
-# pogledamo s katerimi državami je slovenija v skupini:
-tabela.turizem.evropa.povrsina.skupine <- tibble(TURIZEM.EVROPA.POVRSINA$Drzava, skupine) %>%
-  filter(skupine == 1)
-# drzave s katerimi je Slovenije v skupini:
-drzave.slovenija.skupine <- tabela.turizem.evropa.povrsina.skupine$`TURIZEM.EVROPA.POVRSINA$Drzava`%>% 
-  unlist()
-drzave.slovenija.skupine
-# [1] "Albania"             "Bulgaria"            "Estonija"            "Nemcija"            
-# [5] "Irska"               "Latvija"             "Litva"               "Crna gora"          
-# [9] "Portugalska"         "Slovenija"           "Zdruzeno kraljestvo"
-
+# v skupini v Slovnijo:
+# tabela.skupine.hierarh[tabela.skupine.hierarh$Skupine == 1, 1]
 
 # ==============================================================================
 # NAPOVEDNI MODEL

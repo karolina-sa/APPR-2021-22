@@ -134,12 +134,15 @@ nastanitveni.obrat.regije.graf <- ggplot(nastanitveni.obrat.regije[nastanitveni.
   geom_bar(position = position_dodge2(preserve = "single")) +
   facet_wrap(.~ Regija) + 
   ylim(0,6.5) +
+  ylab("") +
   ggtitle("Obiskanost regij glede na nastanitveni obrat po regijah") +
   guides(fill=guide_legend(title = "Tip nastanitve")) +
   theme_bw() +
-  theme(axis.text.x = element_text(size = 8)) +
+  theme(axis.text.x = element_text(size = 8),
+        axis.text.y=element_blank(),
+        axis.ticks.y=element_blank()) +
   scale_x_continuous("Leto", labels = as.character(c(1:12)), breaks = c(1:12)) +
-  scale_fill_manual(values = c('#ABDDA4','#FDAE61', '#3288BD'))  
+  scale_fill_manual(values = c('#ABDDA4','#FDAE61', '#3288BD')) 
 
 nastanitveni.obrat.regije.graf
 
@@ -231,8 +234,8 @@ prenocitve.slovencev.v.tujini <-
   ggbeeswarm::geom_quasirandom(
     size = 1, width = .33, shape = 1
   ) +
-  xlab("Število prenočitev") +
-  ylab("Država prenočitve") +
+  xlab("Država prenočitve") +
+  ylab("Število prenočitev") +
   ggtitle("Število prenočitev Slovencev po državah") +
   labs(caption = "Pojasnilo: Črne pikice so podatki med letom 2010 in 2020. 
        Kvadratki oranžne barve predstavljajo povprečje črnih pikic.") +

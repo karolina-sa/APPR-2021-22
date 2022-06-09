@@ -9,15 +9,15 @@ sl <- locale("sl", decimal_mark=",", grouping_mark=".")
 
 # Evropske države:
 evropske_drzave = c("Austria","Belgium","Bulgaria","Croatia","Cyprus",
-             "Czech Republic","Denmark","Estonia","Finland","France",
-             "Germany","Greece","Hungary","Ireland","Italy","Latvia",
-             "Lithuania","Luxembourg","Malta","Netherlands","Poland",
-             "Portugal","Romania","Slovakia","Slovenia","Spain",
-             "Sweden","United Kingdom", "Russia", "Ukraine", "Belarus", 
-             "Switzerland", "Norway", "Moldova", "Bosnia and Herzegovina",
-             "Albania", "North Macedonia", "Montenegro", "Malta", "Iceland",
-             "Andorra", "Monaco", "Liechtenstein", "San Marino",
-             "Holy See")
+                    "Czech Republic","Denmark","Estonia","Finland","France",
+                    "Germany","Greece","Hungary","Ireland","Italy","Latvia",
+                    "Lithuania","Luxembourg","Malta","Netherlands","Poland",
+                    "Portugal","Romania","Slovakia","Slovenia","Spain", "Serbia",
+                    "Sweden","United Kingdom", "Russia", "Ukraine", "Belarus", 
+                    "Switzerland", "Norway", "Moldova", "Bosnia and Herzegovina",
+                    "Albania", "North Macedonia", "Montenegro", "Malta", "Iceland",
+                    "Andorra", "Monaco", "Liechtenstein", "San Marino", "Kosovo",
+                    "Holy See")
 
 options("scipen"=100, "digits"=4) # da kaže cele številke, ne pa e
 
@@ -38,54 +38,60 @@ turizem.svetovno <- turizem.svetovno %>%
   na.omit() %>% # izbriše stolpce z Nan 
   rename(Drzava = `Country Name`)
 
-drzave.v.slovenscini <- c("Albania", "Andora", "Avstrija", "Belorusija", 
-                          "Belgija", "Bosna in Herzegovina", 
-                          "Bulgaria", "Hrvaska", "Ciper",
-                          "Ceska", "Danska", "Estonija",
-                          "Finska", "Francija", "Nemcija",
-                          "Grcija", "Madzarska", "Islandija",
-                          "Irska", "Italija", "Latvija",
-                          "Lihtenstajn", "Litva", "Luksemburg",
-                          "Malta", "Moldavija", "Monako",
-                          "Crna gora", "Nizozemska", "Severna Makedonija",
-                          "Norveska", "Poljska", "Portugalska",
-                          "Romunija", "San Marino", "Slovenija",
-                          "Spanija", "Svedska", "Svica", 
-                          "Ukrajina", "Zdruzeno kraljestvo")
+gdp.svetovno <- read_csv("podatki/GDP.csv",
+                         skip = 4,
+                         locale = locale(encoding = "Windows-1250"),
+                         col_names=TRUE, 
+                         col_types = cols(.default = col_guess()))
+gdp.svetovno <- gdp.svetovno[-c(2:53)]
+gdp.svetovno <- gdp.svetovno %>%
+  pivot_longer(
+    cols = colnames(gdp.svetovno)[-1],
+    names_to = "Leto",
+    values_to = "GDP"
+  ) %>%
+  group_by(`Country Name`) %>%
+  summarize(Povprecje = mean(`GDP`, na.rm = TRUE)) %>%
+  na.omit() %>% 
+  rename(Drzava = `Country Name`)
+
+# združitev tabel za napredno analizo:
+turizem.svetovno <- turizem.svetovno %>%
+  full_join(gdp.svetovno, by="Drzava")
+colnames(turizem.svetovno) <- c("Drzava", "Turisti", "BDP")
+
+turizem.svetovno[turizem.svetovno == "Russian Federation"] <- "Russia"
+turizem.svetovno[turizem.svetovno == "Northern Macedonia"] <- "North Macedonia"
+turizem.svetovno[turizem.svetovno == "Slovak Republic"] <- "Slovakia"
+
+drzave.povrsine <- read_csv("podatki/povrsina_drzav.csv",
+                            locale = locale(encoding = "Windows-1250"),
+                            col_names=TRUE, 
+                            col_types = cols(.default = col_guess())) %>%
+  dplyr::select(c(2,3)) %>%
+  na.omit() # izbriše stolpce z Nan 
+colnames(drzave.povrsine) <- c("Drzava", "Povrsina")
+drzave.povrsine<- drzave.povrsine %>%
+  mutate(Povrsina = str_replace_all(Povrsina, "(.*)([:blank:]{1})(.*)", "\\1"))
 
 turizem.evropa <-  turizem.svetovno %>%
-  filter(Drzava %in% evropske_drzave)
-turizem.evropa$Drzava <- drzave.v.slovenscini
+  filter(Drzava %in% evropske_drzave) %>%
+  full_join(drzave.povrsine, by="Drzava") %>%
+  na.omit()
+turizem.evropa$Povrsina <- str_replace_all(turizem.evropa$Povrsina, ",", "")
+turizem.evropa$Povrsina <- parse_number(turizem.evropa$Povrsina)
+turizem.evropa <- turizem.evropa %>%
+  mutate(StNaPovrsino = Turisti / Povrsina)
+turizem.evropa <- turizem.evropa[,-c(2,4)]
 
-drzave.povrsine.km2 <- c("28.748", "468", "83.879", "207.600", 
-                          "30.688", "51.197", 
-                          "110.994", "56.594", "9.251",
-                          "78.871", "42.933", "45.338",
-                          "338.440", "543.940", "357.588",
-                          "131.957", "93.030", "103.592",
-                          "70.274", "302.073", "64.589",
-                          "160", "65.300", "2.586",
-                          "316", "33.846", "202",
-                          "13.812", "41.543", "25.713",
-                          "385.207", "312.679", "92.212",
-                          "238.397", "61.2", "20.271",
-                          "505.990", "450.295", "41.285", 
-                          "603.548", "242.495")
-
-turizem.evropa.povrsina <- turizem.evropa
-turizem.evropa.povrsina$Povrsina <- drzave.povrsine.km2
-turizem.evropa.povrsina$Povrsina <- parse_number(turizem.evropa.povrsina$Povrsina)
-turizem.evropa.povrsina <- turizem.evropa.povrsina %>%
-  transform(StTuristov_na_km2 = Povprecje / Povrsina) %>%
-  dplyr::select(Drzava, StTuristov_na_km2)
+turizem.evropa[turizem.evropa == "Czech Republic"] <- "Czechia"
+turizem.evropa[turizem.evropa == "Serbia"] <- "Republic of Serbia"
 
 # ==============================================================================
 
 # Tabela za svetovno analizo:
 
 TURIZEM.EVROPA <- turizem.evropa
-
-TURIZEM.EVROPA.POVRSINA <- turizem.evropa.povrsina
 
 # ==============================================================================
 # ==============================================================================
@@ -182,9 +188,7 @@ nastanitveni.obrat.regije$Mesec <- as.integer(nastanitveni.obrat.regije$Mesec)
 # MESECNI PREGLED ZA REGIJE
 
 prenocitve.regije
-
 nastanitvena.doba.regije
-
 nastanitveni.obrat.regije
 
 # ==============================================================================
@@ -205,6 +209,7 @@ prenocitve.letno <- prenocitve.letno %>%
 prenocitve.letno[prenocitve.letno == "Združene države (ZDA)"] <- "ZDA"
 prenocitve.letno[prenocitve.letno == "Ruska federacija"] <- "Rusija"
 prenocitve.letno[prenocitve.letno == "Koreja (Republika)"] <- "Koreja"
+prenocitve.letno[prenocitve.letno == "Kitajska (Ljudska republika)"] <- "Kitajska"
 
 # ==============================================================================
 
@@ -245,9 +250,7 @@ BDP.turizem <- BDP.turizem[, -1]
 # VEČLETNI PREGLED ZA SLOVENIJO
 
 prenocitve.letno
-
 stevilo.zaposlenih
-
 BDP.turizem
 
 # ==============================================================================
@@ -420,7 +423,6 @@ names(izdatki) <- c("Leto", "Vrsta", "Stevilo")
 # stevilke so v milijonih €
 
 IZDATKI <- izdatki
-
 SESTAVA.TURISTICNE.POTROSNJE.TUJCEV.V.SLOVENIJI
 
 # ==============================================================================
