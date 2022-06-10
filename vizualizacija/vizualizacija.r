@@ -366,14 +366,14 @@ zemljevid <-
 
 # priprava tabel
 
-names(vec.let.samo.prave.drzave)[1] <- "ADMIN"
-drzave.prihodi <- vec.let.samo.prave.drzave[vec.let.samo.prave.drzave$Kaj == "Prihodi",] %>%
+names(vec.let.skupaj)[1] <- "ADMIN"
+drzave.prihodi <- vec.let.skupaj[vec.let.skupaj$Kaj == "Prihodi",] %>%
   group_by(ADMIN) %>%
-  summarize(Prihodi = mean(Število, na.rm = TRUE))
+  summarize(Prihodi = mean(Stevilo, na.rm = TRUE))
 
-drzave.prenocitve <- vec.let.samo.prave.drzave[vec.let.samo.prave.drzave$Kaj == "Prenočitve",] %>%
+drzave.prenocitve <- vec.let.skupaj[vec.let.skupaj$Kaj == "Prenocitve",] %>%
   group_by(ADMIN) %>%
-  summarize(Prenocitve = mean(Število, na.rm = TRUE))
+  summarize(Prenocitve = mean(Stevilo, na.rm = TRUE))
 
 options("scipen"=100, "digits"=4)
 zemljevid.prihodi <- ggplot() +
@@ -400,10 +400,11 @@ zemljevid.prenocitve <- ggplot() +
   theme_bw() +
   labs(caption = "Podatki so pridobljeni kot povprečje med leti 2018 in 2022") +
   theme(plot.caption.position = "plot") +
-  scale_fill_distiller(palette = "Spectral")
+  scale_fill_distiller(palette = "Spectral") 
 
 zemljevid.prenocitve
 
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 
 zemljevid_svet <-
   uvozi.zemljevid(

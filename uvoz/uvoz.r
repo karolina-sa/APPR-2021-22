@@ -35,8 +35,8 @@ turizem.svetovno <- turizem.svetovno %>%
   ) %>%
   group_by(`Country Name`) %>%
   summarize(Povprecje = mean(`Stevilo turistov`, na.rm = TRUE)) %>%
-  na.omit() %>% # izbriše stolpce z Nan 
-  rename(Drzava = `Country Name`)
+  na.omit()
+colnames(turizem.svetovno)[1] <- "Drzava"
 
 gdp.svetovno <- read_csv("podatki/GDP.csv",
                          skip = 4,
@@ -52,8 +52,8 @@ gdp.svetovno <- gdp.svetovno %>%
   ) %>%
   group_by(`Country Name`) %>%
   summarize(Povprecje = mean(`GDP`, na.rm = TRUE)) %>%
-  na.omit() %>% 
-  rename(Drzava = `Country Name`)
+  na.omit() 
+colnames(gdp.svetovno)[1] <- "Drzava"
 
 # združitev tabel za napredno analizo:
 turizem.svetovno <- turizem.svetovno %>%
@@ -86,6 +86,9 @@ turizem.evropa <- turizem.evropa[,-c(2,4)]
 
 turizem.evropa[turizem.evropa == "Czech Republic"] <- "Czechia"
 turizem.evropa[turizem.evropa == "Serbia"] <- "Republic of Serbia"
+
+turizem.evropa$BDP <- as.numeric(turizem.evropa$BDP)
+turizem.evropa$StNaPovrsino <- as.numeric(turizem.evropa$StNaPovrsino)
 
 # ==============================================================================
 
@@ -135,7 +138,7 @@ nastanitvena.doba.regije <- read_csv("podatki/povprecna_doba_nastanitve_regije_m
                                      col_types = cols(.default = col_guess()))
 
 nastanitvena.doba.regije[nastanitvena.doba.regije == "N" | nastanitvena.doba.regije == "..."] <- NA
-names(nastanitvena.doba.regije) <- c("Mesec", "Regija", "Slovenski turisti", "Tuji turisti")
+colnames(nastanitvena.doba.regije) <- c("Mesec", "Regija", "Slovenski turisti", "Tuji turisti")
 
 nastanitvena.doba.regije <- nastanitvena.doba.regije[! nastanitvena.doba.regije$Regija ==
                                                        "SLOVENIJA", ] %>%
@@ -175,7 +178,7 @@ nastanitveni.obrat.regije <- nastanitveni.obrat.regije %>%
   na.omit() %>%
   mutate(Leto = str_replace_all(Leto, "(\\d{4})([:alpha:])(\\d{2})", "\\3"))
 
-names(nastanitveni.obrat.regije) <- c("Regija", "Tip", "Drzava", "Mesec", "Stevilo nastanitev")
+colnames(nastanitveni.obrat.regije) <- c("Regija", "Tip", "Drzava", "Mesec", "Stevilo nastanitev")
 
 nastanitveni.obrat.regije[nastanitveni.obrat.regije == "1 Hoteli in podobni nastanitveni objekti"] <- "Hotel"
 nastanitveni.obrat.regije[nastanitveni.obrat.regije == "2 Kampi"] <- "Kamp"
@@ -415,7 +418,7 @@ izdatki <- izdatki %>%
     names_to = "Leto",
     values_to = "Stevilo"
   )
-names(izdatki) <- c("Leto", "Vrsta", "Stevilo")
+colnames(izdatki) <- c("Leto", "Vrsta", "Stevilo")
 
 # ==============================================================================
 
@@ -537,77 +540,49 @@ SESTAVA.TURISTICNE.POTROSNJE.TUJCEV.V.SLOVENIJI
 # ==============================================================================
 # ==============================================================================
 
+uredi <- function(tabela, leto){
+  colnames(tabela)[1] <- "Prihodi"
+  colnames(tabela)[2] <- "Prenocitve"
+  colnames(tabela)[3] <- "Drzava"
+  tabela <- tabela %>% na.omit() %>% 
+    mutate(Leto = leto,
+           Drzava = str_replace_all(Drzava, "(from)?([:blank:])(.+)", "\\3"))
+}
+
 leto2022 <- read_excel("podatki/2022.xlsx") %>%
-  dplyr::select(c(2,10,18)) %>%
-  na.omit()
-colnames(leto2022) <- (c("Prihodi", "Prenočitve", "Država"))
-leto2022 <- leto2022 %>% 
-  mutate(Država = str_replace_all(Država, "(from)?([:blank:])(.+)", "\\3"))
-leto2022$Leto <- rep(2022, times=56)
-  
-leto2021 <- read_excel("podatki/2021.xlsx") %>%
-  dplyr::select(c(2,10,18)) %>%
-  na.omit()
-colnames(leto2021) <- (c("Prihodi", "Prenočitve", "Država"))
-leto2021 <- leto2021 %>% 
-  mutate(Država = str_replace_all(Država, "(from)?([:blank:])(.+)", "\\3"))
-leto2021$Leto <- rep(2021, times=52)
+  dplyr::select(c(2,10,18)) %>% uredi(2022)
+
+leto2021 <- read_excel("podatki/2021.xlsx")%>%
+  dplyr::select(c(2,10,18)) %>% uredi(2021)
 
 leto2020 <- read_excel("podatki/2020.xlsx") %>%
-  dplyr::select(c(2,8,14)) %>%
-  na.omit()
-colnames(leto2020) <- (c("Prihodi", "Prenočitve", "Država"))
-leto2020 <- leto2020 %>% 
-  mutate(Država = str_replace_all(Država, "(from)?([:blank:])(.+)", "\\3"))
-leto2020$Leto <- rep(2020, times=55)
+  dplyr::select(c(2,8,14)) %>% uredi(2020)
 
 leto2019 <- read_excel("podatki/2019.xlsx") %>%
-  dplyr::select(c(2,8,14)) %>%
-  na.omit()
-colnames(leto2019) <- (c("Prihodi", "Prenočitve", "Država"))
-leto2019 <- leto2019 %>% 
-  mutate(Država = str_replace_all(Država, "(from)?([:blank:])(.+)", "\\3"))
-leto2019$Leto <- rep(2019, times=56)
+  dplyr::select(c(2,8,14)) %>% uredi(2019)
 
 leto2018 <- read_excel("podatki/2018.xlsx") %>%
-  dplyr::select(c(2,5,8)) %>%
-  na.omit()
-colnames(leto2018) <- (c("Prihodi", "Prenočitve", "Država"))
-leto2018 <- leto2018 %>% 
-  mutate(Država = str_replace_all(Država, "(from)?([:blank:])(.+)", "\\3"))
-leto2018$Leto <- rep(2018, times=56)
+    dplyr::select(c(2,5,8)) %>% uredi(2018)
 
-vec.let <- leto2022 %>%
-  full_join(leto2021, by=c("Država", "Prenočitve", "Prihodi")) %>%
-  full_join(leto2020, by=c("Država", "Prenočitve", "Prihodi")) %>%
-  full_join(leto2019, by=c("Država", "Prenočitve", "Prihodi")) %>%
-  full_join(leto2018, by=c("Država", "Prenočitve", "Prihodi")) 
-vec.let$Leto <- rowSums(vec.let[,c(4,5,6,7,8)], na.rm = TRUE)
-vec.let <- vec.let[,c(1,2,3,8)] %>%
-  pivot_longer(
-    cols = colnames(vec.let)[c(1,2)],
-    names_to = "Kaj",
-    values_to = "Število"
+vec.let.skupaj <- rbind(leto2022, leto2022, leto2020, leto2019, leto2018) %>% 
+  pivot_longer( c(1,2),
+                names_to = "Kaj",
+                values_to = "Stevilo"
   )
 
-# popravljanje držav (da se izriše zemljevid)
-vec.let[vec.let == "Domestic"] <- "Slovenia"
-vec.let[vec.let == "Czech Republic"] <- "Czechia"
-vec.let[vec.let == "Northern Macedonia"] <- "North Macedonia"
-vec.let[vec.let == "Korea (Republic of)"] <- "South Korea"
-vec.let[vec.let == "Russian Federation"] <- "Russia"
-vec.let[vec.let == "United States"] <- "United States of America"
+vec.let.skupaj[vec.let.skupaj == "Domestic"] <- "Slovenia"
+vec.let.skupaj[vec.let.skupaj == "Czech Republic"] <- "Czechia"
+vec.let.skupaj[vec.let.skupaj == "Northern Macedonia"] <- "North Macedonia"
+vec.let.skupaj[vec.let.skupaj == "Korea (Republic of)"] <- "South Korea"
+vec.let.skupaj[vec.let.skupaj == "Russian Federation"] <- "Russia"
+vec.let.skupaj[vec.let.skupaj == "United States"] <- "United States of America"
+vec.let.skupaj[vec.let.skupaj == "Serbia"] <- "Republic of Serbia"
 
-vec.let.samo.prave.drzave <- vec.let[!vec.let$Država %in% c("Total", "Foreign", "other African countries", 
-          "other Asian countries", "other countries of North America", 
-          "other countries of Oceania", "	
-          other countries of South and Middle America", "other European countries"),]
-          
-vec.let.samo.prave.drzave$Število <- as.integer(vec.let.samo.prave.drzave$Število)
+vec.let.skupaj$Stevilo <- as.integer(vec.let.skupaj$Stevilo)
 
 # ==============================================================================
 
-vec.let.samo.prave.drzave
+vec.let.skupaj
 
 # ==============================================================================
 # ==============================================================================
@@ -634,4 +609,5 @@ slovenci.prenocitve
 
 # ==============================================================================
 # ==============================================================================
+
 

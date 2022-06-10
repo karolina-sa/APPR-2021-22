@@ -216,19 +216,54 @@ Kam v tujino pa se Slovenci največ odpravijo? Našla sem podatke prenočitev Sl
 prenocitve.slovencev.v.tujini
 ```
 
-Za konec poglejmo še skupno število tujih turističnih prihodov v Slovenijo. Podatke sem našla na spletni strani [The World Bank](https://data.worldbank.org/indicator/ST.INT.ARVL). Podatki so vsebovali število turističnih prihodov za čas med leti 1995 in 2020. Odločila sem se, da bom dodatno še napovedala bodoče turistične prihode tujcev v Slovenijo, kar je razvidno iz spodnjega grafa. 
 
-```{r napovedovanje.graf, echo=FALSE, fig.align='center'}
-napovedovanje.graf
+
+### NAPREDNA ANALIZA
+
+Poglejmo še skupno število tujih turističnih prihodov v Slovenijo. Podatke sem našla na spletni strani [The World Bank](https://data.worldbank.org/indicator/ST.INT.ARVL) in vsebovali so število turističnih prihodov v Slovenijo za čas med leti 1995 in 2020. Odločila sem se, da bom dodatno še napovedala bodoče turistične prihode tujcev v Slovenijo. Naredila sem dve napovedi, prvo glede na število prihodov turistov v Slovenijo v preteklih štiri letih, drugo pa glede na pretekla tri leta. Dobljeni rezultati so predstavljeni v nasledjnem grafu: 
+
+```{r napovedovanje.graf.skupaj, echo=FALSE, fig.align='center'}
+napovedovanje.graf.skupaj
 ```
 
-Že pred začetkom izdelave grafa napovedi sem bila malce skeptična, saj je turizem v letu 2020 doživel ogromen šok, kar je zagotovo vplivalo na ne najbolj točne razultat, a vseeno sem postopek izpeljala do konca. 
-Na spletu sem nato našla neuraden podatek, da je bilo leta 2021 vsega skupaj okrog 1,8 milijona turističnih prihodov tujcev v Slovenijo, z napovedjo pa sem dobila okrog 2,5 milijona. Napaka je sicer kar velika, a vselej majha, če upoštevamo šok, ki ga je doživelo gospodastvo. Prepričana sem, da so napovedani podatki za leto 2022 že bolj točni. 
+Že pred začetkom izdelave grafa napovedi sem bila malce skeptična, saj je turizem v letu 2020 doživel ogromen šok, kar je zagotovo vplivalo na ne najbolj točne razultate, a vseeno sem postopek izpeljala do konca. 
+Na spletu sem našla neuraden podatek, da je bilo leta 2021 vsega skupaj okrog 1,8 milijona turističnih prihodov tujcev v Slovenijo, z obema napovedma pa sem dobila okrog 2,5 milijona prihodov. Napaka je sicer kar velika, a vselej majha, če upoštevamo šok, ki ga je doživelo gospodastvo. Prepričana sem, da so napovedani podatki za leto 2022 že bolj točni - menim, da turistični prihodi tujcev v Slovenijo niso tako drastično narasli, saj ima epidemija še vedno posledice, tudi po dveh letih in sproščenih ukrepih gibanja. 
+
+Razvidno je, da je napoved glede na pretekla štiri leta drugačna od napovedi glede na pretekla tri leta. Pomembna razlika je očitno v naraščanju prihodov pred letom 2020. Če gledamo samo leta 2018, 2019 in 2020 imamo samo eno obdobje naraščanja. Če pa gledamo od leta 2017 do 2020 imamo dve obdobji naraščanja, kar zagotovo pripore k napovedi z večjim številom prihodov. Ta razlika v napovedi za leto 2021 ni razvidna, v letih 2022 in 2023 pa je razlika dobro opazna, saj napoved glede na pretekla tri leta pada. Slednje se najverjetneje zgodi zaradi kratkega obdobja naraščanja v preteklih treh letih. 
+
+S pomočjo prečnega prevarjanja sem v spodnjih dveh prikazih prikazala kako "pomembno" vlogo igrajo posamezna leta pri napovedovanju prihodov turistov v naslednjih treh letih. 
+
+<table style="width:100%">
+<tr>
+<td style="width:50%">
+
+Pomembnost posameznih preteklih **štirih** let pri <br />
+napovedovanju naslednjih treh let:
+
+```{r, fig.align='center'}
+plot(reg.moci)
+```
+
+</td>
+<td style="width:50%">
+
+Pomembnost posameznih preteklih **treh** let pri <br />
+napovedovanju naslednjih treh let:
+
+```{r, fig.align='center'}
+plot(reg.moci.3)
+```
+
+</td>
+</tr>
+</table>
+
+Najpomembnejšo vlogo pri napovedovanju v obeh primerih igra leto 2018, najmanjšo pa leto 2019. Leto 2017 je pri napovedovanju pomembno, zato bi se odločila, da je napovedovanje glede na pretekla štiri leta bolj točno in ustreznejše kot napovedovanje glede na pretekla tri leta.
 
 
-TUKAJ KAJ ZA DODAT
+Za konec se lahko vprašamo še katerim  državam je Slovenija podobna, turistično gledano seveda. Za razvrstitev sem vzela zgolj Evropske države, saj bi bilo svetovno merilo bolj nepregledno in zmedeno. Prav tako pa bi primerjali države, ki so tako gospodarsko, kot tudi drugače precej različne. Na stani [The World Bank](https://data.worldbank.org/indicator/ST.INT.ARVL) sem dobila podatke za število prihodov turistov za vse države sveta od leta 1995 naprej. Vzela sem zgolj obdobje od 2009 naprej (zaradi aktualnosti) in naredila povprečje podatkov. Dobljena povprečja sem nato delila s površino posamezne države (podatke sem dobila na [Wikipedi](https://en.wikipedia.org/wiki/List_of_countries_and_dependencies_by_area)), saj bi bilo drugače primerjanje držav nesmiselno. Pri razdelitvi v skupine sem upoštevala še BDP, ki menim, da igra pomembno vlogo, sicer ne največje, pri turistični obiskanosti države. Podatke o BDP sem prav tako dobila na strani [The World Bank](https://data.worldbank.org/indicator/NY.GDP.MKTP.CD). Naredila sem razdelitev v skupine na dva različna načina: z metodo hierarhičnega razvrščanja in metodo k-tih voditeljev. 
 
-Katerim  državam je Slovenija podobna, turistično gledano? Za razvrstitev sem vzela zgolj Evropske države, saj bi bilo svetovno merilo bolj nepregledno in zmedeno. Prav tako pa bi primerjali države, ki so tako gospodarsko, kot tudi drugače precej različne. Na stani [The World Bank](https://data.worldbank.org/indicator/ST.INT.ARVL) sem dobila podatke za število prihodov turistov za vse države na svetu od leta 1995 naprej. Vzela sem zgolj obdobje od 2009 naprej (zaradi aktualnosti) in naredila povprečje podatkov. Dobljene podatke sem nato delila s površino posamezne države. Pri razdelitvi v skupine sem upoštevala še BDP. Slednje podatke sem prav tako dobila na strani [The World Bank](https://data.worldbank.org/indicator/NY.GDP.MKTP.CD). Naredila sem dve razdelitvi, obe na štiri skupine. Prva razdelitev je narejena z metodo hierarhičnega razvrščanja, uporabila pa sem Wardovo metodo minimalne variance.
+Poglejmo si razdelitev z metodo hierarhičnega razvrščanja, natančneje sem uporabila Wardovo metodo minimalne variance. Spodaj je zrisan dendrogram, ki prikazuje "razdalje" med različnimi Evropskimi državami. Odločiti se, se morala za število skupin, v katere bi rada razdelila države. Pri tem sem si pomagala s t.i. koleni, ki predstavljajo točke v katerih se najbolj spremeni intenziteta zmanjševanja višine združevanja. Graf kolen je prikazan spodaj desno.
 
 <table style="width:100%">
 <tr>
@@ -254,7 +289,14 @@ print(diagram.kolena(r))
 </tr>
 </table>
 
-Odločila sem se za izbiro štirih skupin, zaradi preprostega razloga: želela bi razdelitev v "manjše" skupine. Dendrogram sem "prerezala" na želeni višini in razvrstitev v štiri skupine prikazala na zemljevidu, omejen na obmnočje Evrope.
+Najbolj optimalna je izbira razdelitve v dve skupini, a odločila sem se, da bi raje imela bolj "podrobno" razdelitev, zato sem izbrala štiri skupine. Za potrditev izbire štirih skupin si poglejmo še diagram spodaj, iz katerega vidimo, da ima k = 2 in k = 4 skoraj enako visoko povprešje obrisov, kar pomeni, da je izbira štirih skupin dovolj dobra. 
+
+```{r, fig.align='center'}
+r.hc = TURIZEM.EVROPA[, -1] %>% obrisi(hc = TRUE)
+diagram.obrisi(r.hc)
+```
+
+Dendrogram sem "prerezala" na želeni višini (da razdelimo v štiri skupine) in razvrstitev prikazala na spodnjem zemljevidu, omejen na območje Evrope.
 
 ```{r zemljevid.hierarh, echo=FALSE, fig.align='center', width=400}
 zemljevid.hierarh
@@ -262,11 +304,20 @@ zemljevid.hierarh
 
 Slovenija se je uvrstila v skupino 1. Med Slovniji "podobnimi" državami bi izpostavila predvsem Hrvaško, ki je turistično izredno močna država in Slovenija se očitno lahko primerja z njo. Opazimo, da so Sloveniji "podobne" predvsem bližje države.
 
-Na istih podatkih sem naredila še razvrstitev v skupine z metodo k-tih voditeljev in skupine prikazala na zemljevidu:
+Na istih podatkih sem naredila še razvrstitev v skupine z metodo k-tih voditeljev. Tudi ta metoda je predlagala optimalno razvrstitev v dve skupini in iz spodnjega prikaza povprečja obrisov je razvidno, da se na podobni višini povprešje obrisov ne nahaja nobeno drugo število skupin, po optimalnosti je najbližja razdelitev v tri skupine, sledi pa ji razvrstitev v štiri skupine.
+
+```{r, diagram.obrisi(r.km), fig.align='center'}
+r.km = TURIZEM.EVROPA[, -1] %>% obrisi(hc = FALSE)
+diagram.obrisi(r.km)
+```
+
+Pri metodi k-tih voditeljev sem se odločila za razdelitev v tri skupine iz enostavnega razloga: želim čim bolj "podrobno" in hkrati "optimalno" razvrstitev. Razvrstitev v tri skupine je prikazana na spodnjem zemljevidu:
 
 ```{r zemljevid.kmeans, echo=FALSE, fig.align='center', width=400}
 zemljevid.kmeans
 ```
+
+Primerjanje metod bi bilo veliko lažje in bolj razvidno, če bi za razvrstitev izbrala enako število skupin, za kar se zaradi predlagane optimalnosti nisem odločila. Že med delom in poskušanjem različnih razvrstitev v skupine sem opazila, da je razvrstitev med obema metodama podobna, vendar nikoli enaka. Običajno se mi je zdela razvrstitev v skupine z metodo k-tih voditeljev boljša, saj je dala turistično priljubljene in hkrati razvite države, kot so Italija, Francija in Združeno kraljevstvo, v isto skupino, kar hierarhično razvrščanje ni naredilo. Podobno je z državami Balkana, ki jih metoda k-tih voditeljev da v isto skupino, druga metoda pa ne vedno. Dodala bi še, da pri obeh razvrščanjih Slovenijo metodi uvrstita v skupino, kjer so njene sosednje države in večina držav Balkana, kar se mi zdi "pričakovano".
 
 
 <p>&nbsp;</p>
