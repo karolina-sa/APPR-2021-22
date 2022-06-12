@@ -286,8 +286,8 @@ pfun = function(model, newdata) {
 r.hc = TURIZEM.EVROPA[, -1] %>% obrisi(hc = TRUE)
 r.km = TURIZEM.EVROPA[, -1] %>% obrisi(hc = FALSE)
 
-# diagram.obrisi(r.hc)
-# diagram.obrisi(r.km)
+r.hc.plt <- diagram.obrisi(r.hc)
+r.km.plt <- diagram.obrisi(r.km)
 # oba predlagata dve skupini
 
 # - - - - - - - - -

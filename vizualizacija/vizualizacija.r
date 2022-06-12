@@ -129,22 +129,22 @@ igralnistvo.italija.avstrija.graf
 
 # ==============================================================================
 
-nastanitveni.obrat.regije.graf <- ggplot(nastanitveni.obrat.regije[nastanitveni.obrat.regije$Regija != "SLOVENIJA",]) +
-  aes(x = Mesec, fill = Tip) +
-  geom_bar(position = position_dodge2(preserve = "single")) +
-  facet_wrap(.~ Regija) + 
-  ylim(0,6.5) +
-  ylab("") +
-  ggtitle("Obiskanost regij glede na nastanitveni obrat po regijah") +
-  guides(fill=guide_legend(title = "Tip nastanitve")) +
-  theme_bw() +
-  theme(axis.text.x = element_text(size = 8),
-        axis.text.y=element_blank(),
-        axis.ticks.y=element_blank()) +
-  scale_x_continuous("Leto", labels = as.character(c(1:12)), breaks = c(1:12)) +
-  scale_fill_manual(values = c('#ABDDA4','#FDAE61', '#3288BD')) 
-
-nastanitveni.obrat.regije.graf
+# nastanitveni.obrat.regije.graf <- ggplot(nastanitveni.obrat.regije[nastanitveni.obrat.regije$Regija != "SLOVENIJA",]) +
+#   aes(x = Mesec, fill = Tip) +
+#   geom_bar(position = position_dodge2(preserve = "single")) +
+#   facet_wrap(.~ Regija) + 
+#   ylim(0,6.5) +
+#   ylab("") +
+#   ggtitle("Obiskanost regij glede na nastanitveni obrat po regijah") +
+#   guides(fill=guide_legend(title = "Tip nastanitve")) +
+#   theme_bw() +
+#   theme(axis.text.x = element_text(size = 8),
+#         axis.text.y=element_blank(),
+#         axis.ticks.y=element_blank()) +
+#   scale_x_continuous("Leto", labels = as.character(c(1:12)), breaks = c(1:12)) +
+#   scale_fill_manual(values = c('#ABDDA4','#FDAE61', '#3288BD')) 
+# 
+# nastanitveni.obrat.regije.graf
 
 # ==============================================================================
 

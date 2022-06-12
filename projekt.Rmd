@@ -101,14 +101,6 @@ nastanitvena.doba.regije.graf
 
 Pričakovala sem, da bo po nastanitveni dobi izstopala Gorenjska, a nam zgornja slika trdi drugače. Najdaljšo nastanitveno dobo imajo Posavska, Savinjska in Zasavska regija. Opazimo tudi, da ima večina regij porast nastanitvene dobe predvsem v hladnejših mesecih.  
 
-Pridobila sem tudi podatke od obiskanosti nastanitvenih obratov, ki so žal precej 'pomenjkljivi'. 
-
-```{r nastanitveni.obrat.regije.graf, echo=FALSE, fig.align='center'}
-nastanitveni.obrat.regije.graf
-```
-
-Kljub pomanjkljivosti podatkov lahko razberemo na primer, da so kampi konec leta manj obiskani, poleti pa konkurirajo hotelom.
-
 
 <table style="width:100%">
 <tr>
@@ -218,7 +210,7 @@ prenocitve.slovencev.v.tujini
 
 
 
-### NAPREDNA ANALIZA
+<p>&nbsp;</p>
 
 Poglejmo še skupno število tujih turističnih prihodov v Slovenijo. Podatke sem našla na spletni strani [The World Bank](https://data.worldbank.org/indicator/ST.INT.ARVL) in vsebovali so število turističnih prihodov v Slovenijo za čas med leti 1995 in 2020. Odločila sem se, da bom dodatno še napovedala bodoče turistične prihode tujcev v Slovenijo. Naredila sem dve napovedi, prvo glede na število prihodov turistov v Slovenijo v preteklih štiri letih, drugo pa glede na pretekla tri leta. Dobljeni rezultati so predstavljeni v nasledjnem grafu: 
 
@@ -291,9 +283,8 @@ print(diagram.kolena(r))
 
 Najbolj optimalna je izbira razdelitve v dve skupini, a odločila sem se, da bi raje imela bolj "podrobno" razdelitev, zato sem izbrala štiri skupine. Za potrditev izbire štirih skupin si poglejmo še diagram spodaj, iz katerega vidimo, da ima k = 2 in k = 4 skoraj enako visoko povprešje obrisov, kar pomeni, da je izbira štirih skupin dovolj dobra. 
 
-```{r, fig.align='center'}
-r.hc = TURIZEM.EVROPA[, -1] %>% obrisi(hc = TRUE)
-diagram.obrisi(r.hc)
+```{r, r.hc.plt, echo=FALSE, fig.align='center', width=400}
+r.hc.plt
 ```
 
 Dendrogram sem "prerezala" na želeni višini (da razdelimo v štiri skupine) in razvrstitev prikazala na spodnjem zemljevidu, omejen na območje Evrope.
@@ -306,9 +297,8 @@ Slovenija se je uvrstila v skupino 1. Med Slovniji "podobnimi" državami bi izpo
 
 Na istih podatkih sem naredila še razvrstitev v skupine z metodo k-tih voditeljev. Tudi ta metoda je predlagala optimalno razvrstitev v dve skupini in iz spodnjega prikaza povprečja obrisov je razvidno, da se na podobni višini povprešje obrisov ne nahaja nobeno drugo število skupin, po optimalnosti je najbližja razdelitev v tri skupine, sledi pa ji razvrstitev v štiri skupine.
 
-```{r, diagram.obrisi(r.km), fig.align='center'}
-r.km = TURIZEM.EVROPA[, -1] %>% obrisi(hc = FALSE)
-diagram.obrisi(r.km)
+```{r, r.km.plt, echo=FALSE, fig.align='center', width=400}
+r.km.plt
 ```
 
 Pri metodi k-tih voditeljev sem se odločila za razdelitev v tri skupine iz enostavnega razloga: želim čim bolj "podrobno" in hkrati "optimalno" razvrstitev. Razvrstitev v tri skupine je prikazana na spodnjem zemljevidu:
