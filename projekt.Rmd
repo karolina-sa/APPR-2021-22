@@ -23,19 +23,19 @@ knitr::opts_chunk$set(echo=FALSE, message=FALSE, warning=FALSE)
 source("lib/libraries.r", encoding="UTF-8")
 ```
 
-##  Priprava projekta
-
-```{r uvoz}
+```{r uvoz, echo=FALSE, results='hide', message=FALSE, warning=FALSE}
 source("uvoz/uvoz.r", encoding="UTF-8")
 ```
 
-```{r vizualizacija, results='hide'}
+```{r vizualizacija, echo=FALSE, results='hide', message=FALSE, warning=FALSE}
 source("vizualizacija/vizualizacija.r", encoding="UTF-8")
 ```
 
-```{r analiza}
+```{r analiza, echo=FALSE, results='hide', message=FALSE, warning=FALSE}
 source("analiza/analiza.r", encoding="UTF-8")
 ```
+
+##  Priprava projekta
 
 Tukaj bo napisano o izbiri teme, uvozu podatkov (kje sem našla podatke, kako sem uredila tabele, kakšni formati podatkov so bili (.csv, .html, .xlsx), s čim sem imela težave, ...) 
 
@@ -43,12 +43,8 @@ Tukaj bo napisano o izbiri teme, uvozu podatkov (kje sem našla podatke, kako se
 
 ## Analiza turizma v Sloveniji
 
-Slovenija naj bi bila turistično obiskana in obiska vredna država. Odločila sem se, da bom preverila turizem v Slovenij iz različnih zornih kotov.
-
-TUKAJ MANJKA 
-
-Potrdili smo domnevo, da je Slovenija turistično zaželena in močna država. Zakaj pa se tujci sploh odločijo za obisk Slovenije?
-Našla sem podatke, ki so bili pridobljeni z anketo, ki je proučevala motiv prihoda tujcev v Slovenijo. Ankentiranci so morali 14 motitov oceniti s pomembnostjo. Podatke sem precej predala in dobila sem naslednje tri prikaze:
+Slovenija naj bi bila turistično zažele država, zakaj pa se tujci sploh odločijo obiskati Slovenijo? 
+Našla sem podatke, ki so bili pridobljeni z anketo, ki je spraševala po motivu prihoda tujcev v Slovenijo. Ankentiranci so morali 14 motitov oceniti s pomembnostjo. Podatke sem precej predala in dobila sem naslednje tri prikaze:
 
 ```{r motivi.prihoda.graf, echo=FALSE, fig.align='center'}
 motivi.prihoda.graf
@@ -73,8 +69,8 @@ igralnistvo.italija.avstrija.graf
 </td>
 <td style="width:50%">
 
-Iz zgornjih prikazov razberemo, da so družinsko okolje, zabava in velnes vsem 'državam' dokaj enako pomembno. Rekreacija pa je npr. pomembna predvsem Italijanom. <br /><br />
-Od vseh podatkov me je presenetil predvsem motiv iger na srečo, saj sem pričakovala, da bo le ta pomemben zgolj oz. predvsem Italijanom, a izkazalo se je, da je za Avstrijce pomembnejši. Opazko sem želela potrditi in jo od bliže pogledati, zato lahko vidimo na levi strani dva tortna diagrama, ki prikazujeta pomembnost motiva iger srečo za Italijo in Avstrijo posebej. Razvidno je, da so Avstrijcem igre na srečo v Sloveniji res pomembnejše, kot Italijanom. 
+Iz zgornjih prikazov razberemo, da so družinsko okolje, zabava in velnes vsem 'državam' dokaj enako pomembno. Rekreacija pa je npr. pomembna predvsem Italijanom. Prebivalci neevropskih držav Slovenijo obiščejo predvsem zaradi sprostotve, velnesa in zabave. <br /><br />
+Od vseh podatkov me je presenetil predvsem motiv iger na srečo, saj sem pričakovala, da bo le ta pomemben zgolj oz. predvsem Italijanom, a izkazalo se je, da je za Avstrijce pomembnejši. Opazko sem želela potrditi in jo od bliže pogledati, zato lahko vidimo na levi strani dva tortna diagrama, ki prikazujeta pomembnost motiva iger srečo posebej za Italijo in Avstrijo. Razvidno je, da so Avstrijcem igre na srečo v Sloveniji res pomembnejše, kot Italijanom. 
 
 </td>
 </tr>
@@ -86,27 +82,30 @@ S pomočjo prostorske vizualizacije si poglejmo obiskanost Slovenije z strani sl
 shinyAppDir("shiny", options=list(width="100%", height=450))
 ```
 
-Če pogledamo zimski mesec (npr. december 2019) in poletni mesec (npr. junij 2019) opazimo, da je Obalno-kraška regija obiskana predvsem poleti, Osrednjeslovenska pa pozimi. Prva najverjetneje zaradi kopalne sezone, slednja pa zaradi turističnih ogledov in božičnih sejmov pozimi. Opazimo lahko tudi, da je najbolj turistično obiskana regija Gorenjska. Pozimi zaradi smučišč, poleti pa zaradi pohodništva, kolesarstva in ne prevročega podjebja. <br />
+Za obiskanost Slovenije sem dobila nekaj "ponavljajočih" se značilnosti. Če pogledamo zimski mesec (npr. december 2019) in poletni mesec (npr. junij 2019) opazimo, da je Obalno-kraška regija obiskana predvsem poleti, Osrednjeslovenska pa pozimi. Prva najverjetneje zaradi kopalne sezone, slednja pa zaradi turističnih ogledov in božičnih sejmov pozimi. Opazimo lahko tudi, da je najbolj turistično obiskana regija Gorenjska. Pozimi zaradi smučišč, poleti pa zaradi pohodništva, kolesarstva in ne prevročega podjebja. <br />
 Prav tako lahko ugotovimo, da je Osrednjeslovenska regija bolj obiskana s strani tujcev, Obalno-kraška pa s strani slovencev. Veliko obiskanost ima tudi Savinjska regija, predvidevam da predvsem zaradi toplic. Navedene ugotovitve lahko potrdimo tudi z naslednjim prikazom:
 
 ```{r prenocitev.regije.graf, echo=FALSE, fig.align='center'}
 prenocitev.regije.graf
 ```
 
-Koliko dni pa v povprečju turisti sploh preživijo v posameznih regija? Slednje - nastanitveno dobo - sem prikazala v naslednjem grafičnem prikazu:
+Z zgornjega grafa je razvidno, da je s strani tujcev najbolj obiskana Gorenjska, s strani slovencev pa Obalno-kraška regija. Slovenci najmanj obiščejo Primorsko-notranjsko, tujci pa koroško regijo. Od vseh regij je najmanj obiskana Zasavska. 
+
+Koliko dni pa v povprečju turisti preživijo v posameznih regija? Slednje - nastanitveno dobo - sem prikazala v naslednjem grafičnem prikazu:
 
 ```{r nastanitvena.doba.regije.graf, echo=FALSE, fig.align='center'}
 nastanitvena.doba.regije.graf
 ```
 
-Pričakovala sem, da bo po nastanitveni dobi izstopala Gorenjska, a nam zgornja slika trdi drugače. Najdaljšo nastanitveno dobo imajo Posavska, Savinjska in Zasavska regija. Opazimo tudi, da ima večina regij porast nastanitvene dobe predvsem v hladnejših mesecih.  
-
+Pričakovala sem, da bo po nastanitveni dobi izstopala Gorenjska, a nam zgornja slika trdi drugače. Najdaljšo nastanitveno dobo imajo Posavska, Savinjska in Zasavska regija. Opazimo tudi, da ima večina regij porast nastanitvene dobe predvsem v hladnejših mesecih.  Najkrajšo nastanitveno dobo ima Primorsko-notranjska. Opazimo tudi, da imajo tuji v večini regij daljšo nastanitveno dobo.
 
 <table style="width:100%">
 <tr>
 <td style="width:50%">
 
-Vsi turisti na obiskanem območju nekaj zapravijo. Z grafom na levi strani sem predstavila izdatke za turizem. Razberemo lahko, da tujci za turizem v Sloveniji zapravijo več kot domače prebivalstvo. Prav tako pa Slovenci v tujini za turizem zapravijo več kot v Sloveniji. Zanimivo je pogledati leto 2020, ko so zaradi epidemije tujci manj obiskovali slovenijo in posledično manj zapravili. Podobno vedlja za Slovence - v tujini so zapravili manj. Izpostavila bi izdatke Slovencev v Sloveniji v letu 2020. Iz grafa je razvidno, da so se tej izdatki povečali, najverjetneje zaradi turističnih bonov in omejitev iztopa iz države. 
+Vsi turisti tudi nekaj zapravijo. Z grafom na levi strani sem predstavila izdatke za turizem: izdatke Slovencev v Sloveniji in tujini ter izdatke tujcev v Sloveniji. <br /><br />
+Razberemo lahko, da tujci za turizem v Sloveniji zapravijo več kot domače prebivalstvo. Prav tako pa Slovenci v tujini za turizem zapravijo več kot v Sloveniji. Zanimivo je pogledati leto 2020, ko so zaradi epidemije tujci manj obiskovali slovenijo in posledično manj zapravili. Podobno velja za Slovence - v tujini so zapravili manj. <br />
+Izpostavila bi izdatke Slovencev v Sloveniji v letu 2020. Iz grafa je razvidno, da so se tej izdatki povečali, predvidevam da zaradi turističnih bonov in omejitev izstopa iz države. 
 
 </td>
 <td style="width:50%">
@@ -119,7 +118,7 @@ izdatki.graf
 </tr>
 </table>
 
-Dalje se lahko vprašamo, na čem turisti največ zapravijo.
+Dalje se lahko vprašamo, za kaj turisti največ zapravijo.
 
 <table style="width:100%">
 <tr>
@@ -148,9 +147,9 @@ Torej, v Sloveniji za turizem več zapravijo tuji turisti, kot domači. V poveza
 linearna.regrasija.graf
 ```
 
-Opazimo, da se število prenočitev Slovencev v Sloveniji v povprečju z leti veča. Velik porast vidimo v zadnjih dveh letih, kar lahko pripišemo turističnim bonom in zaprtim mejam. Iz grafa vidimo iztopajoče pikice (oranžne) barve, ki so opazno nad ostalimi. Omenjene prestavljajo poletne mesece, saj kot smo že ugotovili Slovenci radi prenočijo predvsem v poletnih mesecih na obali. Naj dodam še, da je iz grafa jasno videti, kdaj se je začela epidemija, saj prenočitev tako rekoč ni bilo, ker niso bile dovoljene.
+Opazimo, da se število prenočitev Slovencev v Sloveniji v povprečju z leti veča. Velik porast vidimo v zadnjih dveh letih, kar lahko pripišemo turističnim bonom in zaprtim mejam. Iz grafa vidimo iztopajoče pikice (oranžne) barve, ki so opazno nad ostalimi in se pojavljajo konstantno. Omenjene točke prestavljajo poletne mesece, saj kot smo že ugotovili Slovenci radi prenočijo predvsem v poletnih mesecih, najraje na obali. Naj dodam še, da je iz grafa jasno videti, kdaj se je začela epidemija, saj prenočitev tako rekoč ni bilo (rumene pikice takoj po letu 2020), ker niso bile dovoljene.
 
-Poglejmo število zaposlenih v turizmu v Sloveniji in BDP turizma, ki ju prikazujeta grafa spodaj.
+Število zaposlenih v dejavnostih neposredno povezanih s turizmom je malo pod 40 tisoč. To število je v letu 2020 padlo, nato pa kmalu naraslo s sprostitvijo ukrepov epidemije. Poglejmo iz spodnjega levega grafa lahko razberemo gibanje števila zaposlenih v turizmu ter njegovo sestavo. Spodnji desni graf pa prikazuje BDP turizma. 
 
 <table style="width:100%">
 <tr>
@@ -171,9 +170,10 @@ BDP.turizem.graf
 </tr>
 </table>
 
-Takoj opazimo, da se tako število zaposlenih, kot tudi BDP od turizma v letu 2020 zmanjšal, zaradi korona krize. Zanimivo bi bilo videti še podatke za leto 2021, ki pa žal še niso dostopni.Iz grafov vidimo, da je število zaposlenih v slovenskem turizmu pred letom 2020 raslo. Največ je bilo zaposlenih v nastanitvenih storitvah in strežbi, najmanj pa v turstičnih angencijah. Iz drugega grafa pa lahko opazimo, da je BDP od turizma pred letom 2020 razstel, v letu 2020 pa drastično upadel. 
+Takoj opazimo, da se tako število zaposlenih, kot tudi BDP od turizma v letu 2020 zmanjšal, zaradi korona krize. Zanimivo bi bilo videti še podatke za leto 2021, ki pa žal še niso dostopni.Iz grafov vidimo, da je število zaposlenih v slovenskem turizmu pred letom 2020 raslo. Največ je bilo zaposlenih v nastanitvenih storitvah in strežbi, najmanj pa v turstičnih agencijah. <br />
+Iz drugega grafa pa lahko opazimo, da je BDP od turizma pred letom 2020 razstel, v letu 2020 pa drastično upadel. Predvidevam da je le ta v letu 2021 narastel, a se ni vrnil na višino iz leta 2019.
 
-Na spletni strani [I FEEL SLOVENIJA](https://www.slovenia.info/en) sem našla podatke o prihodu turistov iz različnih držav. Iz spodjenjega grafa bi izpostavila predvsem obiskanost Slovenije s strani prebivalcev ZDA, ki je večja kot sem si jo predstavljala. 
+Na spletni strani [I FEEL SLOVENIJA](https://www.slovenia.info/en) sem našla podatke o prihodu turistov iz različnih držav. Iz spodjenjega grafa bi izpostavila predvsem obiskanost Slovenije s strani prebivalcev ZDA, ki je večja kot sem si jo predstavljala (v primerjavi z ostalimi državami). 
 
 ```{r zemljevid.svet.prihodi, echo=FALSE, fig.align='center', options=list(height=350)}
 zemljevid.svet.prihodi
@@ -232,8 +232,8 @@ S pomočjo prečnega prevarjanja sem v spodnjih dveh prikazih prikazala kako "po
 Pomembnost posameznih preteklih **štirih** let pri <br />
 napovedovanju naslednjih treh let:
 
-```{r, fig.align='center'}
-plot(reg.moci)
+```{r, reg.moci.4.plot, echo=FALSE, fig.align='center', width=400}
+reg.moci.4.plot
 ```
 
 </td>
@@ -242,8 +242,8 @@ plot(reg.moci)
 Pomembnost posameznih preteklih **treh** let pri <br />
 napovedovanju naslednjih treh let:
 
-```{r, fig.align='center'}
-plot(reg.moci.3)
+```{r, reg.moci.3.plot, echo=FALSE, fig.align='center', width=400}
+reg.moci.3.plot
 ```
 
 </td>

@@ -26,7 +26,7 @@ turizem.svetovno <- read_csv("podatki/turizem_svetovno.csv",
                              locale = locale(encoding = "Windows-1250"),
                              col_names=TRUE, 
                              col_types = cols(.default = col_guess()))
-turizem.svetovno <- turizem.svetovno[-c(2:53)]
+turizem.svetovno <- turizem.svetovno[-c(2:53, 66)]
 turizem.svetovno <- turizem.svetovno %>%
   pivot_longer(
     cols = colnames(turizem.svetovno)[-1],
@@ -36,7 +36,7 @@ turizem.svetovno <- turizem.svetovno %>%
   group_by(`Country Name`) %>%
   summarize(Povprecje = mean(`Stevilo turistov`, na.rm = TRUE)) %>%
   na.omit()
-colnames(turizem.svetovno)[1] <- "Drzava"
+names(turizem.svetovno)[1] <- "Drzava"
 
 gdp.svetovno <- read_csv("podatki/GDP.csv",
                          skip = 4,
@@ -53,12 +53,13 @@ gdp.svetovno <- gdp.svetovno %>%
   group_by(`Country Name`) %>%
   summarize(Povprecje = mean(`GDP`, na.rm = TRUE)) %>%
   na.omit() 
-colnames(gdp.svetovno)[1] <- "Drzava"
+names(gdp.svetovno)[1] <- "Drzava"
 
 # združitev tabel za napredno analizo:
 turizem.svetovno <- turizem.svetovno %>%
   full_join(gdp.svetovno, by="Drzava")
-colnames(turizem.svetovno) <- c("Drzava", "Turisti", "BDP")
+names(turizem.svetovno)[2] <- "Turisti"
+names(turizem.svetovno)[3] <- "BDP"
 
 turizem.svetovno[turizem.svetovno == "Russian Federation"] <- "Russia"
 turizem.svetovno[turizem.svetovno == "Northern Macedonia"] <- "North Macedonia"

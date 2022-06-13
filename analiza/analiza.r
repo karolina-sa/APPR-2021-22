@@ -161,7 +161,7 @@ diagram.obrisi = function(k.obrisi) {
     xlab("število skupin (k)") +
     ylab("obrisi (povprečje obrisov)") +
     ggtitle(paste("Maksimalno povprečje obrisov pri k =", obrisi.k(k.obrisi))) +
-    theme_classic()
+    theme_classic() 
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
@@ -320,7 +320,7 @@ zemljevid <-
 names(tabela.skupine.k.means)[1] <- "ADMIN"
 
 zemljevid.kmeans <- ggplot() +
-  aes(x = long, y = lat, group = group, fill = Skupine) +
+  aes(x = long, y = lat, group = group, fill = factor(Skupine)) +
   geom_polygon(data = tabela.skupine.k.means %>% 
                  right_join(zemljevid, by = "ADMIN")) +
   xlab("") +
@@ -330,7 +330,7 @@ zemljevid.kmeans <- ggplot() +
   guides(fill=guide_legend(title="Skupina")) +
   theme_bw() +
   theme(plot.caption.position = "plot")  +
-  scale_fill_distiller(palette = "YlGnBu")
+  scale_fill_brewer(palette = "YlGnBu", na.translate = F)
 
 zemljevid.kmeans
 
@@ -373,7 +373,7 @@ tabela.skupine.hierarh <- TURIZEM.EVROPA %>%
 names(tabela.skupine.hierarh)[1] <- "ADMIN"
 
 zemljevid.hierarh <- ggplot() +
-  aes(x = long, y = lat, group = group, fill = Skupine) +
+  aes(x = long, y = lat, group = group, fill = factor(Skupine)) +
   geom_polygon(data = tabela.skupine.hierarh %>% 
                  right_join(zemljevid, by = "ADMIN")) +
   xlab("") +
@@ -383,7 +383,7 @@ zemljevid.hierarh <- ggplot() +
   guides(fill=guide_legend(title="Skupina")) +
   theme_bw() +
   theme(plot.caption.position = "plot") +
-  scale_fill_distiller(palette = "YlGnBu")
+  scale_fill_brewer(palette = "YlGnBu", na.translate = F)
 
 zemljevid.hierarh
 
@@ -462,7 +462,7 @@ napovedovanje.graf <- ggplot(slovenija.turizem.z.napovednjo,
   slovenija.turizem.z.napovednjo %>%
   filter(Leto %in% c(2020:2023)) %>%
   geom_line(
-    mapping = aes(x = Leto, y = Število),
+    mapping = aes(x = Leto, y = Stevilo),
     color = "red"
   ) +
   labs(
@@ -502,7 +502,7 @@ reg.pred = Predictor$new(
 # na koncu uporabimo funkcijo FeatureImp$new
 reg.moci = FeatureImp$new(reg.pred, loss = "mse")
 
-# plot(reg.moci)
+reg.moci.4.plot <- plot(reg.moci) + theme_bw()
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
@@ -589,7 +589,7 @@ reg.pred.3 = Predictor$new(
 # na koncu uporabimo funkcijo FeatureImp$new
 reg.moci.3 = FeatureImp$new(reg.pred.3, loss = "mse")
 
-# plot(reg.moci.3)
+reg.moci.3.plot <- plot(reg.moci.3) + theme_bw()
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 
