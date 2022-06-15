@@ -221,16 +221,16 @@ napovedovanje.graf.skupaj
 Že pred začetkom izdelave grafa napovedi sem bila malce skeptična, saj je turizem v letu 2020 doživel ogromen šok, kar je zagotovo vplivalo na ne najbolj točne razultate, a vseeno sem postopek izpeljala do konca. 
 Na spletu sem našla neuraden podatek, da je bilo leta 2021 vsega skupaj okrog 1,8 milijona turističnih prihodov tujcev v Slovenijo, z obema napovedma pa sem dobila okrog 2,5 milijona prihodov. Napaka je sicer kar velika, a vselej majha, če upoštevamo šok, ki ga je doživelo gospodastvo. Prepričana sem, da so napovedani podatki za leto 2022 že bolj točni - menim, da turistični prihodi tujcev v Slovenijo niso tako drastično narasli, saj ima epidemija še vedno posledice, tudi po dveh letih in sproščenih ukrepih gibanja. 
 
-Razvidno je, da je napoved glede na pretekla štiri leta drugačna od napovedi glede na pretekla tri leta. Pomembna razlika je očitno v naraščanju prihodov pred letom 2020. Če gledamo samo leta 2018, 2019 in 2020 imamo samo eno obdobje naraščanja. Če pa gledamo od leta 2017 do 2020 imamo dve obdobji naraščanja, kar zagotovo pripore k napovedi z večjim številom prihodov. Ta razlika v napovedi za leto 2021 ni razvidna, v letih 2022 in 2023 pa je razlika dobro opazna, saj napoved glede na pretekla tri leta pada. Slednje se najverjetneje zgodi zaradi kratkega obdobja naraščanja v preteklih treh letih. 
+Razvidno je, da je napoved glede na pretekla štiri leta drugačna od napovedi glede na pretekla tri leta. Pomembna razlika je očitno v naraščanju prihodov pred letom 2020. Če gledamo samo leta 2018, 2019 in 2020 imamo samo eno obdobje naraščanja. Če pa gledamo od leta 2017 do 2020 imamo dve obdobji naraščanja, kar zagotovo pripore k napovedi z večjim številom prihodov. Razlika v napovedi je razvidna, že v letu 2021, saj je napoved glede na pretekla tri leta nižja od napovedi glede na pretekla štiri leta. Napoved za leti 2022 in 2023 pada v primeru napovedi glede na pretekla tri leta, saj imamo, kot že omenjeno, več obdobij padanja, kot naraščanja števila turistov. 
 
-S pomočjo prečnega prevarjanja sem v spodnjih dveh prikazih prikazala kako "pomembno" vlogo igrajo posamezna leta pri napovedovanju prihodov turistov v naslednjih treh letih. 
+S pomočjo prečnega prevarjanja sem v spodnjih dveh prikazih prikazala kako "pomembno" vlogo igrajo posamezna leta pri napovedovanju prihodov turistov v letu 2021. 
 
 <table style="width:100%">
 <tr>
 <td style="width:50%">
 
 Pomembnost posameznih preteklih **štirih** let pri <br />
-napovedovanju naslednjih treh let:
+napovedovanju števila turistov v letu 2021:
 
 ```{r, reg.moci.4.plot, echo=FALSE, fig.align='center', width=400}
 reg.moci.4.plot
@@ -240,7 +240,7 @@ reg.moci.4.plot
 <td style="width:50%">
 
 Pomembnost posameznih preteklih **treh** let pri <br />
-napovedovanju naslednjih treh let:
+napovedovanju števila turistov v letu 2021:
 
 ```{r, reg.moci.3.plot, echo=FALSE, fig.align='center', width=400}
 reg.moci.3.plot
@@ -250,7 +250,12 @@ reg.moci.3.plot
 </tr>
 </table>
 
-Najpomembnejšo vlogo pri napovedovanju v obeh primerih igra leto 2018, najmanjšo pa leto 2019. Leto 2017 je pri napovedovanju pomembno, zato bi se odločila, da je napovedovanje glede na pretekla štiri leta bolj točno in ustreznejše kot napovedovanje glede na pretekla tri leta.
+Najpomembnejšo vlogo pri napovedovanju v obeh primerih igra leto 2018, najmanjšo pa leto 2019. Leto 2017 je pri napovedovanju pomembno, zato bi se odločila, da je napovedovanje glede na pretekla štiri leta bolj točno in ustreznejše kot napovedovanje glede na pretekla tri leta. Svojo izbiro lahko potrdim še z naslednjimi rezultati:
+
+
+TUKAJ MANJKA!!!!!!!
+
+
 
 
 Za konec se lahko vprašamo še katerim  državam je Slovenija podobna, turistično gledano seveda. Za razvrstitev sem vzela zgolj Evropske države, saj bi bilo svetovno merilo bolj nepregledno in zmedeno. Prav tako pa bi primerjali države, ki so tako gospodarsko, kot tudi drugače precej različne. Na stani [The World Bank](https://data.worldbank.org/indicator/ST.INT.ARVL) sem dobila podatke za število prihodov turistov za vse države sveta od leta 1995 naprej. Vzela sem zgolj obdobje od 2009 naprej (zaradi aktualnosti) in naredila povprečje podatkov. Dobljena povprečja sem nato delila s površino posamezne države (podatke sem dobila na [Wikipedi](https://en.wikipedia.org/wiki/List_of_countries_and_dependencies_by_area)), saj bi bilo drugače primerjanje držav nesmiselno. Pri razdelitvi v skupine sem upoštevala še BDP, ki menim, da igra pomembno vlogo, sicer ne največje, pri turistični obiskanosti države. Podatke o BDP sem prav tako dobila na strani [The World Bank](https://data.worldbank.org/indicator/NY.GDP.MKTP.CD). Naredila sem razdelitev v skupine na dva različna načina: z metodo hierarhičnega razvrščanja in metodo k-tih voditeljev. 

@@ -271,6 +271,7 @@ precno.preverjanje = function(podatki, razbitje, formula, algoritem, razvrscanje
     mean((pp.napovedi - podatki$yn) ^ 2)
   }
 }
+
 # Funkciji Predictor$new moramo povedati kako napovedujemo z modelom naključnih gozdov 
 pfun = function(model, newdata) {
   predict(model, data = newdata, predict.all = FALSE)$predictions
@@ -415,6 +416,57 @@ slovenija.turizem$Stevilo <- as.integer(slovenija.turizem$Stevilo)
 
 # tabela in dva stolpca, prvi so leta, drugi pa število turističnih obiskov
 
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+# IZBIRA napovednega modela (z napako): med linearno regrasijo in naključnimi gozdovi
+#   pogledala bom napake obeh modelov
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+#     1) glede na pretekla 4 leta:
+zamakni <- function(x, n){c(rep(NA, n), x)[1:length(x)]}
+naredi.df.4 <- function(x){
+  data.frame(pricak  = x,
+             "Leto 2020"  = zamakni(x, 1),
+             "Leto 2019" = zamakni(x, 2),
+             "Leto 2018" = zamakni(x, 3),
+             "Leto 2017" = zamakni(x, 4))
+}
+df.4 <- naredi.df.4(slovenija.turizem$Stevilo)
+
+ucni.4 = pp.razbitje(df.4, stratifikacija = df.4$pricak)
+
+#       - naključni gozdovi:
+
+precno.preverjanje(df.4, ucni.4, pricak ~ Leto.2020 + Leto.2019 + Leto.2018 + Leto.2017, "ng", FALSE)
+
+#       - linearna regrasija:
+
+# lin.model = lm(data = df.4, formula = pricak ~ Leto.2020 + Leto.2019 + Leto.2018 + Leto.2017)
+precno.preverjanje(df.4, ucni.4, pricak ~ Leto.2020 + Leto.2019 + Leto.2018 + Leto.2017, "lin.reg", FALSE)
+
+
+
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+#     2) glede na pretekla 3 leta:
+#       - naključni gozdovi:
+
+
+#       - linearna regrasija:
+
+
+
+
+
+
+
+
+
+
+
+
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+# NAPOVEDOVANJE Z METODO NAKLJUČNIH GOZDOV
+
 # napovedovanje:
 zamakni <- function(x, n){c(rep(NA, n), x)[1:length(x)]}
 
@@ -480,7 +532,8 @@ napovedovanje.graf
 # prečno preverjanje napovedovanja glede na pretekla 4 leta:
 
 # vrednosti NA motijo delovanje funckije
-df.4 <- df.4 %>% na.omit()
+
+df.4 <- df.4 %>% drop_na()
 
 ucni <- pp.razbitje(df.4, stratifikacija = df.4$pricak)
 
@@ -503,6 +556,13 @@ reg.pred = Predictor$new(
 reg.moci = FeatureImp$new(reg.pred, loss = "mse")
 
 reg.moci.4.plot <- plot(reg.moci) + theme_bw()
+reg.moci.4.plot
+
+
+
+precno.preverjanje(df.4, ucni, pricak ~ Leto.2020 + Leto.2019 + Leto.2018 + Leto.2017, "ng", FALSE)
+
+
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
@@ -627,6 +687,14 @@ napovedovanje.graf.skupaj <- ggplot(slovenija.turizem.z.napovednjo,
            color="red", size = 2.5)
 
 napovedovanje.graf.skupaj
+
+
+
+
+
+precno.preverjanje(df.3, ucni.3, pricak ~ "Leto 2018" + "Leto 2019" + "Leto 2020", "ng", TRUE)
+
+
 
 
 
