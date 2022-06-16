@@ -37,7 +37,27 @@ source("analiza/analiza.r", encoding="UTF-8")
 
 ##  Priprava projekta
 
-Tukaj bo napisano o izbiri teme, uvozu podatkov (kje sem našla podatke, kako sem uredila tabele, kakšni formati podatkov so bili (.csv, .html, .xlsx), s čim sem imela težave, ...) 
+V zadnjih dveh letih je bilo veliko govora o turizmu, predvsem v povezavi s turističnimi boni in posledicami epidemije. Velikokrat sem se vprašala, koliko slovencev sploh obiskuje slovenske turistične obrate, ali raje gredo v tujino ali ostanejo doma in ali se je res tako drastično poslabšalo stanje v turizmu, da potrebujemo turistične bone. Prav tako me je zanimalo katere regije so najbolj obiskane s strani tujcev in katere s strani Slovencev. Slednja vprašanja so tako motivirala izibro tebe za projektno nalogo.
+
+Projektne naloge sem se lotila z zbiranjem podatkov. Večino podatkov sem dobila na strani [Statističnega urada Republike Slovenije](https://pxweb.stat.si/SiStat/sl), nakateri pa so tudi s strani [I FEEL SLOVENIJA](https://www.slovenia.info/en), [The World Bank](https://data.worldbank.org/indicator) in [Wikipedie](https://en.wikipedia.org/wiki/List_of_countries_and_dependencies_by_area). Kje ni izrecno navedeno, so podatki iz [Statističnega urada Republike Slovenije](https://pxweb.stat.si/SiStat/sl). Pridobljeni podatki so treh oblikah: `.csv`, `.xlsx` in `.html`.
+
+Po tem ko sem pridobila podatke sem se loti uvoza. Uvozila sem 22 različnih podatkov, nato sem jih uredila in naprej združevala v tabele in pri nekaterih tudi računala povprečja, vsote in podobno. Tako sem v grobem dobila 11 različnih tabel. Vsebina dobljenih tabel:
+
+* `turizem.evropa` vsebuje podatke Evropskih držav. Za vsako državo imamo podatek o BDP ter številu turistov, ki so državo obiskali glede na njeno površino.
+* `prenocitve.regije` zajema mesečne podatke o prenočitvah v posameznih regijah od leta 2019 do leta 2022. Podatke lahko ločimo glede na to ali veljajo za tujce ali Slovence, ki so prenočili v Sloveniji.
+* `nastanitvena.doba.regije` prav tako vsebuje mesečne podatke, o dolžini nastanitvene dobe v posamezni regiji, ločeno za Slovence in tujce.
+* `prenocitve.letno` prikazuje podatke o letnem številu prenočitev Slovencev po tujih državah od leta 2010 do leta 2020.
+* `stevilo.zaposlenih` vsebuje podatke o letnem številu zaposlenih v različnih turističnih storitvah v letu 2012, 2014, 2015, 2017, 2019 in 2020.
+* `BDP.turizem` zajema podatke o gibanju BDP v slovenskem turizmu v letih 2012, 2014, 2015, 2017, 2019 in 2020 .
+* `motivi.prihoda` obsega podatke o pomembnosti izranih motivov za obisk Slovenije s strani tujcev.
+* `izdatki` je tabela, ki jo sestavljajo letni podatki o izdatkih slovencev in tujcev za turizem v Sloveniji in tujini.
+* `sestava.turisticne.potrosnje.tujcev.v.sloveniji` vsebuje letne podatke o izdatkih tujcev v Sloveniji za različne turistične storitve.
+* `vec.let.skupaj` združuje podatke o letnem številu prihodov in prenočitev turistov iz posameznih držav med leti 2018 in 2020.
+* `slovenci.prenocitve` obsega mesečne podatke o številu prenočitev Slovencev v Sloveniji med leti 2010 in 2021.
+
+Sledila je faza vizualizacije in napredne analize, v katerih sem tabele, urejene v fazi uvoza, še dodelala in jih še dodatno prilagodila, da sem lažje zrisala grafične prikaze. V fazi viuzalizacije sem se odločala med različnimi tipi grafičnih prikazov. Za posamezne podatke sem izbrala grafični prikaz, ki se mi je zdel najbolj primeren. Pri vizualizaciji sem naredila tudi nekaj zemljevidov, med drugim tudi zemljevid Slovenije s `shiny` aplikacijo. V fazi napredne analize sem naredila dva grafa linearne regresije, s pomočjo funkcije `geom_smooth`. Glavni del napredne analize se v poročilu nahaja čisto na koncu in obsega napovedne modele in razvrščanje v skupine. V obeh analizah sem izbirala med različnimi modeli in svoje odločitve podkrepila z različnimi grafičnimi prikazi.
+
+Vzporedno s fazo vizualizacije in napredne analize sem sestavljala poročilo, v katerem sem ugotovitve, pridobljene iz dobljenih grafičnih prikazov, nazorno opisala in ponekod dodala tudi svoje mnenje. 
 
 ***
 
@@ -202,7 +222,7 @@ zemljevid.prenocitve
 
 V obeh zgornjih grafih je razvidno, da je največ turistov, ki bodisi prenočijo, bodisi samo obiščejo Slovenijo, iz naših sosed, Nemčije, Ukrajine in Belorusije. 
 
-Kam v tujino pa se Slovenci največ odpravijo? Našla sem podatke prenočitev Slovencev po posameznih državah med leti 2010 in 2020; podatke sem prikazala v spodnjem grafu; v katerm opazimo, da je število nočitev Slovencev v tujini največje v sosednjih državah, Nemčiji, Nizozemski in Združenim kraljestvom. Od vseh podatkov me je presenetila majhna obiskanost Gričije.
+Kam v tujino pa se Slovenci največ odpravijo? Našla sem podatke prenočitev Slovencev po posameznih državah med leti 2010 in 2020; podatke sem prikazala v spodnjem grafu; v katerm opazimo, da je število nočitev Slovencev v tujini največje v sosednjih državah, Nemčiji, Nizozemski in Združenim kraljestvom. Od vseh podatkov me je presenetila majhna obiskanost Grčije.
 
 ```{r prenocitve.slovencev.v.tujini, echo=FALSE, fig.align='center'}
 prenocitve.slovencev.v.tujini
@@ -211,6 +231,8 @@ prenocitve.slovencev.v.tujini
 
 
 <p>&nbsp;</p>
+
+### NAPOVEDNI MODELI
 
 Poglejmo še skupno število tujih turističnih prihodov v Slovenijo. Podatke sem našla na spletni strani [The World Bank](https://data.worldbank.org/indicator/ST.INT.ARVL) in vsebovali so število turističnih prihodov v Slovenijo za čas med leti 1995 in 2020. Odločila sem se, da bom dodatno še napovedala bodoče turistične prihode tujcev v Slovenijo. Naredila sem dve napovedi, prvo glede na število prihodov turistov v Slovenijo v preteklih štiri letih, drugo pa glede na pretekla tri leta. Dobljeni rezultati so predstavljeni v nasledjnem grafu: 
 
@@ -256,7 +278,7 @@ Najpomembnejšo vlogo pri napovedovanju v obeh primerih igra leto 2018, najmanj�
 TUKAJ MANJKA!!!!!!!
 
 
-
+### RAZVRŠČANJE V SKUPINE
 
 Za konec se lahko vprašamo še katerim  državam je Slovenija podobna, turistično gledano seveda. Za razvrstitev sem vzela zgolj Evropske države, saj bi bilo svetovno merilo bolj nepregledno in zmedeno. Prav tako pa bi primerjali države, ki so tako gospodarsko, kot tudi drugače precej različne. Na stani [The World Bank](https://data.worldbank.org/indicator/ST.INT.ARVL) sem dobila podatke za število prihodov turistov za vse države sveta od leta 1995 naprej. Vzela sem zgolj obdobje od 2009 naprej (zaradi aktualnosti) in naredila povprečje podatkov. Dobljena povprečja sem nato delila s površino posamezne države (podatke sem dobila na [Wikipedi](https://en.wikipedia.org/wiki/List_of_countries_and_dependencies_by_area)), saj bi bilo drugače primerjanje držav nesmiselno. Pri razdelitvi v skupine sem upoštevala še BDP, ki menim, da igra pomembno vlogo, sicer ne največje, pri turistični obiskanosti države. Podatke o BDP sem prav tako dobila na strani [The World Bank](https://data.worldbank.org/indicator/NY.GDP.MKTP.CD). Naredila sem razdelitev v skupine na dva različna načina: z metodo hierarhičnega razvrščanja in metodo k-tih voditeljev. 
 

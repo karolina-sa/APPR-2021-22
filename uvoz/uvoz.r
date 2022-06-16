@@ -344,12 +344,12 @@ izdatki.slovencev.v.tujini <- izdatki.slovencev.v.tujini %>%
 
 sestava <- read_html("podatki/sestava_turisticne_potrosnje_tujcev_v_sloveniji.html", skip = 2, remove.empty = TRUE, trim = TRUE)
 sestava.vmesna <- html_nodes(sestava, "table")
-SESTAVA.TURISTICNE.POTROSNJE.TUJCEV.V.SLOVENIJI <- html_table(sestava.vmesna, header = FALSE, fill = TRUE)[[1]]
-names(SESTAVA.TURISTICNE.POTROSNJE.TUJCEV.V.SLOVENIJI) <- c("Storitve", "2012", "2012", "2014","2014", "2015", "2015", "2017", "2017", "2019", "2019", "2020", "2020")
-SESTAVA.TURISTICNE.POTROSNJE.TUJCEV.V.SLOVENIJI <- SESTAVA.TURISTICNE.POTROSNJE.TUJCEV.V.SLOVENIJI[-c(1, 2, 3, 10, 11),]
+sestava.turisticne.potrosnje.tujcev.v.sloveniji <- html_table(sestava.vmesna, header = FALSE, fill = TRUE)[[1]]
+names(sestava.turisticne.potrosnje.tujcev.v.sloveniji) <- c("Storitve", "2012", "2012", "2014","2014", "2015", "2015", "2017", "2017", "2019", "2019", "2020", "2020")
+sestava.turisticne.potrosnje.tujcev.v.sloveniji <- sestava.turisticne.potrosnje.tujcev.v.sloveniji[-c(1, 2, 3, 10, 11),]
 
-SESTAVA.TURISTICNE.POTROSNJE.TUJCEV.V.SLOVENIJI <- SESTAVA.TURISTICNE.POTROSNJE.TUJCEV.V.SLOVENIJI %>%
-  pivot_longer(cols = colnames(SESTAVA.TURISTICNE.POTROSNJE.TUJCEV.V.SLOVENIJI)[-1],
+sestava.turisticne.potrosnje.tujcev.v.sloveniji <- sestava.turisticne.potrosnje.tujcev.v.sloveniji %>%
+  pivot_longer(cols = colnames(sestava.turisticne.potrosnje.tujcev.v.sloveniji)[-1],
                names_to = "Leto",
                values_to = "Stevilo") %>%
   mutate(
@@ -357,26 +357,26 @@ SESTAVA.TURISTICNE.POTROSNJE.TUJCEV.V.SLOVENIJI <- SESTAVA.TURISTICNE.POTROSNJE.
   ) %>%
   arrange(Leto)
 
-SESTAVA.TURISTICNE.POTROSNJE.TUJCEV.V.SLOVENIJI$Leto <- parse_number(SESTAVA.TURISTICNE.POTROSNJE.TUJCEV.V.SLOVENIJI$Leto)
-SESTAVA.TURISTICNE.POTROSNJE.TUJCEV.V.SLOVENIJI$Stevilo <- parse_number(SESTAVA.TURISTICNE.POTROSNJE.TUJCEV.V.SLOVENIJI$Stevilo)
+sestava.turisticne.potrosnje.tujcev.v.sloveniji$Leto <- parse_number(sestava.turisticne.potrosnje.tujcev.v.sloveniji$Leto)
+sestava.turisticne.potrosnje.tujcev.v.sloveniji$Stevilo <- parse_number(sestava.turisticne.potrosnje.tujcev.v.sloveniji$Stevilo)
 
-SESTAVA.TURISTICNE.POTROSNJE.TUJCEV.V.SLOVENIJI <- SESTAVA.TURISTICNE.POTROSNJE.TUJCEV.V.SLOVENIJI %>%
+sestava.turisticne.potrosnje.tujcev.v.sloveniji <- sestava.turisticne.potrosnje.tujcev.v.sloveniji %>%
   group_by(Storitve, Leto) %>%
   summarise("Izdatek" = sum(Stevilo))
 
-SESTAVA.TURISTICNE.POTROSNJE.TUJCEV.V.SLOVENIJI$Storitve <- gsub("Storitve prevoza potnikov in najema prevoznih sredstev",
+sestava.turisticne.potrosnje.tujcev.v.sloveniji$Storitve <- gsub("Storitve prevoza potnikov in najema prevoznih sredstev",
                                                                  "Prevozna sredstva",
-     SESTAVA.TURISTICNE.POTROSNJE.TUJCEV.V.SLOVENIJI$Storitve)
-SESTAVA.TURISTICNE.POTROSNJE.TUJCEV.V.SLOVENIJI$Storitve <-
+     sestava.turisticne.potrosnje.tujcev.v.sloveniji$Storitve)
+sestava.turisticne.potrosnje.tujcev.v.sloveniji$Storitve <-
   gsub("Storitve turističnih agencij in organizatorjev potovanj",
      "Storitve turističnih agencij",
-     SESTAVA.TURISTICNE.POTROSNJE.TUJCEV.V.SLOVENIJI$Storitve)
-SESTAVA.TURISTICNE.POTROSNJE.TUJCEV.V.SLOVENIJI$Storitve <-
+     sestava.turisticne.potrosnje.tujcev.v.sloveniji$Storitve)
+sestava.turisticne.potrosnje.tujcev.v.sloveniji$Storitve <-
   gsub("Športne in rekreacijske storitve", "Športne storitve",
-     SESTAVA.TURISTICNE.POTROSNJE.TUJCEV.V.SLOVENIJI$Storitve)
-SESTAVA.TURISTICNE.POTROSNJE.TUJCEV.V.SLOVENIJI$Storitve <-
+     sestava.turisticne.potrosnje.tujcev.v.sloveniji$Storitve)
+sestava.turisticne.potrosnje.tujcev.v.sloveniji$Storitve <-
   gsub("Strežba hrane in pijač", "Gostinjske storitve",
-     SESTAVA.TURISTICNE.POTROSNJE.TUJCEV.V.SLOVENIJI$Storitve)
+     sestava.turisticne.potrosnje.tujcev.v.sloveniji$Storitve)
 
 # ==============================================================================
 
@@ -398,7 +398,7 @@ colnames(izdatki) <- c("Leto", "Vrsta", "Stevilo")
 # stevilke so v milijonih €
 
 IZDATKI <- izdatki
-SESTAVA.TURISTICNE.POTROSNJE.TUJCEV.V.SLOVENIJI
+sestava.turisticne.potrosnje.tujcev.v.sloveniji
  
 # ==============================================================================
 # ==============================================================================

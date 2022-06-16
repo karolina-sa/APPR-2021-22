@@ -24,7 +24,7 @@ prenocitev.regije.graf
 
 # ==============================================================================
 
-# nastanitvena doba po regijah (to bi se lahko štelo tudi pod napredno analizo)
+# nastanitvena doba po regijah (šteje pod napredno analizo)
 
 nastanitvena.doba.regije.graf <- ggplot(nastanitvena.doba.regije,
                                         cex.axis = 0.5) +
@@ -192,7 +192,7 @@ izdatki.graf
 
 # sestava potrošnje tujcev v Sloveniji
 
-sestava.izdatkov.graf1 <- ggplot(data=SESTAVA.TURISTICNE.POTROSNJE.TUJCEV.V.SLOVENIJI,
+sestava.izdatkov.graf1 <- ggplot(data=sestava.turisticne.potrosnje.tujcev.v.sloveniji,
                                 aes(x = Leto, y = Izdatek, color = Storitve)) +
   geom_point() +
   geom_line(size=1) +
@@ -207,7 +207,7 @@ sestava.izdatkov.graf1
 
 # sestava potrošnje z boxplot
 
-sestava.izdatkov.graf2 <- ggplot(data=SESTAVA.TURISTICNE.POTROSNJE.TUJCEV.V.SLOVENIJI,
+sestava.izdatkov.graf2 <- ggplot(data=sestava.turisticne.potrosnje.tujcev.v.sloveniji,
                                  aes(x = Storitve, y = Izdatek)) +
   geom_boxplot(fill="grey95", notch = FALSE) +
   stat_summary(fun=mean, geom="point", shape=15, size=2, color="red") +
