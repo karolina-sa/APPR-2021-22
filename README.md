@@ -3,47 +3,27 @@
 
 ## Tematika
 
-V projektu bom analizirala turizem v  Sloveniji: povprečno nastanitveno dobo, obiskanost nastanitvenih obratov, število prenočitev, število zaposlenih v turizmu, motive prihoda, izbiro turističnih destinacij v Sloveniji, uporabljena prevozna sredstva, potrošnjo turistov ter faktorje, ki vplivajo na odločitev potovanja. 
+V zadnjih dveh letih je bilo veliko govora o turizmu, predvsem v povezavi s turističnimi boni in posledicami epidemije, kar je motiviralo izibro teme projektne naloge.
 
-Vsi podatki so bili pridobljeni na [Statističnem uradu Republike Slovenije](https://pxweb.stat.si/SiStat/sl) in so bili v [Program R](https://www.r-project.org/) uvoženi v `.html` ali `.csv` obliki.
+Projektne naloge sem se lotila z zbiranjem podatkov. Večino podatkov sem dobila na strani [Statističnega urada Republike Slovenije](https://pxweb.stat.si/SiStat/sl), nakateri pa so tudi s strani [I FEEL SLOVENIJA](https://www.slovenia.info/en), [The World Bank](https://data.worldbank.org/indicator) in [Wikipedie](https://en.wikipedia.org/wiki/List_of_countries_and_dependencies_by_area). Kje ni izrecno navedeno, so podatki iz [Statističnega urada Republike Slovenije](https://pxweb.stat.si/SiStat/sl). Pridobljeni podatki so treh oblikah: `.csv`, `.xlsx` in `.html`.
 
-Analizo sem razdelila v šest sklopov, ki se med seboj povezujejo, vendar bodo predstavljeni v različnih tabelah:
+Po tem ko sem pridobila podatke sem se loti uvoza. Uvozila sem 22 različnih podatkov, nato sem jih uredila in naprej združevala v tabele in pri nekaterih tudi računala povprečja, vsote in podobno. Tako sem v grobem dobila 11 različnih tabel. Vsebina dobljenih tabel:
 
-1. **Mesečni pregled glede na regije** <br/>
+* `turizem.evropa` vsebuje podatke Evropskih držav. Za vsako državo imamo podatek o BDP ter številu turistov, ki so državo obiskali glede na njeno površino.
+* `prenocitve.regije` zajema mesečne podatke o prenočitvah v posameznih regijah od leta 2019 do leta 2022. Podatke lahko ločimo glede na to ali veljajo za tujce ali Slovence, ki so prenočili v Sloveniji.
+* `nastanitvena.doba.regije` prav tako vsebuje mesečne podatke, o dolžini nastanitvene dobe v posamezni regiji, ločeno za Slovence in tujce.
+* `prenocitve.letno` prikazuje podatke o letnem številu prenočitev Slovencev po tujih državah od leta 2010 do leta 2020.
+* `stevilo.zaposlenih` vsebuje podatke o letnem številu zaposlenih v različnih turističnih storitvah v letu 2012, 2014, 2015, 2017, 2019 in 2020.
+* `BDP.turizem` zajema podatke o gibanju BDP v slovenskem turizmu v letih 2012, 2014, 2015, 2017, 2019 in 2020 .
+* `motivi.prihoda` obsega podatke o pomembnosti izranih motivov za obisk Slovenije s strani tujcev.
+* `izdatki` je tabela, ki jo sestavljajo letni podatki o izdatkih slovencev in tujcev za turizem v Sloveniji in tujini.
+* `sestava.turisticne.potrosnje.tujcev.v.sloveniji` vsebuje letne podatke o izdatkih tujcev v Sloveniji za različne turistične storitve.
+* `vec.let.skupaj` združuje podatke o letnem številu prihodov in prenočitev turistov iz posameznih držav med leti 2018 in 2020.
+* `slovenci.prenocitve` obsega mesečne podatke o številu prenočitev Slovencev v Sloveniji med leti 2010 in 2021. 
 
-Podatki po stolpcih: regija, mesec, nastanitvena_doba, nastanitveni_obrat, število_prenočitev, povprečni_mesečni_dohodek <br/>
-Predvidena analiza: obiskanost posameznih regij glede na mesec/letni čas, v katere regije najraje zahajajo Slovenci in v katere tujci, kakšna je povprečna nastanitvena doba, kdo ima daljšo nastanitveno dobo - tujci ali Slovenci, nastanitvena doba glede na oddaljenost tuje države, kateri so najbolj popularni nastanitveni obrati, pogledamo lahko ali ima število turistov vpliv na dohodek zaposlenih.
+Sledila je faza vizualizacije in napredne analize, v katerih sem tabele, urejene v fazi uvoza, še dodelala in jih še dodatno prilagodila, da sem lažje zrisala grafične prikaze. V fazi viuzalizacije sem se odločala med različnimi tipi grafičnih prikazov. Za posamezne podatke sem izbrala grafični prikaz, ki se mi je zdel najbolj primeren. Pri vizualizaciji sem naredila tudi nekaj zemljevidov, med drugim tudi zemljevid Slovenije s `shiny` aplikacijo. V fazi napredne analize sem naredila dva grafa linearne regresije, s pomočjo funkcije `geom_smooth`. Glavni del napredne analize se v poročilu nahaja čisto na koncu in obsega napovedne modele in razvrščanje v skupine. V obeh analizah sem izbirala med različnimi modeli in svoje odločitve podkrepila z različnimi grafičnimi prikazi.
 
-2. **Večletni pregled za celotno državo** <br/>
-
-Podatki po stolpcih: leto, število_prenočitev, število_zaposlenih <br/>
-Predvidena analiza: število zaposlenih v odvisnosti od števila prenočitev. Prav tako lahko analiziramo drastični upad povpraševanja po turističnih dejavnosti v letu 2020, zaradi epidemije. Opazujemo lahko povpraševanje Slovencev po slovenskem turizmu, glede na pojav turističnih bonov in subvencij.
-
-3. **Razlogi za prihod tujcev v Slovenijo ter uporabljeno prevozno sredstvo** <br/>
-
-Podatki po stolpcih: država, motvi_prihoda, prevozno_sredstvo <br/>
-Predvidena analiza: najpomembnejši razlog obiska Slovenije, najpogostejše prevozno sredstvo - glede na oddaljenost tuje države
-
-4. **Države, ki jih obiskujejo Slovenci** <br/>
-
-Podatki po stolpcih: država, število_slovenskih_turistov <br/>
-Predvidena analiza: katere so najbolj obiskane države s strani Slovencev
-
-5. **Izdatki tujcev ter Slovencev za turizem** <br/>
-
-5.1. Izdatki tujcev ter Slovencev za turizem <br/>
-Podatki po stolpcih: leto, potrošnja_tujcev_v_Slo, potrošnja_slovencev_v_Slo, potrošnja_slovencev_v_tujini <br/>
-Predvidena analiza: opazujemo lahko koliko Slovenci 'cenijo' slovenski turizem; kako se razlikujejo potrošnje med seboj, kako so se spreminjale v preteklih letih
-
-5.2. Sestava potrošnja tujcev v Sloveniji <br/>
-Podatki po stolpcih: leto, sestava_potrošnje <br/>
-Predvidena analiza: na čem največ potrošijo tuji turisti v Sloveniji
-
-6. **Kaj vpliva na odločitve potovanja** <br/>
-
-Podatki po stolpcih: dejavnik, leto, šli_na_potovanje, niso_šli_na_potovanje, šli_poslovno <br/>
-Predvidena analiza: glede na starost, izobrazbo ter velikost gospodinjstva lahko primerjamo kdo si privošči več potovanj ter kdo največ potuje poslovno. 
-
+Vzporedno s fazo vizualizacije in napredne analize sem sestavljala poročilo, v katerem sem ugotovitve, pridobljene iz dobljenih grafičnih prikazov, nazorno opisala in ponekod dodala tudi svoje mnenje. 
 
 ## Program
 
