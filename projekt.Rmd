@@ -60,16 +60,16 @@ motivi.prihoda.pomembnost.graf
 
 <table style="width:100%">
 <tr>
-<td style="width:50%">
+<td style="width:45%">
 
-```{r igralnistvo.italija.avstrija.graf, echo=FALSE, fig.align='center'}
+```{r igralnistvo.italija.avstrija.graf, echo=FALSE, fig.align='center', fig.height = 3, fig.width = 6}
 igralnistvo.italija.avstrija.graf
 ```
 
 </td>
-<td style="width:50%">
+<td style="width:55%">
 
-Iz zgornjih prikazov razberemo, da so družinsko okolje, zabava in velnes vsem 'državam' dokaj enako pomembno. Rekreacija pa je npr. pomembna predvsem Italijanom. Prebivalci neevropskih držav Slovenijo obiščejo predvsem zaradi sprostotve, velnesa in zabave. <br /><br />
+Iz zgornjih prikazov razberemo, da so družinsko okolje, zabava in velnes vsem 'državam' dokaj enako pomembno. Rekreacija pa je npr. pomembna predvsem Italijanom. Prebivalci neevropskih držav Slovenijo obiščejo predvsem zaradi sprostotve, velnesa in zabave. <br />
 Od vseh podatkov me je presenetil predvsem motiv iger na srečo, saj sem pričakovala, da bo le ta pomemben zgolj oz. predvsem Italijanom, a izkazalo se je, da je za Avstrijce pomembnejši. Opazko sem želela potrditi in jo od bliže pogledati, zato lahko vidimo na levi strani dva tortna diagrama, ki prikazujeta pomembnost motiva iger srečo posebej za Italijo in Avstrijo. Razvidno je, da so Avstrijcem igre na srečo v Sloveniji res pomembnejše, kot Italijanom. 
 
 </td>
@@ -175,7 +175,7 @@ Iz drugega grafa pa lahko opazimo, da je BDP od turizma pred letom 2020 razstel,
 
 Na spletni strani [I FEEL SLOVENIJA](https://www.slovenia.info/en) sem našla podatke o prihodu turistov iz različnih držav. Iz spodjenjega grafa bi izpostavila predvsem obiskanost Slovenije s strani prebivalcev ZDA, ki je večja kot sem si jo predstavljala (v primerjavi z ostalimi državami). 
 
-```{r zemljevid.svet.prihodi, echo=FALSE, fig.align='center', options=list(height=350)}
+```{r zemljevid.svet.prihodi, echo=FALSE, fig.align='center'}
 zemljevid.svet.prihodi
 ```
 

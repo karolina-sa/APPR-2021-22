@@ -323,7 +323,8 @@ names(tabela.skupine.k.means)[1] <- "ADMIN"
 zemljevid.kmeans <- ggplot() +
   aes(x = long, y = lat, group = group, fill = factor(Skupine)) +
   geom_polygon(data = tabela.skupine.k.means %>% 
-                 right_join(zemljevid, by = "ADMIN")) +
+                 right_join(zemljevid, by = "ADMIN"),
+               color = "grey38", size = 0.2) +
   xlab("") +
   ylab("") +
   ggtitle("Razvrstitev Evropskih držav v tri skupine z metodo k-tih voditeljev") +
@@ -331,7 +332,9 @@ zemljevid.kmeans <- ggplot() +
   guides(fill=guide_legend(title="Skupina")) +
   theme_bw() +
   theme(plot.caption.position = "plot")  +
-  scale_fill_brewer(palette = "YlGnBu", na.translate = F)
+  scale_fill_brewer(palette = "YlGnBu", 
+                    na.translate = F,
+                    na.value="white")
 
 zemljevid.kmeans
 
@@ -376,7 +379,8 @@ names(tabela.skupine.hierarh)[1] <- "ADMIN"
 zemljevid.hierarh <- ggplot() +
   aes(x = long, y = lat, group = group, fill = factor(Skupine)) +
   geom_polygon(data = tabela.skupine.hierarh %>% 
-                 right_join(zemljevid, by = "ADMIN")) +
+                 right_join(zemljevid, by = "ADMIN"),
+               color = "grey38", size = 0.2) +
   xlab("") +
   ylab("") +
   ggtitle("Razvrstitev Evropskih držav v štiri skupine po Wardovi metodi") +
@@ -384,13 +388,14 @@ zemljevid.hierarh <- ggplot() +
   guides(fill=guide_legend(title="Skupina")) +
   theme_bw() +
   theme(plot.caption.position = "plot") +
-  scale_fill_brewer(palette = "YlGnBu", na.translate = F)
+  scale_fill_brewer(palette = "YlGnBu", 
+                    na.translate = F,
+                    na.value="white")
 
 zemljevid.hierarh
 
-# v skupini s Slovnijo:
+# v skupini s Slovenijo:
 # tabela.skupine.hierarh[tabela.skupine.hierarh$Skupine == 1, 1]
-
 
 
 # ==============================================================================
@@ -435,12 +440,12 @@ ucni.4 = pp.razbitje(df.4, stratifikacija = df.4$pricak)
 
 #       - naključni gozdovi:
 
-precno.preverjanje(df.4, ucni.4, pricak ~ Leto.2020 + Leto.2019 + Leto.2018 + Leto.2017, "ng", FALSE)
+# precno.preverjanje(df.4, ucni.4, pricak ~ Leto.2020 + Leto.2019 + Leto.2018 + Leto.2017, "ng", FALSE)
 
 #       - linearna regrasija:
 
 # lin.model = lm(data = df.4, formula = pricak ~ Leto.2020 + Leto.2019 + Leto.2018 + Leto.2017)
-precno.preverjanje(df.4, ucni.4, pricak ~ Leto.2020 + Leto.2019 + Leto.2018 + Leto.2017, "lin.reg", FALSE)
+# precno.preverjanje(df.4, ucni.4, pricak ~ Leto.2020 + Leto.2019 + Leto.2018 + Leto.2017, "lin.reg", FALSE)
 
 
 
@@ -519,14 +524,14 @@ napovedovanje.graf <- ggplot(slovenija.turizem.z.napovednjo,
   ) +
   labs(
     x = "Leto",
-    y = "Število turističnih obiskov",
-    title = "Število turističnih obiskov Slovenija ob leta 1995 do 2020 z napovedjo \nza leta 2021, 2022 in 2023 "
+    y = "Stevilo turističnih obiskov",
+    title = "Stevilo turističnih obiskov Slovenija ob leta 1995 do 2020 z napovedjo \nza leta 2021, 2022 in 2023 "
   ) +
   theme_bw() +
   theme(axis.text.x = element_text(angle = 90, vjust = 0.5)) +
   scale_x_continuous("Leto", labels = as.character(Leto), breaks = Leto)
   
-napovedovanje.graf
+napovedovanje.graf # ni vključen v poročilo
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 # prečno preverjanje napovedovanja glede na pretekla 4 leta:
@@ -557,11 +562,6 @@ reg.moci = FeatureImp$new(reg.pred, loss = "mse")
 
 reg.moci.4.plot <- plot(reg.moci) + theme_bw()
 reg.moci.4.plot
-
-
-
-precno.preverjanje(df.4, ucni, pricak ~ Leto.2020 + Leto.2019 + Leto.2018 + Leto.2017, "ng", FALSE)
-
 
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
@@ -614,14 +614,14 @@ napovedovanje.graf.3 <- ggplot(slovenija.turizem.z.napovednjo.3,
   ) +
   labs(
     x = "Leto",
-    y = "Število turističnih obiskov",
-    title = "Število turističnih obiskov Slovenija ob leta 1995 do 2020 z napovedjo \nza leta 2021, 2022 in 2023 "
+    y = "Stevilo turističnih obiskov",
+    title = "Stevilo turističnih obiskov Slovenija ob leta 1995 do 2020 z napovedjo \nza leta 2021, 2022 in 2023 "
   ) +
   theme_bw() +
   theme(axis.text.x = element_text(angle = 90, vjust = 0.5)) +
   scale_x_continuous("Leto", labels = as.character(Leto), breaks = Leto)
 
-napovedovanje.graf.3
+napovedovanje.graf.3 # ni vključen v poročilo
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 # prečno preverjanje napovedovanja glede na pretekla 3 leta:
@@ -690,27 +690,22 @@ napovedovanje.graf.skupaj
 
 
 
-
-
-precno.preverjanje(df.3, ucni.3, pricak ~ "Leto 2018" + "Leto 2019" + "Leto 2020", "ng", TRUE)
-
-
-
-
-
 # ==============================================================================
 # LINEARNA REGRESIJA
 # ==============================================================================
 
 linearna.regrasija.graf <- 
-  ggplot(slovenci.prenocitve, aes(x = Leto, y = Število)) +
-  geom_point(stat='identity', position='identity', aes(colour=Število),size=1.3) +
+  ggplot(slovenci.prenocitve, aes(x = Leto, y = Stevilo)) +
+  geom_point(stat='identity', position='identity', aes(colour=Stevilo),size=1.3) +
   scale_colour_gradient(low='yellow', high='#de2d26') +
-  xlab("Leto") +
-  ylab("Število prenočitev") +
+  labs(
+    x = "Leto",
+    y = "Število prenočitev",
+  ) +
   ggtitle("Število prenočitev Slovencev v Sloveniji od leta 2010 do leta 2022") +
   theme_bw() +
-  theme(axis.text.x = element_text(angle = 90, vjust = 0.5)) +
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5),
+        legend.position="none") +
   geom_smooth(method = "lm", formula = y ~ x, colour="black", size=0.7)
 
 linearna.regrasija.graf
