@@ -159,7 +159,7 @@ sestava.izdatkov.graf2
 </tr>
 </table>
 
-Razberemo lahko, da so izdatki tujcev največji pri nastanitvenih storitvah in najmanjši pri kulturnih storitvah. Če "igoriramo" leto 2020, lahko vidimo, da izdatki za vse storitve, razen za športne in kulturne, naraščajo. 
+Razberemo lahko, da so izdatki tujcev največji pri nastanitvenih storitvah in najmanjši pri kulturnih storitvah. Če "spregledamo" leto 2020, lahko vidimo, da izdatki za vse storitve, razen za športne in kulturne, naraščajo. 
 
 Torej, v Sloveniji za turizem več zapravijo tuji turisti, kot domači. V povezavi s tem sem se odločila pogledati nočitve Slovencev v Slovenskem turizmu. S pomočjo linearne regresije sem dobila naslednji graf:
 
@@ -236,7 +236,7 @@ prenocitve.slovencev.v.tujini
 
 Poglejmo si skupno število tujih turističnih prihodov v Slovenijo. Podatke sem našla na spletni strani [The World Bank](https://data.worldbank.org/indicator/ST.INT.ARVL) in vsebovali so število turističnih prihodov v Slovenijo za čas med leti 1995 in 2020. Odločila sem se, da bom dodatno še napovedala bodoče turistične prihode tujcev v Slovenijo in naredila dve napovedi, prvo glede na število prihodov turistov v Slovenijo v preteklih štiri letih, drugo pa glede na pretekla tri leta. Za napovedovanje sem izbirala med napovedovanjem s pomočjo linearne regrasije in naključnimi gozdovi. 
 
-S pomočjo prečnega preverjanja, funkcije ```precno.preverjanje```, sem ocenila napovedno napako omenjenih modelov in prišla sem do ugotovitve, da ima napovedovanje z metodo naključnih gozdov veliko manjšo napovedno napako, kot napovedoanje z linerno regresijo. To velja tako za napovedovanje glede na pretekla štiri leta, kot tudi za napovedovanje glede na pretekla tri leta.
+S pomočjo prečnega preverjanja, funkcije ```precno.preverjanje```, sem ocenila napovedno napako omenjenih modelov in prišla sem do ugotovitve, da ima napovedovanje z metodo naključnih gozdov veliko manjšo napovedno napako, kot napovedovanje z linerno regresijo. To velja tako za napovedovanje glede na pretekla štiri leta, kot tudi za napovedovanje glede na pretekla tri leta.
 
 Manjšo napako ima torej napovedovanje s pomočjo naključnih gozdov, zato sem metodo izvedla, dobila število napovedanih prihodov in vse podatke skupaj predstavila v naslednjem grafu:
 
@@ -347,7 +347,7 @@ zemljevid.kmeans4
 
 OPISNA PRIMERJAVA REZULTATOV:  <br />
 Če primerjamo metodi, opazimo, da sta razvrstitvi zelo podobni in večino držav razvrstita v iste skupine. Vendarle pa sem že med delom in poskušanjem različnih razvrstitev v skupine opazila, da je razvrstitev med obema metodama res podobna, vendar nikoli povsem enaka. Običajno se mi je zdela razvrstitev v skupine z metodo k-tih voditeljev boljša, saj je dala turistično priljubljene in hkrati razvite države, kot so Italija, Francija in Združeno kraljevstvo, v isto skupino, kar hierarhično razvrščanje ni vedno naredilo. Podobno je bilo z državami Balkana, ki jih metoda k-tih voditeljev dala v isto skupino, druga metoda pa ne vedno. Dodala bi še, da pri obeh razvrščanjih Slovenijo metodi uvrstita v skupino, kjer so njene sosednje države in večina držav Balkana, kar se mi zdi "pričakovano" in pravilno, saj imajo veliko skupnih značilnosti, med drugim tudi skupno zgodovino in podobno podnebje, čeprav se Slovenija nahaja bolj na severu. 
-Prav tako pa sta obe metodi predlagali, kot optimalno in smiselno, razvrstitev v dve skupini, a za to število skupin se pri nobeni razdelitvi nisem odločila, saj sem želela bolj "podrobno" razdelitev več skupin.
+Prav tako pa sta obe metodi predlagali, kot optimalno in smiselno, razvrstitev v dve skupini, a za to število skupin se pri nobeni razdelitvi nisem odločila, saj sem želela bolj "podrobno" razdelitev v več skupin.
 
 
 ***
