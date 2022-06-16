@@ -37,9 +37,9 @@ source("analiza/analiza.r", encoding="UTF-8")
 
 ##  Priprava projekta
 
-V zadnjih dveh letih je bilo veliko govora o turizmu, predvsem v povezavi s turističnimi boni in posledicami epidemije. Velikokrat sem se vprašala, koliko slovencev sploh obiskuje slovenske turistične obrate, ali raje gredo v tujino ali ostanejo doma in ali se je res tako drastično poslabšalo stanje v turizmu, da potrebujemo turistične bone. Prav tako me je zanimalo katere regije so najbolj obiskane s strani tujcev in katere s strani Slovencev. Slednja vprašanja so tako motivirala izibro teme projektne naloge.
+V zadnjih dveh letih je bilo veliko govora o turizmu, predvsem v povezavi s turističnimi boni in posledicami epidemije. Velikokrat sem se vprašala, koliko slovencev sploh obiskuje slovenske turistične obrate, ali raje gredo v tujino ali ostanejo doma in ali se je res tako drastično poslabšalo stanje v turizmu, da potrebujemo turistične bone. Prav tako me je zanimalo katere regije so najbolj obiskane s strani tujcev in katere s strani Slovencev. Slednja vprašanja so motivirala izibro teme projektne naloge.
 
-Projektne naloge sem se lotila z zbiranjem podatkov. Večino podatkov sem dobila na strani [Statističnega urada Republike Slovenije](https://pxweb.stat.si/SiStat/sl), nakateri pa so tudi s strani [I FEEL SLOVENIJA](https://www.slovenia.info/en), [The World Bank](https://data.worldbank.org/indicator) in [Wikipedie](https://en.wikipedia.org/wiki/List_of_countries_and_dependencies_by_area). Če v poročilu vir podatkov ni izrecno naveden, so podatki iz [Statističnega urada Republike Slovenije](https://pxweb.stat.si/SiStat/sl). Pridobljeni podatki so treh oblikah: `.csv`, `.xlsx` in `.html`.
+Projektne naloge sem se lotila z zbiranjem podatkov. Večino podatkov sem dobila na strani [Statističnega urada Republike Slovenije](https://pxweb.stat.si/SiStat/sl), nakateri pa so tudi s strani [I FEEL SLOVENIJA](https://www.slovenia.info/en), [The World Bank](https://data.worldbank.org/indicator) in [Wikipedie](https://en.wikipedia.org/wiki/List_of_countries_and_dependencies_by_area). Če v poročilu vir podatkov ni izrecno naveden, so podatki iz [Statističnega urada Republike Slovenije](https://pxweb.stat.si/SiStat/sl). Pridobljeni podatki so treh oblik: `.csv`, `.xlsx` in `.html`.
 
 Po tem ko sem pridobila podatke sem se lotila uvoza. Uvozila sem 22 različnih podatkov, nato sem jih uredila in naprej združevala v tabele in pri nekaterih tudi računala povprečja, vsote in podobno. Tako sem v grobem dobila 11 različnih tabel. Vsebina dobljenih tabel:
 
@@ -55,9 +55,9 @@ Po tem ko sem pridobila podatke sem se lotila uvoza. Uvozila sem 22 različnih p
 * `vec.let.skupaj` združuje podatke o letnem številu prihodov in prenočitev turistov iz posameznih držav med leti 2018 in 2020 ter
 * `slovenci.prenocitve` obsega mesečne podatke o številu prenočitev Slovencev v Sloveniji med leti 2010 in 2021.
 
-Sledila je faza vizualizacije in napredne analize, v katerih sem tabele, urejene v fazi uvoza, še dodelala in jih še dodatno prilagodila, da sem lažje zrisala grafične prikaze. V fazi viuzalizacije sem se odločala med različnimi tipi grafičnih prikazov. Za posamezne podatke sem izbrala grafični prikaz, ki se mi je zdel najbolj primeren. Pri vizualizaciji sem naredila tudi nekaj zemljevidov, med drugim tudi zemljevid Slovenije s `shiny` aplikacijo. V fazi napredne analize sem naredila dva grafa linearne regresije, s pomočjo funkcije `geom_smooth`. Glavni del napredne analize se v poročilu nahaja čisto na koncu in obsega napovedne modele in razvrščanje v skupine. V obeh analizah sem izbirala med različnimi modeli in svoje odločitve podkrepila z različnimi grafičnimi prikazi.
+Sledila je faza vizualizacije in napredne analize, v katerih sem tabele, urejene v fazi uvoza, dodelala in jih še dodatno prilagodila, da sem lažje zrisala grafične prikaze. V fazi viuzalizacije sem se odločala med različnimi tipi grafičnih prikazov. Za posamezne podatke sem izbrala grafični prikaz, ki se mi je zdel najbolj primeren. Pri vizualizaciji sem naredila tudi nekaj zemljevidov, med drugim tudi zemljevid Slovenije s `shiny` aplikacijo. V fazi napredne analize sem naredila dva grafa linearne regresije, s pomočjo funkcije `geom_smooth`. Glavni del napredne analize, ki se v poročilu nahaja čisto na koncu, pa obsega napovedne modele in razvrščanje v skupine. V obeh sem izbirala med različnimi modeli in svoje odločitve podkrepila z različnimi grafičnimi prikazi in funkcijami.
 
-Vzporedno s fazo vizualizacije in napredne analize sem sestavljala poročilo, v katerem sem ugotovitve, pridobljene iz dobljenih grafičnih prikazov, nazorno opisala in ponekod dodala tudi svoje mnenje. 
+Vzporedno s fazo vizualizacije in napredne analize sem sestavljala poročilo, v katerem sem ugotovitve, pridobljene predvsem iz grafičnih prikazov, nazorno opisala in ponekod dodala tudi svoje mnenje. 
 
 ***
 
@@ -89,7 +89,7 @@ igralnistvo.italija.avstrija.graf
 </td>
 <td style="width:55%">
 
-Iz zgornjih prikazov razberemo, da so družinsko okolje, zabava in velnes vsem 'državam' dokaj enako pomembni. Rekreacija pa je npr. pomembna predvsem Italijanom. Prebivalci neevropskih držav Slovenijo obiščejo predvsem zaradi sprostotve, velnesa in zabave. <br />
+Iz zgornjih prikazov razberemo, da so družinsko okolje, zabava in velnes vsem 'državam' dokaj enako pomembni. Rekreacija pa je npr. pomembna predvsem Italijanom. Prebivalci neevropskih držav Slovenijo obiščejo predvsem zaradi sprostitve, velnesa in zabave. <br />
 Od vseh podatkov me je presenetil predvsem motiv iger na srečo, saj sem pričakovala, da bo le ta pomemben zgolj oz. predvsem Italijanom, a izkazalo se je, da je za Avstrijce pomembnejši. Opazko sem želela potrditi in jo še od bliže pogledati, zato lahko vidimo na levi strani dva tortna diagrama, ki prikazujeta pomembnost motiva iger srečo posebej za Italijo in Avstrijo. Razvidno je, da so Avstrijcem igre na srečo v Sloveniji res pomembnejše, kot Italijanom. 
 
 </td>
@@ -117,7 +117,7 @@ Koliko dni pa v povprečju turisti preživijo v posameznih regijah? Slednje - do
 nastanitvena.doba.regije.graf
 ```
 
-Pričakovala sem, da bo po nastanitveni dobi izstopala Gorenjska, a nam zgornja slika trdi drugače. Najdaljšo nastanitveno dobo imajo Posavska, Savinjska in Zasavska regija, najverjetneje zaradi toplic. Opazimo tudi, da ima večina regij porast nastanitvene dobe predvsem v hladnejših mesecih. Najkrajšo nastanitveno dobo ima Primorsko-notranjska. Opazimo tudi, da imajo tujci v večini regij daljšo nastanitveno dobo, kot domačini. 
+Pričakovala sem, da bo po nastanitveni dobi izstopala Gorenjska, a nam zgornja slika trdi drugače. Najdaljšo nastanitveno dobo imajo Posavska, Savinjska in Zasavska regija, najverjetneje zaradi toplic. Opazimo tudi, da ima večina regij porast nastanitvene dobe predvsem v hladnejših mesecih. Najkrajšo nastanitveno dobo ima Primorsko-notranjska. Prav tako je razvidno, da imajo tujci v večini regij daljšo nastanitveno dobo, kot domačini. 
 
 <table style="width:100%">
 <tr>
@@ -125,7 +125,7 @@ Pričakovala sem, da bo po nastanitveni dobi izstopala Gorenjska, a nam zgornja 
 
 Vsi turisti tudi nekaj zapravijo. Z grafom na levi strani sem predstavila izdatke za turizem: izdatke Slovencev v Sloveniji in tujini ter izdatke tujcev v Sloveniji. <br /><br />
 Razberemo lahko, da tujci za turizem v Sloveniji zapravijo več kot domače prebivalstvo. Prav tako pa Slovenci v tujini za turizem zapravijo več kot v Sloveniji. Zanimivo je pogledati leto 2020, ko so zaradi epidemije predvsem tujci manj obiskovali Slovenijo in posledično manj zapravili. Podobno velja za Slovence - v tujini so zapravili manj. <br /><br />
-Izpostavila bi izdatke Slovencev v Sloveniji v letu 2020. Iz grafa je razvidno, da so se tej izdatki povečali, predvidevam da zaradi turističnih bonov in omejitev izstopa iz države. 
+Izpostavila bi izdatke Slovencev v Sloveniji v letu 2020. Iz grafa je razvidno, da so se povečali. Vzrok za povečaje so zagotovo turističn boni in omejitve izstopa iz države. 
 
 </td>
 <td style="width:50%">
@@ -167,7 +167,7 @@ Torej, v Sloveniji za turizem več zapravijo tuji turisti, kot domači. V poveza
 linearna.regrasija.graf
 ```
 
-Opazimo, da se število prenočitev Slovencev v Sloveniji v povprečju z leti veča. Velik porast vidimo v zadnjih dveh letih, kar lahko pripišemo turističnim bonom in zaprtim mejam. Iz grafa vidimo iztopajoče pikice (oranžne) barve, ki so opazno nad ostalimi in se pojavljajo konstantno. Omenjene točke prestavljajo poletne mesece, saj kot smo že ugotovili Slovenci radi prenočijo v Sloveniji predvsem v poletnih mesecih, najraje na obali. Naj dodam še, da je iz grafa jasno videti, kdaj se je začela epidemija, saj prenočitev tako rekoč ni bilo (rumene pikice takoj po letu 2020), ker niso bile dovoljene.
+Opazimo, da se število prenočitev Slovencev v Sloveniji v povprečju z leti veča. Velik porast vidimo v zadnjih dveh letih, kar lahko pripišemo turističnim bonom in zaprtim mejam. Iz grafa vidimo iztopajoče pikice (oranžne barve), ki so opazno nad ostalimi in se pojavljajo konstantno. Omenjene točke prestavljajo poletne mesece, saj kot smo že ugotovili Slovenci radi prenočijo v Sloveniji predvsem v poletnih mesecih, najraje na obali. Naj dodam še, da je iz grafa jasno videti tudi, kdaj se je začela epidemija, saj prenočitev tako rekoč ni bilo (rumene pikice takoj po letu 2020), ker niso bile dovoljene.
 
 Število zaposlenih v dejavnostih neposredno povezanih s turizmom je malo pod 40 tisoč. To število je v letu 2020 padlo, nato pa kmalu naraslo s sprostitvijo ukrepov epidemije, kar lahko razberemo iz spodnjega levega grafa. Spodnji desni graf pa prikazuje BDP turizma. 
 
@@ -190,10 +190,10 @@ BDP.turizem.graf
 </tr>
 </table>
 
-Takoj opazimo, da se tako število zaposlenih, kot tudi BDP od turizma v letu 2020 zmanjšal, zaradi korona krize. Zanimivo bi bilo videti še podatke za leto 2021, ki pa žal še niso dostopni.Iz grafov vidimo, da je število zaposlenih v slovenskem turizmu pred letom 2020 raslo. Največ je bilo zaposlenih v nastanitvenih storitvah in strežbi, najmanj pa v turstičnih agencijah. <br />
-Iz drugega grafa pa lahko opazimo, da je BDP od turizma pred letom 2020 rastel, v letu 2020 pa drastično upadel. Predvidevam da je le ta v letu 2021 narastel, a se ni vrnil na višino iz leta 2019.
+Takoj opazimo, da sta se tako število zaposlenih, kot tudi BDP od turizma v letu 2020 zmanjšala. Vzrok za to je korona kriza. Žal podatki za leto 2021 niso še dostopni; zanimivo pa bi bilo videti kakšen vpliv je imela epidemija na leto 2021 in če se je BDP od turizma in število zaposlenih v turizmu povečalo.  <br />
+Če pogledamo podatke pred letom 2020, vidimo, da je število zaposlenih v slovenskem turizmu raslo. Največ je bilo zaposlenih v nastanitvenih storitvah in strežbi, najmanj pa v turstičnih agencijah. Iz drugega grafa pa lahko opazimo, da je BDP od turizma pred letom 2020 rasel, v letu 2020 pa drastično upadel. Predvidevam da je le ta v letu 2021 narastel, a se ni vrnil na višino iz leta 2019.
 
-Na spletni strani [I FEEL SLOVENIJA](https://www.slovenia.info/en) sem našla podatke o prihodih turistov iz različnih držav. Iz spodjenjega grafa bi izpostavila predvsem obiskanost Slovenije s strani prebivalcev ZDA, ki je večja kot sem si jo predstavljala (v primerjavi z ostalimi državami). 
+Na spletni strani [I FEEL SLOVENIJA](https://www.slovenia.info/en) sem našla podatke o prihodih turistov iz različnih držav. Iz spodnjega grafa bi izpostavila predvsem obiskanost Slovenije s strani prebivalcev ZDA, ki je večja kot sem si jo predstavljala (v primerjavi z ostalimi državami). 
 
 ```{r zemljevid.svet.prihodi, echo=FALSE, fig.align='center'}
 zemljevid.svet.prihodi
@@ -222,7 +222,7 @@ zemljevid.prenocitve
 
 V obeh zgornjih grafih je razvidno, da je največ turistov, ki bodisi prenočijo, bodisi samo obiščejo Slovenijo, iz naših sosed, Nemčije, Ukrajine in Belorusije. 
 
-Kam v tujino pa se Slovenci največ odpravijo? Našla sem podatke prenočitev Slovencev po posameznih državah med leti 2010 in 2020; podatke sem prikazala v spodnjem grafu; v katerm opazimo, da je število nočitev Slovencev v tujini največje v sosednjih državah, Nemčiji, Nizozemski in Združenim kraljestvom. Od vseh podatkov me je presenetila majhna obiskanost Grčije.
+Kam v tujino pa se Slovenci največ odpravijo? Našla sem podatke prenočitev Slovencev po posameznih državah med leti 2010 in 2020 - podatke sem prikazala v spodnjem grafu - v katerm opazimo, da je število nočitev Slovencev v tujini največje v sosednjih državah, Nemčiji, Nizozemski in Združenem kraljestvu. Od vseh podatkov me je presenetila zelo majhna obiskanost Grčije.
 
 ```{r prenocitve.slovencev.v.tujini, echo=FALSE, fig.align='center'}
 prenocitve.slovencev.v.tujini
@@ -234,22 +234,21 @@ prenocitve.slovencev.v.tujini
 
 ### Napovedni modeli
 
-Poglejmo si skupno število tujih turističnih prihodov v Slovenijo. Podatke sem našla na spletni strani [The World Bank](https://data.worldbank.org/indicator/ST.INT.ARVL) in vsebovali so število turističnih prihodov v Slovenijo za čas med leti 1995 in 2020. Odločila sem se, da bom dodatno še napovedala bodoče turistične prihode tujcev v Slovenijo in naredila dve napovedi, prvo glede na število prihodov turistov v Slovenijo v preteklih štiri letih, drugo pa glede na pretekla tri leta. Za napovedovanje sem izbirala med napovedovanje s pomočjo linearne regrasije in naključnih gozdov. S pomočjo prečnega preverjanja sem izračunala napake omenjenih modelov in dobila sem naslednje rezultate:
+Poglejmo si skupno število tujih turističnih prihodov v Slovenijo. Podatke sem našla na spletni strani [The World Bank](https://data.worldbank.org/indicator/ST.INT.ARVL) in vsebovali so število turističnih prihodov v Slovenijo za čas med leti 1995 in 2020. Odločila sem se, da bom dodatno še napovedala bodoče turistične prihode tujcev v Slovenijo in naredila dve napovedi, prvo glede na število prihodov turistov v Slovenijo v preteklih štiri letih, drugo pa glede na pretekla tri leta. Za napovedovanje sem izbirala med napovedovanjem s pomočjo linearne regrasije in naključnimi gozdovi. 
 
+S pomočjo prečnega preverjanja, funkcije ```precno.preverjanje```, sem ocenila napovedno napako omenjenih modelov in prišla sem do ugotovitve, da ima napovedovanje z metodo naključnih gozdov veliko manjšo napovedno napako, kot napovedoanje z linerno regresijo. To velja tako za napovedovanje glede na pretekla štiri leta, kot tudi za napovedovanje glede na pretekla tri leta.
 
-TUKAJ BOM DALA KODO AL NEKAJ ......
-
-
-Manjšo napako ima torej napovedovanje s pomočjo naključnih gozdov. Izvedla sem metodo, dobila število napovedanih prihodov in vse podatke skupaj predstavila v naslednjem grafu:
+Manjšo napako ima torej napovedovanje s pomočjo naključnih gozdov, zato sem metodo izvedla, dobila število napovedanih prihodov in vse podatke skupaj predstavila v naslednjem grafu:
 
 ```{r napovedovanje.graf.skupaj, echo=FALSE, fig.align='center'}
 napovedovanje.graf.skupaj
 ```
 
 Že pred začetkom izdelave grafa napovedi sem bila malce skeptična, saj je turizem v letu 2020 doživel ogromen šok, kar je zagotovo vplivalo na ne najbolj točne razultate, a vseeno sem postopek izpeljala do konca. 
-Na spletu sem našla neuraden podatek, da je bilo leta 2021 vsega skupaj okrog 1,8 milijona turističnih prihodov tujcev v Slovenijo, z obema napovedma pa sem dobila okrog 2,5 milijona prihodov. Napaka je sicer kar velika, a vselej majha, če upoštevamo šok, ki ga je doživelo gospodastvo. Prepričana sem, da so napovedani podatki za leto 2022 že bolj točni - menim, da turistični prihodi tujcev v Slovenijo niso tako drastično narasli, saj ima epidemija še vedno posledice, tudi po dveh letih in sproščenih ukrepih gibanja. 
+Na spletu sem prav tako našla neuraden podatek, da je bilo leta 2021 vsega skupaj okrog 1,8 milijona turističnih prihodov tujcev v Slovenijo, z obema napovedma pa sem dobila okrog 2,5 milijona prihodov. Napaka je sicer kar velika, a vselej majha, če upoštevamo šok, ki ga je doživelo gospodastvo. Prepričana sem, da so napovedani podatki za leto 2022, z napovedjo glede na pretekla štiri leta, že bolj točni - menim, da turistični prihodi tujcev v Slovenijo niso tako drastično narasli, saj ima epidemija še vedno posledice, tudi po dveh letih in sproščenih ukrepih gibanja. Podatki, napovedani za leti 2022 in 2023, z napovedjo glede na pretekla tri leta, pa se mi ne zdijo dovolj pravilni oz. pričakovani. Lahko si mislimo, da je napoved glede na pretekla štiri leta boljša, že samo zaradi zajetja večje količine podatkov.
 
-Razvidno je, da je napoved glede na pretekla štiri leta drugačna od napovedi glede na pretekla tri leta. Pomembna razlika je očitno v naraščanju prihodov pred letom 2020. Če gledamo samo leta 2018, 2019 in 2020 imamo samo eno obdobje naraščanja. Če pa gledamo od leta 2017 do 2020 imamo dve obdobji naraščanja, kar zagotovo pripore k napovedi z večjim številom prihodov. Razlika v napovedi je razvidna, že v letu 2021, saj je napoved glede na pretekla tri leta nižja od napovedi glede na pretekla štiri leta. Napoved za leti 2022 in 2023 pada v primeru napovedi glede na pretekla tri leta, saj imamo, kot že omenjeno, več obdobij padanja, kot naraščanja števila prihodov turistov. 
+Razvidno je, da je napoved glede na pretekla štiri leta drugačna od napovedi glede na pretekla tri leta. Pomembna razlika je očitno v naraščanju prihodov pred letom 2020. Če gledamo samo leta 2018, 2019 in 2020 imamo samo eno obdobje naraščanja. Če pa gledamo od leta 2017 do 2020 imamo dve obdobji naraščanja, kar zagotovo pripore k napovedi z večjim številom prihodov. Razlika v napovedi je razvidna že v letu 2021, saj je napoved glede na pretekla tri leta nižja od napovedi glede na pretekla štiri leta.  <br />
+Napoved za leti 2022 in 2023 pada v primeru napovedi glede na pretekla tri leta, saj imamo, kot že omenjeno, več obdobij padanja, kot naraščanja števila prihodov turistov. 
 
 V spodnjih prikazih sem predstavila kako "pomembno" vlogo igrajo posamezna leta pri napovedovanju prihodov turistov v letu 2021. 
 
@@ -278,12 +277,12 @@ reg.moci.3.plot
 </tr>
 </table>
 
-Najpomembnejšo vlogo pri napovedovanju v obeh primerih igra leto 2018, najmanjšo pa leto 2019. Leto 2017 je pri napovedovanju zelo pomembno, zato bi se odločila, da je napovedovanje glede na pretekla štiri leta ustreznejše in tudi bolj smiselno kot napovedovanje glede na pretekla tri leta.
+Pomembno vlogo pri napovedovanju v obeh primerih igra predvsem leto 2018 in 2020. Leto 2017 je pri napovedovanju prav tako zelo pomembno, zato bi se ponovno odločila, da je napovedovanje glede na pretekla štiri leta ustreznejše in tudi bolj smiselno kot napovedovanje glede na pretekla tri leta.
 
 
 ### Razvrščanje v skupine
 
-Za konec se lahko vprašamo še katerim  državam je Slovenija podobna, turistično gledano seveda. Za razvrstitev sem vzela zgolj Evropske države, saj bi bilo svetovno merilo bolj nepregledno in zmedeno. Prav tako pa bi primerjali države, ki so tako gospodarsko, kot tudi drugače precej različne. Na stani [The World Bank](https://data.worldbank.org/indicator/ST.INT.ARVL) sem dobila podatke za število prihodov turistov za vse države sveta od leta 1995 naprej. Vzela sem zgolj obdobje od 2009 naprej (zaradi aktualnosti) in naredila povprečje podatkov. Dobljena povprečja sem nato delila s površino posamezne države (podatke sem dobila na [Wikipedi](https://en.wikipedia.org/wiki/List_of_countries_and_dependencies_by_area)), saj bi bilo drugače primerjanje držav nesmiselno. Pri razdelitvi v skupine sem upoštevala še BDP, ki menim, da igra pomembno vlogo, sicer ne največje, pri turistični obiskanosti države. Podatke o BDP sem prav tako dobila na strani [The World Bank](https://data.worldbank.org/indicator/NY.GDP.MKTP.CD). Naredila sem razdelitev v skupine na dva različna načina: z metodo hierarhičnega razvrščanja in metodo k-tih voditeljev. 
+Za konec se lahko vprašamo še katerim  državam je Slovenija podobna, turistično gledano seveda. Za razvrstitev sem vzela zgolj Evropske države, saj bi bilo svetovno merilo bolj nepregledno in zmedeno. Prav tako pa bi primerjali države, ki so tako gospodarsko, kot tudi drugače precej različne. Na stani [The World Bank](https://data.worldbank.org/indicator/ST.INT.ARVL) sem dobila podatke za število prihodov turistov za vse države sveta od leta 1995 naprej. Vzela sem zgolj obdobje od 2009 naprej (zaradi aktualnosti) in naredila povprečje podatkov. Dobljena povprečja sem nato delila s površino posamezne države (podatke sem dobila na [Wikipedi](https://en.wikipedia.org/wiki/List_of_countries_and_dependencies_by_area)), saj bi bilo drugače primerjanje držav nesmiselno. Pri razdelitvi v skupine sem upoštevala še BDP, ki menim, da igra pomembno vlogo, pri turistični obiskanosti in priljubljenosti države. Podatke o BDP sem prav tako dobila na strani [The World Bank](https://data.worldbank.org/indicator/NY.GDP.MKTP.CD). Naredila sem razdelitev v skupine na dva različna načina: z metodo hierarhičnega razvrščanja in metodo k-tih voditeljev. 
 
 Poglejmo si razdelitev z **metodo hierarhičnega razvrščanja**, natančneje sem uporabila **Wardovo metodo minimalne variance**. Spodaj je zrisan dendrogram, ki prikazuje "razdalje" med različnimi Evropskimi državami. Odločiti sem se morala za število skupin, v katere bi rada razdelila države. Pri tem sem si pomagala s t.i. koleni, ki predstavljajo točke v katerih se najbolj spremeni intenziteta zmanjševanja višine združevanja. Graf kolen je prikazan spodaj desno.
 
@@ -311,19 +310,19 @@ print(diagram.kolena(r))
 </tr>
 </table>
 
-Najbolj optimalna je izbira razdelitve v dve skupini, a odločila sem se, da bi raje imela bolj "podrobno" razdelitev, zato sem izbrala štiri skupine. Za potrditev primernosti izbire štirih skupin si poglejmo še diagram spodaj, iz katerega vidimo, da ima k = 2 in k = 4 skoraj enako visoko povprešje obrisov, kar pomeni, da je izbira štirih skupin dovolj dobra. 
+Najbolj optimalna je izbira razdelitve v dve skupini, a odločila sem se, da bi raje imela bolj "podrobno" razdelitev, zato sem izbrala štiri skupine. Za potrditev primernosti izbire štirih skupin si poglejmo še diagram spodaj, iz katerega vidimo, da ima $k = 2$ in $k = 4$ skoraj enako visoko povprečje obrisov, kar pomeni, da je izbira štirih skupin dovolj dobra. 
 
 ```{r, r.hc.plt, echo=FALSE, fig.align='center', width=400}
 r.hc.plt
 ```
 
-Dendrogram sem "prerezala" na želeni višini (da razdelimo v štiri skupine) in razvrstitev prikazala na spodnjem zemljevidu, omejen na območje Evrope.
+Dendrogram sem "prerezala" na želeni višini (da razdelimo v štiri skupine) in razvrstitev prikazala na spodnjem zemljevidu, omejenem na območje Evrope.
 
 ```{r zemljevid.hierarh, echo=FALSE, fig.align='center', width=400}
 zemljevid.hierarh
 ```
 
-Slovenija se je uvrstila v skupino 1. Med Slovniji "podobnimi" državami bi izpostavila predvsem Hrvaško, ki je turistično izredno močna država in Slovenija se očitno lahko primerja z njo. Opazimo, da so Sloveniji "podobne" predvsem bližje države, države Balkana ter držabe na vzhodu Evrope. 
+Slovenija se je uvrstila v skupino 1. Med Slovniji "podobnimi" državami bi izpostavila predvsem Hrvaško, ki je turistično izredno močna država in Slovenija se očitno lahko primerja z njo. Opazimo, da so Sloveniji "podobne" predvsem bližje države, države Balkana ter države na vzhodu Evrope. 
 
 Na istih podatkih sem naredila še razvrstitev v skupine z **metodo k-tih voditeljev**. Tudi ta metoda je predlagala optimalno razvrstitev v dve skupini in iz spodnjega prikaza povprečja obrisov je razvidno, da se na podobni višini povprečja obrisov ne nahaja nobeno drugo število skupin. Po optimalnosti je razdelitvi v dve skupini  najbližja razdelitev v tri skupine, sledi pa ji razvrstitev v štiri skupine.
 
@@ -340,21 +339,22 @@ zemljevid.kmeans
 
 Slovenija se pri tej razdelitvi nahaja v skupini 3 in "podobne" so ji države Balkana, države na vzhodu Evrope ter (presenetljivo) tudi Skandinavske države. Opazimo, da metoda večino držav uvrsti v tretjo skupino. Države, ki pa so splošno svetovno znane in priljubljene, urvsti v prvi dve skupini, npr. Španijo, Italijo, Združeno kraljestvo in Francijo.
 
-Za lažje primerjanje rezultatov metod, sem Evropske države z metodo k-tih voditeljev razdelila še v štiri skupine. Dobila sem naslednjo razdelitev:
+Za lažje primerjanje rezultatov metod, sem Evropske države z metodo k-tih voditeljev razdelila v štiri skupine, kar lahko opazimo na naslednjem zemljevidu: 
 
 ```{r zemljevid.kmeans4, echo=FALSE, fig.align='center', width=400}
 zemljevid.kmeans4
 ```
 
-PRIMERJAVA REZULTATOV: Če primerjamo metodi, opazimo, da sta razvrstitvi zelo podobni in večino držav razvrstita v iste skupine. Vendarle pa sem že med delom in poskušanjem različnih razvrstitev v skupine opazila, da je razvrstitev med obema metodama res podobna, vendar nikoli povsem enaka. Običajno se mi je zdela razvrstitev v skupine z metodo k-tih voditeljev boljša, saj je dala turistično priljubljene in hkrati razvite države, kot so Italija, Francija in Združeno kraljevstvo, v isto skupino, kar hierarhično razvrščanje ni vedno naredilo. Podobno je bilo z državami Balkana, ki jih metoda k-tih voditeljev dala v isto skupino, druga metoda pa ne vedno. Dodala bi še, da pri obeh razvrščanjih Slovenijo metodi uvrstita v skupino, kjer so njene sosednje države in večina držav Balkana, kar se mi zdi "pričakovano" in pravilno, saj imajo veliko skupnih značilnosti, med drugim tudi skupno zgodovino in podobno podnebje, čeprav se Slovenija nahaja bolj na severu. 
-Prav tako pa sta obe metodi predlagali, kot optimalno in smiselno, razvrstitev v dve skupini, a za to število skupin pri nobeni razdelitvi nisem odločila, saj sem želela razdelitev v več skupin.
+OPISNA PRIMERJAVA REZULTATOV:  <br />
+Če primerjamo metodi, opazimo, da sta razvrstitvi zelo podobni in večino držav razvrstita v iste skupine. Vendarle pa sem že med delom in poskušanjem različnih razvrstitev v skupine opazila, da je razvrstitev med obema metodama res podobna, vendar nikoli povsem enaka. Običajno se mi je zdela razvrstitev v skupine z metodo k-tih voditeljev boljša, saj je dala turistično priljubljene in hkrati razvite države, kot so Italija, Francija in Združeno kraljevstvo, v isto skupino, kar hierarhično razvrščanje ni vedno naredilo. Podobno je bilo z državami Balkana, ki jih metoda k-tih voditeljev dala v isto skupino, druga metoda pa ne vedno. Dodala bi še, da pri obeh razvrščanjih Slovenijo metodi uvrstita v skupino, kjer so njene sosednje države in večina držav Balkana, kar se mi zdi "pričakovano" in pravilno, saj imajo veliko skupnih značilnosti, med drugim tudi skupno zgodovino in podobno podnebje, čeprav se Slovenija nahaja bolj na severu. 
+Prav tako pa sta obe metodi predlagali, kot optimalno in smiselno, razvrstitev v dve skupini, a za to število skupin se pri nobeni razdelitvi nisem odločila, saj sem želela bolj "podrobno" razdelitev več skupin.
 
 
 ***
 
 ## Zaključek
 
-S projektom sem ugotovila oz. potrdila, da je Slovenija res turistično obiskana država in da njena obiskanost narašča, tako s strani Slovencev, kot tudi tujcev. Glavni motivi prihoda tujcev v Slovenijo so gastronomija, naravne lepote, občutek varnosti, sprostitev in ugodne cene. Različne regije so v različnih delih leta drugače obiskane. Tako velja, da je Obalno-kraška regija najbolj obiskana poleti, Osrednjeslovenska pa pozimi in to predvsem s strani tujcev. Ugotovila sem tudi, da je nastanitvena doba tujcev v povprečju daljša od nastanitevene dobe Slovencev. Prav tako tujci več zapravijo za Slovenski turizem, kot Slovenci. Največji strošek pa vsem predstavljajo nastanitvene storitve. Iz vseh dobljenih podatkov je razviden šok, ki ga je turizem doživel v letu 2020, vendarle pa sem s podatki iz leta 2021 in napredno analizo "napovedala", da si bo oz. si je že turizem po epidemiji hitro opomogel. Z napredno analizo sem ugotovila tudi, da je Slovenija turistično gledano podobna svojim sosednjim državam in drugim državam Balkana. 
+S projektom sem ugotovila oz. potrdila, da je Slovenija res turistično obiskana država in da njena obiskanost narašča, tako s strani Slovencev, kot tudi tujcev. Glavni motivi prihoda tujcev v Slovenijo so gastronomija, naravne lepote, občutek varnosti, sprostitev in ugodne cene. Različne regije so v različnih delih leta drugače obiskane. Tako velja, da je Obalno-kraška regija najbolj obiskana poleti, Osrednjeslovenska pa pozimi in to predvsem s strani tujcev. Ugotovila sem tudi, da je nastanitvena doba tujcev v povprečju daljša od nastanitevene dobe Slovencev. Prav tako tujci več zapravijo za Slovenski turizem, kot Slovenci. Največji strošek pa vsem predstavljajo nastanitvene storitve. Iz vseh dobljenih podatkov je razviden šok, ki ga je turizem doživel v letu 2020, vendarle pa sem s podatki iz leta 2021 in napredno analizo "napovedala", da si bo oz. si je že turizem po epidemiji hitro opomogel. Z napredno analizo sem ugotovila tudi, da je Slovenija turistično gledano podobna predvsem svojim sosednjim državam in drugim državam Balkana. 
 
 
 <p>&nbsp;</p>

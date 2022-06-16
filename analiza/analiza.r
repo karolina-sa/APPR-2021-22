@@ -219,7 +219,7 @@ razbitje = function(x, k) {
   split(x, razrez)
 }
 
-pp.razbitje = function(n, k = 10, stratifikacija = NULL, seme = NULL) {
+pp.razbitje = function(n, k = 5, stratifikacija = NULL, seme = NULL) {
   # najprej nastavimo seme za naključna števila, če je podano
   if (!is.null(seme)) {
     set.seed(seme)
@@ -261,14 +261,13 @@ precno.preverjanje = function(podatki, razbitje, formula, algoritem, razvrscanje
   for (i in 1:length(razbitje)) {
     # naučimo se modela na množici S \ Si
     model = podatki[ -razbitje[[i]], ] %>% ucenje(formula, algoritem)
-    
     # naučen model uporabimo za napovedi na Si
     pp.napovedi[ razbitje[[i]] ] = podatki[ razbitje[[i]], ] %>% napovedi(model, algoritem)
   }
   if (razvrscanje) {
-    mean(pp.napovedi != podatki$yd)
+    mean(pp.napovedi != podatki$pricak)
   } else {
-    mean((pp.napovedi - podatki$yn) ^ 2)
+    mean((pp.napovedi - podatki$pricak) ^ 2)
   }
 }
 
@@ -470,52 +469,52 @@ slovenija.turizem$Stevilo <- as.integer(slovenija.turizem$Stevilo)
 
 # tabela in dva stolpca, prvi so leta, drugi pa število turističnih obiskov
 
+zamakni <- function(x, n){c(rep(NA, n), x)[1:length(x)]}
+
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 # IZBIRA napovednega modela (z napako): med linearno regrasijo in naključnimi gozdovi
 #   pogledala bom napake obeh modelov
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 #     1) glede na pretekla 4 leta:
-# zamakni <- function(x, n){c(rep(NA, n), x)[1:length(x)]}
-# naredi.df.4 <- function(x){
-#   data.frame(pricak  = x,
-#              "Leto 2020"  = zamakni(x, 1),
-#              "Leto 2019" = zamakni(x, 2),
-#              "Leto 2018" = zamakni(x, 3),
-#              "Leto 2017" = zamakni(x, 4))
-# }
-# df.4 <- naredi.df.4(slovenija.turizem$Stevilo)
-# 
-# ucni.4 = pp.razbitje(df.4, stratifikacija = df.4$pricak)
+naredi.df.4 <- function(x){
+  data.frame(pricak  = x,
+             "Leto 2020"  = zamakni(x, 1),
+             "Leto 2019" = zamakni(x, 2),
+             "Leto 2018" = zamakni(x, 3),
+             "Leto 2017" = zamakni(x, 4))
+}
+
+df.4 <- drop_na(naredi.df.4(slovenija.turizem$Stevilo))
+ucni.4 = pp.razbitje(nrow(df.4))
 
 #       - naključni gozdovi:
-
-# precno.preverjanje(df.4, ucni.4, pricak ~ Leto.2020 + Leto.2019 + Leto.2018 + Leto.2017, "ng", FALSE)
+precno.preverjanje(df.4, ucni.4, pricak ~ ., "ng", FALSE)
 
 #       - linearna regrasija:
+precno.preverjanje(df.4, ucni.4, pricak ~ ., "lin.reg", FALSE)
 
-# lin.model = lm(data = df.4, formula = pricak ~ Leto.2020 + Leto.2019 + Leto.2018 + Leto.2017)
-# precno.preverjanje(df.4, ucni.4, pricak ~ Leto.2020 + Leto.2019 + Leto.2018 + Leto.2017, "lin.reg", FALSE)
-
-
+# napaka z naključnimi gozdovi je manjša
 
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 #     2) glede na pretekla 3 leta:
-#       - naključni gozdovi:
+naredi.df.3 <- function(x){
+  data.frame(pricak  = x,
+             "Leto 2020"  = zamakni(x, 1),
+             "Leto 2019" = zamakni(x, 2),
+             "Leto 2018" = zamakni(x, 3))
+}
 
+df.3 <- drop_na(naredi.df.3(slovenija.turizem$Stevilo))
+ucni.3 = pp.razbitje(nrow(df.4))
+
+#       - naključni gozdovi:
+precno.preverjanje(df.3, ucni.3, pricak ~ ., "ng", FALSE)
 
 #       - linearna regrasija:
+precno.preverjanje(df.3, ucni.3, pricak ~ ., "lin.reg", FALSE)
 
-
-
-
-
-
-
-
-
-
-
+# napaka z naključnimi gozdovi je manjša
 
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 

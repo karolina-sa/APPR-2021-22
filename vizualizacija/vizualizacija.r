@@ -214,7 +214,7 @@ sestava.izdatkov.graf2 <- ggplot(data=sestava.turisticne.potrosnje.tujcev.v.slov
   scale_x_discrete(guide = guide_axis(n.dodge = 2)) +
   ggtitle("Sestava izdatkov tujcev za turizem v Sloveniji") +
   theme_bw() +
-  labs(caption = "Pojasnilo: Rdeči kvadatki predstavljajo povprečje posamene vrste izdatkov.")
+  labs(caption = "Pojasnilo: Rdeči kvadatki predstavljajo povprečje posamezne vrste izdatkov.")
 
 sestava.izdatkov.graf2
 
@@ -234,7 +234,7 @@ prenocitve.slovencev.v.tujini <-
     geom = "point", 
     shape = 15, 
     size = 1.5,
-    color = "red",
+    color = "coral",
     stroke = .8
   ) + 
   ggbeeswarm::geom_quasirandom(

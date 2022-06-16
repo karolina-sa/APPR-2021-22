@@ -29,7 +29,6 @@ require(viridis)
 library(ggbeeswarm)
 library(iml)
 
-
 options(gsubfn.engine="R")
 
 # Uvozimo funkcije za pobiranje in uvoz zemljevida.

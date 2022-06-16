@@ -1,6 +1,5 @@
 library(shiny)
 
-
 # uvoz, priprava zemljevida:
 
 source("lib/uvozi.zemljevid.r", encoding="UTF-8")
@@ -20,7 +19,6 @@ colnames(zemljevid)[12]<- "Regija"
 # popravilo razlike v poimenovanju:
 zemljevid$Regija <- gsub('Notranjsko-kraška', 'Primorsko-notranjska', zemljevid$Regija)
 zemljevid$Regija <- gsub('Spodnjeposavska', 'Posavska', zemljevid$Regija)
-
 
 
 shinyServer(
@@ -49,7 +47,7 @@ narisi.zemljevid <- function(drzava, mesec)
           axis.ticks=element_blank(), panel.background = element_blank(),
           plot.title = element_text(hjust = 0.5)) +
     scale_fill_viridis_c(option = "D", direction = -1) +
-    labs(fill="Prenocitve") +
+    labs(fill="Prenočitve") +
     geom_path(data = right_join(prenocitve.regije.letno, zemljevid,
                                 by = "Regija"), 
               aes(x = long, y = lat, group = group), 
