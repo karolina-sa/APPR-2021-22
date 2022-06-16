@@ -340,6 +340,55 @@ zemljevid.kmeans
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 
+set.seed(42)
+
+k = 4
+skupine4 <- TURIZEM.EVROPA[,-1] %>%
+  kmeans(centers = k) %>%
+  getElement("cluster") %>%
+  as.ordered()
+# print(skupine)
+
+tabela.skupine.k.means4 <- TURIZEM.EVROPA %>% 
+  mutate(Skupine = as.numeric(skupine4))
+
+# uvozim zemljevid, ki ga bom potrebovala tudi v nadaljevanju. Prikazala se bo samo Evropa
+zemljevid <-
+  uvozi.zemljevid(
+    "http://www.naturalearthdata.com/http//www.naturalearthdata.com/download/50m/cultural/ne_50m_admin_0_countries.zip",
+    "ne_50m_admin_0_countries",
+    mapa = "zemljevidi",
+    pot.zemljevida = "",
+    encoding = "UTF-8"
+  ) %>%
+  fortify() %>% 
+  filter(CONTINENT %in% c("Europe"),
+         long < 50 & long > -25 & lat > 35 & lat < 85)
+
+names(tabela.skupine.k.means4)[1] <- "ADMIN"
+
+zemljevid.kmeans4 <- ggplot() +
+  aes(x = long, y = lat, group = group, fill = factor(Skupine)) +
+  geom_polygon(data = tabela.skupine.k.means4 %>% 
+                 right_join(zemljevid, by = "ADMIN"),
+               color = "grey38", size = 0.2) +
+  xlab("") +
+  ylab("") +
+  ggtitle("Razvrstitev Evropskih držav v štiri skupine z metodo k-tih voditeljev") +
+  coord_fixed(ratio = 1) +
+  guides(fill=guide_legend(title="Skupina")) +
+  theme_bw() +
+  theme(plot.caption.position = "plot")  +
+  scale_fill_brewer(palette = "YlGnBu", 
+                    na.translate = F,
+                    na.value="white")
+
+zemljevid.kmeans4
+
+
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+
 # 2) HIERARHIČNO RAZVRŠČANJE
 
 X <- TURIZEM.EVROPA[,-1] %>% as.matrix() %>% scale()
@@ -426,17 +475,17 @@ slovenija.turizem$Stevilo <- as.integer(slovenija.turizem$Stevilo)
 #   pogledala bom napake obeh modelov
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 #     1) glede na pretekla 4 leta:
-zamakni <- function(x, n){c(rep(NA, n), x)[1:length(x)]}
-naredi.df.4 <- function(x){
-  data.frame(pricak  = x,
-             "Leto 2020"  = zamakni(x, 1),
-             "Leto 2019" = zamakni(x, 2),
-             "Leto 2018" = zamakni(x, 3),
-             "Leto 2017" = zamakni(x, 4))
-}
-df.4 <- naredi.df.4(slovenija.turizem$Stevilo)
-
-ucni.4 = pp.razbitje(df.4, stratifikacija = df.4$pricak)
+# zamakni <- function(x, n){c(rep(NA, n), x)[1:length(x)]}
+# naredi.df.4 <- function(x){
+#   data.frame(pricak  = x,
+#              "Leto 2020"  = zamakni(x, 1),
+#              "Leto 2019" = zamakni(x, 2),
+#              "Leto 2018" = zamakni(x, 3),
+#              "Leto 2017" = zamakni(x, 4))
+# }
+# df.4 <- naredi.df.4(slovenija.turizem$Stevilo)
+# 
+# ucni.4 = pp.razbitje(df.4, stratifikacija = df.4$pricak)
 
 #       - naključni gozdovi:
 
@@ -563,7 +612,6 @@ reg.moci = FeatureImp$new(reg.pred, loss = "mse")
 reg.moci.4.plot <- plot(reg.moci) + theme_bw()
 reg.moci.4.plot
 
-
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 # napovedovanje glede na prejšnje 3 leta:
@@ -650,6 +698,7 @@ reg.pred.3 = Predictor$new(
 reg.moci.3 = FeatureImp$new(reg.pred.3, loss = "mse")
 
 reg.moci.3.plot <- plot(reg.moci.3) + theme_bw()
+reg.moci.3.plot
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 
